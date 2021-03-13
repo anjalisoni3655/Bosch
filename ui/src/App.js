@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.css';
-import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarFooter, SidebarContent } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
 import {FaGem, FaHeart} from 'react-icons/fa';
 import {
@@ -17,8 +17,11 @@ import {
   Link
 } from "react-router-dom";
 import testComponent from './test';
-import Upload from './Components/Upload';
+import Upload2 from './Components/Upload';
 
+const styleSidebar = {
+  height : "80%",
+};
 const routes = [
   {
     path: "/",
@@ -97,7 +100,7 @@ class App extends Component {
 
     return (
       <Router>
-        <ProSidebar>
+        {/* <ProSidebar>
           <Menu iconShape="square">
             <MenuItem icon={<FaGem />}>
               <Link to="/">Dashboard</Link>
@@ -107,9 +110,33 @@ class App extends Component {
             <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
             <MenuItem icon={<FaGem />}>Dashboard</MenuItem>                       
           </Menu>
-        </ProSidebar>
+        </ProSidebar> */}
+        <ProSidebar style={styleSidebar} className="sidebar">
+          <SidebarHeader>
+            {/**
+             *  You can add a header for the sidebar ex: logo
+             */}
+          </SidebarHeader>
+          <SidebarContent>
+            <Menu>
+              <MenuItem icon={<FaGem />}>
+                  Dashboard
+                  <Link to="/"></Link>
+                </MenuItem>
+                <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
+                <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
+                <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
+                <MenuItem icon={<FaGem />}>Dashboard</MenuItem>                       
+            </Menu>
+          </SidebarContent>
+          <SidebarFooter>
+            {/**
+             *  You can add a footer for the sidebar ex: copyright
+             */}
+          </SidebarFooter>
+        </ProSidebar>        
         <Switch> 
-              <Route exact path='/' component={Upload}></Route> 
+              <Route exact path='/' component={Upload2}></Route> 
               {/* <Route exact path='/about' component={}></Route> 
               <Route exact path='/contact' component={}></Route>  */}
             </Switch> 
