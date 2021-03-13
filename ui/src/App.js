@@ -48,11 +48,10 @@ class App extends Component {
     this.state = {
       isLoading: false,
       formData: {
-        textfield1: '',
-        textfield2: '',
-        select1: 1,
-        select2: 1,
-        select3: 1
+        sepalLength: 4,
+        sepalWidth: 2,
+        petalLength: 1,
+        petalWidth: 0
       },
       result: ""
     };
@@ -98,49 +97,106 @@ class App extends Component {
     const formData = this.state.formData;
     const result = this.state.result;
 
+    var sepalLengths = []
+    for (var i = 4; i <= 7; i = +(i + 0.1).toFixed(1)) {
+      sepalLengths.push(<option key = {i} value = {i}>{i}</option>);
+    }
+    var sepalWidths = []
+    for (var i = 2; i <= 4; i = +(i + 0.1).toFixed(1)) {
+      sepalWidths.push(<option key = {i} value = {i}>{i}</option>);
+    }
+    var petalLengths = []
+    for (var i = 1; i <= 6; i = +(i + 0.1).toFixed(1)){
+      petalLengths.push(<option key = {i} value = {i}>{i}</option>);
+    }
+    var petalWidths = []
+    for (var i = 0.1; i <= 3; i = +(i + 0.1).toFixed(1)) {
+      petalWidths.push(<option key = {i} value = {i}>{i}</option>);
+    }
     return (
-      <Router>
-        {/* <ProSidebar>
-          <Menu iconShape="square">
-            <MenuItem icon={<FaGem />}>
-              <Link to="/">Dashboard</Link>
-            </MenuItem>
-            <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
-            <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
-            <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
-            <MenuItem icon={<FaGem />}>Dashboard</MenuItem>                       
-          </Menu>
-        </ProSidebar> */}
-        <ProSidebar style={styleSidebar} className="sidebar">
-          <SidebarHeader>
-            {/**
-             *  You can add a header for the sidebar ex: logo
-             */}
-          </SidebarHeader>
-          <SidebarContent>
-            <Menu>
-              <MenuItem icon={<FaGem />}>
-                  Dashboard
-                  <Link to="/"></Link>
-                </MenuItem>
-                <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
-                <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
-                <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
-                <MenuItem icon={<FaGem />}>Dashboard</MenuItem>                       
-            </Menu>
-          </SidebarContent>
-          <SidebarFooter>
-            {/**
-             *  You can add a footer for the sidebar ex: copyright
-             */}
-          </SidebarFooter>
-        </ProSidebar>        
-        <Switch> 
-              <Route exact path='/' component={Upload2}></Route> 
-              {/* <Route exact path='/about' component={}></Route> 
-              <Route exact path='/contact' component={}></Route>  */}
-            </Switch> 
-        </Router>  
+      <Container>
+        <div>
+          <h1 className="title">Bosch Traffic Sign Recognition</h1>
+        </div>
+        <div className="content">
+          <Upload2></Upload2>
+        </div>        
+        <div className="content">
+          <Form>
+            <Form.Row>
+              <Form.Group as={Col}>
+                <Form.Label>Sepal Length</Form.Label>
+                <Form.Control 
+                  as="select"
+                  value={formData.sepalLength}
+                  name="sepalLength"
+                  onChange={this.handleChange}>
+                  {sepalLengths}
+                </Form.Control>
+              </Form.Group>
+              <Form.Group as={Col}>
+                <Form.Label>Sepal Width</Form.Label>
+                <Form.Control 
+                  as="select"
+                  value={formData.sepalWidth}
+                  name="sepalWidth"
+                  onChange={this.handleChange}>
+                  {sepalWidths}
+                </Form.Control>
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col}>
+                <Form.Label>Petal Length</Form.Label>
+                <Form.Control 
+                  as="select"
+                  value={formData.petalLength}
+                  name="petalLength"
+                  onChange={this.handleChange}>
+                  {petalLengths}
+                </Form.Control>
+              </Form.Group>
+              <Form.Group as={Col}>
+                <Form.Label>Petal Width</Form.Label>
+                <Form.Control 
+                  as="select"
+                  value={formData.petalWidth}
+                  name="petalWidth"
+                  onChange={this.handleChange}>
+                  {petalWidths}
+                </Form.Control>
+              </Form.Group>
+            </Form.Row>
+            <Row>
+              <Col>
+                <Button
+                  block
+                  variant="success"
+                  disabled={isLoading}
+                  onClick={!isLoading ? this.handlePredictClick : null}>
+                  { isLoading ? 'Making prediction' : 'Predict' }
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  block
+                  variant="danger"
+                  disabled={isLoading}
+                  onClick={this.handleCancelClick}>
+                  Reset prediction
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+          {result === "" ? null :
+            (<Row>
+              <Col className="result-container">
+                <h5 id="result">{result}</h5>
+              </Col>
+            </Row>)
+          }
+        </div>
+      </Container>
     );
   }
 }

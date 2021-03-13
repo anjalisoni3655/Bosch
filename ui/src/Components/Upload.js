@@ -2,6 +2,7 @@ import React from 'react'
 import Container from 'react-bootstrap/esm/Container'
 import { useFileUpload } from 'use-file-upload'
 import axios from "axios"
+import '../App.css';
 
 class Upload2 extends React.Component{
   // const [file, selectFile] = useFileUpload()
@@ -18,30 +19,35 @@ handleUploadImage(ev) {
 
     const data = new FormData();
     data.append('file', this.uploadInput.files[0]);
-    data.append('filename', this.fileName.value);
+    // data.append('filename', this.fileName.value);
 
     fetch('http://localhost:5000/upload', { method: 'POST', body: data })
     .then((response) => { response.json().then((body) => { 
-        this.setState({ imageURL: `http://localhost:5000/${body.file}` });
+        this.setState({ imageURL: `http://localhost:5000/uploads/${body.file}` });
       });
     });
   }
 
 render() {
     return (
-      <form onSubmit={this.handleUploadImage}>
-        <div>
-          <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
-        </div>
-        <div>
-          <input ref={(ref) => { this.fileName = ref; }} type="text" placeholder="Enter the desired name of file" />
-        </div>
-        <br />
-        <div>
-          <button>Upload</button>
-        </div>
-        <img src={this.state.imageURL} alt="img" />
-      </form>
+      <div className="content">       
+        <form onSubmit={this.handleUploadImage}>
+          <div>
+            <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
+            <button>Upload</button>       
+          </div>
+          <br />
+          <div>
+            OR
+          </div>        
+          <br />                
+          <div>
+          <input ref={(ref) => { this.uploadInput = ref; }} type="file" name="Choose from sample data"/>
+            <button>Upload</button>               
+          </div>
+
+        </form>
+      </div>  
     );
   }
 
