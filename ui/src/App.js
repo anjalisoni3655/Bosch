@@ -1,11 +1,41 @@
 import React, { Component } from 'react';
 import './App.css';
+// import Sidebar from './Components/Sidebar/Sidebar';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.css';
+import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import 'react-pro-sidebar/dist/css/styles.css';
+import {FaGem, FaHeart} from 'react-icons/fa';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import testComponent from './test';
+import Upload from './Components/Upload';
+
+const routes = [
+  {
+    path: "/",
+    exact: true,
+    component: testComponent,
+  },
+  {
+    path: "/bubblegum",
+    sidebar: () => <div>bubblegum!</div>,
+    main: () => <h2>Bubblegum</h2>
+  },
+  {
+    path: "/shoelaces",
+    sidebar: () => <div>shoelaces!</div>,
+    main: () => <h2>Shoelaces</h2>
+  }
+];
 
 class App extends Component {
 
@@ -66,103 +96,24 @@ class App extends Component {
     const result = this.state.result;
 
     return (
-      <Container>
-        <div>
-          <h1 className="title">ML React App</h1>
-        </div>
-        <div className="content">
-          <Form>
-            <Form.Row>
-              <Form.Group as={Col}>
-                <Form.Label>Text Field 1</Form.Label>
-                <Form.Control 
-                  type="text" 
-                  placeholder="Text Field 1" 
-                  name="textfield1"
-                  value={formData.textfield1}
-                  onChange={this.handleChange} />
-              </Form.Group>
-              <Form.Group as={Col}>
-                <Form.Label>Text Field 2</Form.Label>
-                <Form.Control 
-                  type="text" 
-                  placeholder="Text Field 2" 
-                  name="textfield2"
-                  value={formData.textfield2}
-                  onChange={this.handleChange} />
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col}>
-                <Form.Label>Select 1</Form.Label>
-                <Form.Control 
-                  as="select"
-                  value={formData.select1}
-                  name="select1"
-                  onChange={this.handleChange}>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                </Form.Control>
-              </Form.Group>
-              <Form.Group as={Col}>
-                <Form.Label>Select 2</Form.Label>
-                <Form.Control 
-                  as="select"
-                  value={formData.select2}
-                  name="select2"
-                  onChange={this.handleChange}>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                </Form.Control>
-              </Form.Group>
-              <Form.Group as={Col}>
-                <Form.Label>Select 3</Form.Label>
-                <Form.Control 
-                  as="select"
-                  value={formData.select3}
-                  name="select3"
-                  onChange={this.handleChange}>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                </Form.Control>
-              </Form.Group>
-            </Form.Row>
-            <Row>
-              <Col>
-                <Button
-                  block
-                  variant="success"
-                  disabled={isLoading}
-                  onClick={!isLoading ? this.handlePredictClick : null}>
-                  { isLoading ? 'Making prediction' : 'Predict' }
-                </Button>
-              </Col>
-              <Col>
-                <Button
-                  block
-                  variant="danger"
-                  disabled={isLoading}
-                  onClick={this.handleCancelClick}>
-                  Reset prediction
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-          {result === "" ? null :
-            (<Row>
-              <Col className="result-container">
-                <h5 id="result">{result}</h5>
-              </Col>
-            </Row>)
-          }
-        </div>
-      </Container>
+      <Router>
+        <ProSidebar>
+          <Menu iconShape="square">
+            <MenuItem icon={<FaGem />}>
+              <Link to="/">Dashboard</Link>
+            </MenuItem>
+            <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
+            <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
+            <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
+            <MenuItem icon={<FaGem />}>Dashboard</MenuItem>                       
+          </Menu>
+        </ProSidebar>
+        <Switch> 
+              <Route exact path='/' component={Upload}></Route> 
+              {/* <Route exact path='/about' component={}></Route> 
+              <Route exact path='/contact' component={}></Route>  */}
+            </Switch> 
+        </Router>  
     );
   }
 }
