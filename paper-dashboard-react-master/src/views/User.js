@@ -1,21 +1,4 @@
-/*!
-
-=========================================================
-* Paper Dashboard React - v1.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
+import Upload from "components/Upload";
 import React from "react";
 
 // reactstrap components
@@ -39,7 +22,7 @@ class User extends React.Component {
       <>
         <div className="content">
           <Row>
-            <Col md="4">
+            <Col md="6">
               <Card className="card-user">
                 <div className="image">
                   <img
@@ -48,7 +31,7 @@ class User extends React.Component {
                   />
                 </div>
                 <CardBody>
-                  <div className="author">
+                  {/* <div className="author">
                     <a href="#pablo" onClick={(e) => e.preventDefault()}>
                       <img
                         alt="..."
@@ -58,13 +41,12 @@ class User extends React.Component {
                       <h5 className="title">Chet Faker</h5>
                     </a>
                     <p className="description">@chetfaker</p>
-                  </div>
+                  </div> */}
                   <p className="description text-center">
-                    "I like the way you work it <br />
-                    No diggity <br />I wanna bag it up"
+                    <Upload></Upload>
                   </p>
                 </CardBody>
-                <CardFooter>
+                {/* <CardFooter>
                   <hr />
                   <div className="button-container">
                     <Row>
@@ -88,9 +70,9 @@ class User extends React.Component {
                       </Col>
                     </Row>
                   </div>
-                </CardFooter>
+                </CardFooter> */}
               </Card>
-              <Card>
+              {/* <Card>
                 <CardHeader>
                   <CardTitle tag="h4">Team Members</CardTitle>
                 </CardHeader>
@@ -185,10 +167,10 @@ class User extends React.Component {
                     </li>
                   </ul>
                 </CardBody>
-              </Card>
+              </Card> */}
             </Col>
-            <Col md="8">
-              <Card className="card-user">
+            <Col md="6">
+              {/* <Card className="card-user">
                 <CardHeader>
                   <CardTitle tag="h5">Edit Profile</CardTitle>
                 </CardHeader>
@@ -311,7 +293,7 @@ class User extends React.Component {
                     </Row>
                   </Form>
                 </CardBody>
-              </Card>
+              </Card> */}
             </Col>
           </Row>
         </div>
