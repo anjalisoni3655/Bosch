@@ -5,17 +5,10 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
 import axios from "axios";
-// import '../App.css';
-//import {toast} from 'react-toastify';
-//import 'react-toastify/dist/ReactToastify.css';
 
-const notify = () => {
-  // Calling toast method by passing string
-  // toast('Hello Geeks')
-};
 
 class Upload extends React.Component {
-  // const [file, selectFile] = useFileUpload()
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -48,7 +41,7 @@ class Upload extends React.Component {
 
   render() {
     return (
-      <div>
+      <div >
         {this.state.isUploaded && (
           <Toast
             onClose={() => (this.state.isUploaded = false)}
@@ -82,22 +75,8 @@ class Upload extends React.Component {
             <Button onClick={this.handleUploadImage}>Upload</Button>
           </div>
         </form>
-        <br />
-        <div>OR</div>
-        <br />
-        <form>
-          <div style={{color:"black"}}>Choose from Sample Data</div>
-          <div>
-            <input
-              ref={(ref) => {
-                this.uploadInput = ref;
-              }}
-              type="file"
-              name="Choose from sample data"
-            />
-            <Button onClick={this.handleUploadImage}>Upload</Button>
-          </div>
-        </form>
+       
+       
       </div>
     );
   }
