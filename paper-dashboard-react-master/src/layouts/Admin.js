@@ -10,7 +10,7 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
 
-var ps;
+var ps; 
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -49,7 +49,7 @@ class Dashboard extends React.Component {
     return (
       <div className="wrapper">
         <Sidebar
-          {...this.props}
+          {...this.props}                        
           routes={routes}
           bgColor={this.state.backgroundColor}
           activeColor={this.state.activeColor}

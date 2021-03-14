@@ -72,7 +72,7 @@ class User extends React.Component {
                   </div>
                 </CardFooter> */}
               </Card>
-              {/* <Card>
+               {/* <Card>
                 <CardHeader>
                   <CardTitle tag="h4">Team Members</CardTitle>
                 </CardHeader>
@@ -167,19 +167,19 @@ class User extends React.Component {
                     </li>
                   </ul>
                 </CardBody>
-              </Card> */}
+              </Card>  */}
             </Col>
             <Col md="6">
-              {/* <Card className="card-user">
+               <Card className="card-user">
                 <CardHeader>
-                  <CardTitle tag="h5">Edit Profile</CardTitle>
+                  <CardTitle tag="h5">Add Augmentation</CardTitle>
                 </CardHeader>
                 <CardBody>
                   <Form>
                     <Row>
                       <Col className="pr-1" md="5">
                         <FormGroup>
-                          <label>Company (disabled)</label>
+                          <label>Brightness</label>
                           <Input
                             defaultValue="Creative Code Inc."
                             disabled
@@ -190,7 +190,7 @@ class User extends React.Component {
                       </Col>
                       <Col className="px-1" md="3">
                         <FormGroup>
-                          <label>Username</label>
+                          <label>Contrast</label>
                           <Input
                             defaultValue="michael23"
                             placeholder="Username"
@@ -201,7 +201,7 @@ class User extends React.Component {
                       <Col className="pl-1" md="4">
                         <FormGroup>
                           <label htmlFor="exampleInputEmail1">
-                            Email address
+                            Sharpness
                           </label>
                           <Input placeholder="Email" type="email" />
                         </FormGroup>
@@ -210,7 +210,7 @@ class User extends React.Component {
                     <Row>
                       <Col className="pr-1" md="6">
                         <FormGroup>
-                          <label>First Name</label>
+                          <label>Skewness</label>
                           <Input
                             defaultValue="Chet"
                             placeholder="Company"
@@ -220,7 +220,7 @@ class User extends React.Component {
                       </Col>
                       <Col className="pl-1" md="6">
                         <FormGroup>
-                          <label>Last Name</label>
+                          <label>Add Noise to the image</label>
                           <Input
                             defaultValue="Faker"
                             placeholder="Last Name"
@@ -232,7 +232,7 @@ class User extends React.Component {
                     <Row>
                       <Col md="12">
                         <FormGroup>
-                          <label>Address</label>
+                          <label>Weather Filters</label>
                           <Input
                             defaultValue="Melbourne, Australia"
                             placeholder="Home Address"
@@ -241,7 +241,7 @@ class User extends React.Component {
                         </FormGroup>
                       </Col>
                     </Row>
-                    <Row>
+                    {/* <Row>
                       <Col className="pr-1" md="4">
                         <FormGroup>
                           <label>City</label>
@@ -269,8 +269,8 @@ class User extends React.Component {
                         </FormGroup>
                       </Col>
                     </Row>
-                    <Row>
-                      <Col md="12">
+                    <Row> */}
+                      {/* <Col md="12">
                         <FormGroup>
                           <label>About Me</label>
                           <Input
@@ -279,7 +279,7 @@ class User extends React.Component {
                           />
                         </FormGroup>
                       </Col>
-                    </Row>
+                    </Row> */}
                     <Row>
                       <div className="update ml-auto mr-auto">
                         <Button
@@ -287,13 +287,13 @@ class User extends React.Component {
                           color="primary"
                           type="submit"
                         >
-                          Update Profile
+                        Add Augmentation
                         </Button>
                       </div>
                     </Row>
                   </Form>
                 </CardBody>
-              </Card> */}
+              </Card> 
             </Col>
           </Row>
         </div>

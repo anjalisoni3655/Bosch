@@ -38,32 +38,32 @@ var routes = [
   // },
   {
     path: "/user-page",
-    name: "Input Data",
+    name: "Modify Dataset",
     icon: "nc-icon nc-single-02",
     component: UserPage,
     layout: "/admin",
   },
   {
     path: "/tables",
-    name: "Table List",
+    name: "View Data Stats",
     icon: "nc-icon nc-tile-56",
     component: TableList,
     layout: "/admin",
   },
   {
     path: "/typography",
-    name: "Typography",
+    name: "View Model Stats",
     icon: "nc-icon nc-caps-small",
     component: Typography,
     layout: "/admin",
   },
-  {
-    pro: true,
-    path: "/upgrade",
-    name: "Upgrade to PRO",
-    icon: "nc-icon nc-spaceship",
-    component: UpgradeToPro,
-    layout: "/admin",
-  },
+  // {
+  //   pro: true,
+  //   path: "/upgrade",
+  //   name: "Upgrade to PRO",
+  //   icon: "nc-icon nc-spaceship",
+  //   component: UpgradeToPro,
+  //   layout: "/admin",
+  // },
 ];
 export default routes;
