@@ -72,7 +72,7 @@ class User extends React.Component {
                   </div>
                 </CardFooter> */}
               </Card>
-               {/* <Card>
+              {/* <Card>
                 <CardHeader>
                   <CardTitle tag="h4">Team Members</CardTitle>
                 </CardHeader>
@@ -170,7 +170,7 @@ class User extends React.Component {
               </Card>  */}
             </Col>
             <Col md="6">
-               <Card className="card-user">
+              <Card className="card-user">
                 <CardHeader>
                   <CardTitle tag="h5">Add Augmentation</CardTitle>
                 </CardHeader>
@@ -182,7 +182,7 @@ class User extends React.Component {
                           <label>Brightness</label>
                           <Input
                             //defaultValue="Creative Code Inc."
-                           // disabled
+                            // disabled
                             //placeholder="Company"
                             type="text"
                           />
@@ -193,19 +193,18 @@ class User extends React.Component {
                           <label>Contrast</label>
                           <Input
                             //defaultValue="michael23"
-                           // placeholder="Username"
+                            // placeholder="Username"
                             type="text"
                           />
                         </FormGroup>
                       </Col>
                       <Col className="pl-1" md="4">
                         <FormGroup>
-                          <label htmlFor="exampleInputEmail1">
-                            Sharpness
-                          </label>
+                          <label htmlFor="exampleInputEmail1">Sharpness</label>
                           <Input
-                            //placeholder="Email" 
-                            type="email" />
+                            //placeholder="Email"
+                            type="email"
+                          />
                         </FormGroup>
                       </Col>
                     </Row>
@@ -234,9 +233,10 @@ class User extends React.Component {
                     <Row>
                       <Col md="12">
                         <FormGroup>
+                          
                           <label>Weather Filters</label>
                           <Input
-                           // defaultValue="Melbourne, Australia"
+                            // defaultValue="Melbourne, Australia"
                             //placeholder="Home Address"
                             type="text"
                           />
@@ -272,7 +272,7 @@ class User extends React.Component {
                       </Col>
                     </Row>
                     <Row> */}
-                      {/* <Col md="12">
+                    {/* <Col md="12">
                         <FormGroup>
                           <label>About Me</label>
                           <Input
@@ -289,13 +289,13 @@ class User extends React.Component {
                           color="primary"
                           type="submit"
                         >
-                        Add Augmentation
+                          Add Augmentation
                         </Button>
                       </div>
                     </Row>
                   </Form>
                 </CardBody>
-              </Card> 
+              </Card>
             </Col>
           </Row>
         </div>
