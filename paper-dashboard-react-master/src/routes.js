@@ -38,7 +38,7 @@ var routes = [
   // },
   {
     path: "/user-page",
-    name: "User Profile",
+    name: "Input Data",
     icon: "nc-icon nc-single-02",
     component: UserPage,
     layout: "/admin",

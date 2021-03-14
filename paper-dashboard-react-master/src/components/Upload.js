@@ -23,6 +23,7 @@ handleUploadImage(ev) {
 
     fetch('http://localhost:5000/upload', { method: 'POST', body: data })
     .then((response) => { response.json().then((body) => { 
+        alert("Your file is being uploaded!");      
         this.setState({ imageURL: `http://localhost:5000/uploads/${body.file}` });
       });
     });
@@ -34,7 +35,7 @@ render() {
         <form onSubmit={this.handleUploadImage}>
           <div>
             <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
-            <Button variant="contained" color="primary">Upload</Button>       
+            <Button>Upload</Button>       
           </div>
         </form>
         <br />
@@ -45,7 +46,7 @@ render() {
         <form onSubmit={this.handleUploadImage}>              
           <div>
           <input ref={(ref) => { this.uploadInput = ref; }} type="file" name="Choose from sample data"/>
-            <Button variant="contained" color="primary">Upload</Button>               
+            <Button >Upload</Button>               
           </div>
         </form>
       </div>  
