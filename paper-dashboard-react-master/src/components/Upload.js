@@ -6,15 +6,13 @@ import Row from "react-bootstrap/Row";
 
 import axios from "axios";
 // import '../App.css';
-import {toast} from 'react-toastify';  
-import 'react-toastify/dist/ReactToastify.css';
+//import {toast} from 'react-toastify';
+//import 'react-toastify/dist/ReactToastify.css';
 
-const notify = ()=>{  
-  
-  // Calling toast method by passing string 
-  toast('Hello Geeks')  
-}
-
+const notify = () => {
+  // Calling toast method by passing string
+  // toast('Hello Geeks')
+};
 
 class Upload extends React.Component {
   // const [file, selectFile] = useFileUpload()
@@ -78,17 +76,28 @@ class Upload extends React.Component {
         )}
         <form>
           <div>
-            <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
-            <Button onClick={this.handleUploadImage}>Upload</Button>       
+            <input
+              ref={(ref) => {
+                this.uploadInput = ref;
+              }}
+              type="file"
+            />
+            <Button onClick={this.handleUploadImage}>Upload</Button>
           </div>
         </form>
         <br />
         <div>OR</div>
-        <br />          
-        <form>              
+        <br />
+        <form>
           <div>
-          <input ref={(ref) => { this.uploadInput = ref; }} type="file" name="Choose from sample data"/>
-            <Button onClick={this.handleUploadImage}>Upload</Button>               
+            <input
+              ref={(ref) => {
+                this.uploadInput = ref;
+              }}
+              type="file"
+              name="Choose from sample data"
+            />
+            <Button onClick={this.handleUploadImage}>Upload</Button>
           </div>
         </form>
       </div>
