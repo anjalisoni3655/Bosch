@@ -15,8 +15,8 @@ const hist = createBrowserHistory();
 ReactDOM.render(
   <Router history={hist}>
     <Switch>
-      <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-      <Redirect to="/admin/user-page" />
+      <Route path="/" render={(props) => <AdminLayout {...props} />} />
+      <Redirect to="/modify-dataset" />
     </Switch>
   </Router>,
   document.getElementById("root")

@@ -1,8 +1,8 @@
 {
-  "name": "paper-dashboard-react",
+  "name": "frontend",
   "version": "1.2.0",
   "private": true,
-  "homepage": "https://demos.creative-tim.com/paper-dashboard-react/#/dashboard",
+  "homepage": "https://demos.creative-tim.com/frontend/#/dashboard",
   "dependencies": {
     "axios": "^0.21.1",
     "bootstrap": "4.5.0",
@@ -21,8 +21,7 @@
     "react-router-dom": "5.2.0",
     "react-scripts": "3.4.1",
     "react-toastify": "^7.0.3",
-    "reactstrap": "8.4.1",
-    "use-file-upload": "^1.0.9"
+    "reactstrap": "8.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
