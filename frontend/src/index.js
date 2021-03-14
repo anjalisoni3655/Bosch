@@ -15,8 +15,10 @@ const hist = createBrowserHistory();
 ReactDOM.render(
   <Router history={hist}>
     <Switch>
+
+      <Redirect exact from="/" to="/admin/modify-dataset" />
       <Route path="/" render={(props) => <AdminLayout {...props} />} />
-      <Redirect to="/modify-dataset" />
+
     </Switch>
   </Router>,
   document.getElementById("root")
