@@ -3,6 +3,15 @@ import Button from 'react-bootstrap/Button';
 import { useFileUpload } from 'use-file-upload'
 import axios from "axios"
 // import '../App.css';
+import {toast} from 'react-toastify';  
+import 'react-toastify/dist/ReactToastify.css';
+
+const notify = ()=>{  
+  
+  // Calling toast method by passing string 
+  toast('Hello Geeks')  
+}
+
 
 class Upload extends React.Component{
   // const [file, selectFile] = useFileUpload()
@@ -14,6 +23,9 @@ class Upload extends React.Component{
     this.handleUploadImage = this.handleUploadImage.bind(this);
 }
 
+ 
+
+
 handleUploadImage(ev) {
     ev.preventDefault();
 
@@ -23,7 +35,6 @@ handleUploadImage(ev) {
 
     fetch('http://localhost:5000/upload', { method: 'POST', body: data })
     .then((response) => { response.json().then((body) => { 
-        alert("Your file is being uploaded!");      
         this.setState({ imageURL: `http://localhost:5000/uploads/${body.file}` });
       });
     });
@@ -35,7 +46,7 @@ render() {
         <form onSubmit={this.handleUploadImage}>
           <div>
             <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
-            <Button>Upload</Button>       
+            <button>Upload</button>       
           </div>
         </form>
         <br />
@@ -43,10 +54,10 @@ render() {
             OR
           </div>        
           <br />          
-        <form onSubmit={this.handleUploadImage}>              
+        <form>              
           <div>
           <input ref={(ref) => { this.uploadInput = ref; }} type="file" name="Choose from sample data"/>
-            <Button >Upload</Button>               
+            <Button onClick={this.handleUploadImage}>Upload</Button>               
           </div>
         </form>
       </div>  

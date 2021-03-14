@@ -20,6 +20,7 @@
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "3.4.1",
+    "react-toastify": "^7.0.3",
     "reactstrap": "8.4.1",
     "use-file-upload": "^1.0.9"
   },
