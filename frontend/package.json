@@ -4,7 +4,9 @@
   "private": true,
   "homepage": "https://demos.creative-tim.com/frontend/#/dashboard",
   "dependencies": {
+
     "@material-ui/core": "^4.11.3",
+
     "axios": "^0.21.1",
     "bootstrap": "4.5.0",
     "chart.js": "2.9.3",
