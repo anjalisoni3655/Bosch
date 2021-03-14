@@ -1,10 +1,10 @@
 import React from 'react'
-import Container from 'react-bootstrap/esm/Container'
+import Button from 'react-bootstrap/Button';
 import { useFileUpload } from 'use-file-upload'
 import axios from "axios"
 // import '../App.css';
 
-class Upload2 extends React.Component{
+class Upload extends React.Component{
   // const [file, selectFile] = useFileUpload()
   constructor(props) {
     super(props);
@@ -30,11 +30,11 @@ handleUploadImage(ev) {
 
 render() {
     return (
-      <div className="content">       
+      <div>       
         <form onSubmit={this.handleUploadImage}>
           <div>
             <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
-            <button>Upload</button>       
+            <Button variant="contained" color="primary">Upload</Button>       
           </div>
         </form>
         <br />
@@ -45,38 +45,13 @@ render() {
         <form onSubmit={this.handleUploadImage}>              
           <div>
           <input ref={(ref) => { this.uploadInput = ref; }} type="file" name="Choose from sample data"/>
-            <button>Upload</button>               
+            <Button variant="contained" color="primary">Upload</Button>               
           </div>
         </form>
       </div>  
     );
   }
 
-
-  // return (
-    // <Container>
-    //   <button
-    //     onClick={() => {
-    //       // Single File Upload
-    //       selectFile()
-    //     }}
-    //   >
-    //     Click to Upload
-    //   </button>
-
-    //   {file ? (
-    //     <div>
-    //       <img src={file.source} alt='preview' />
-    //       <span> Name: {file.name} </span>
-    //       <span> Size: {file.size} </span>
-    //     </div>
-    //   ) : (
-    //     <span>No file selected</span>
-    //   )}
-    // </Container>
-// );  
-
-
 }
 
-export default Upload2
+export default Upload
