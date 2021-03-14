@@ -181,9 +181,9 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Brightness</label>
                           <Input
-                            defaultValue="Creative Code Inc."
-                            disabled
-                            placeholder="Company"
+                            //defaultValue="Creative Code Inc."
+                           // disabled
+                            //placeholder="Company"
                             type="text"
                           />
                         </FormGroup>
@@ -192,8 +192,8 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Contrast</label>
                           <Input
-                            defaultValue="michael23"
-                            placeholder="Username"
+                            //defaultValue="michael23"
+                           // placeholder="Username"
                             type="text"
                           />
                         </FormGroup>
@@ -203,7 +203,9 @@ class User extends React.Component {
                           <label htmlFor="exampleInputEmail1">
                             Sharpness
                           </label>
-                          <Input placeholder="Email" type="email" />
+                          <Input
+                            //placeholder="Email" 
+                            type="email" />
                         </FormGroup>
                       </Col>
                     </Row>
@@ -212,8 +214,8 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Skewness</label>
                           <Input
-                            defaultValue="Chet"
-                            placeholder="Company"
+                            //defaultValue="Chet"
+                            //placeholder="Company"
                             type="text"
                           />
                         </FormGroup>
@@ -222,8 +224,8 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Add Noise to the image</label>
                           <Input
-                            defaultValue="Faker"
-                            placeholder="Last Name"
+                            //defaultValue="Faker"
+                            //placeholder="Last Name"
                             type="text"
                           />
                         </FormGroup>
@@ -234,8 +236,8 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Weather Filters</label>
                           <Input
-                            defaultValue="Melbourne, Australia"
-                            placeholder="Home Address"
+                           // defaultValue="Melbourne, Australia"
+                            //placeholder="Home Address"
                             type="text"
                           />
                         </FormGroup>

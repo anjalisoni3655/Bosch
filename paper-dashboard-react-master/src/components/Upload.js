@@ -25,6 +25,10 @@ class Upload extends React.Component {
     this.handleUploadImage = this.handleUploadImage.bind(this);
   }
 
+  /*  var axios = require('axios');
+
+   */
+
   handleUploadImage(ev) {
     ev.preventDefault();
 
@@ -32,49 +36,42 @@ class Upload extends React.Component {
     data.append("file", this.uploadInput.files[0]);
     // data.append('filename', this.fileName.value);
 
-    fetch("http://localhost:5000/upload", { method: "POST", body: data }).then(
-      (response) => {
-        response.json().then((body) => {
-          alert("Your file is being uploaded!");
-          this.state.isUploaded = true;
-          console.log("isuploaded", this.state.isUploaded);
-          this.setState({
-            imageURL: `http://localhost:5000/uploads/${body.file}`,
-          });
-        });
-      }
-    );
+    axios.post("http://localhost:5000/upload", data).then((res) => {
+      console.log("file uploadede");
+      alert("ok");
+      this.state.isUploaded = true;
+      console.log("isuploade", this.state.isUploaded);
+      console.log(res);
+      console.log(res.data);
+    });
   }
 
   render() {
     return (
       <div>
         {this.state.isUploaded && (
-          <Row>
-            <Col xs={6}>
-              <Toast
-                onClose={() => (this.state.isUploaded = false)}
-                show={this.state.isUploaded}
-                delay={3000}
-                autohide
-              >
-                <Toast.Header>
-                  <img
-                    src="holder.js/20x20?text=%20"
-                    className="rounded mr-2"
-                    alt=""
-                  />
-                  <strong className="mr-auto">Bootstrap</strong>
-                  <small>11 mins ago</small>
-                </Toast.Header>
-                <Toast.Body>
-                  Woohoo, you're reading this text in a Toast!
-                </Toast.Body>
-              </Toast>
-            </Col>
-          </Row>
+          <Toast
+            onClose={() => (this.state.isUploaded = false)}
+            //show={this.state.isUploaded}
+            delay={3000}
+            autohide
+          >
+            <Toast.Header>
+              <img
+                src="holder.js/20x20?text=%20"
+                className="rounded mr-2"
+                alt=""
+              />
+              <strong className="mr-auto">Bootstrap</strong>
+              <small>11 mins ago</small>
+            </Toast.Header>
+            <Toast.Body>
+              Woohoo, you're reading this text in a Toast!
+            </Toast.Body>
+          </Toast>
         )}
         <form>
+          <div style={{ color: "black" }}>Add New Dataset</div>
           <div>
             <input
               ref={(ref) => {
@@ -89,6 +86,7 @@ class Upload extends React.Component {
         <div>OR</div>
         <br />
         <form>
+          <div style={{color:"black"}}>Choose from Sample Data</div>
           <div>
             <input
               ref={(ref) => {
