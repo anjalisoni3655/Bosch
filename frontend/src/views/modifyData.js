@@ -20,12 +20,12 @@ import {
   Col,
 } from "reactstrap";
 const initialValues = {
-  prob1: "",
-  prob2: "",
-  prob3: "",
-  prob4: "",
-  prob5: "",
-  prob6: "",
+  prob1: 1,
+  prob2: 1,
+  prob3: 1,
+  prob4: 1,
+  prob5: 1,
+  prob6: 1,
 };
 
 const useStyles = makeStyles({
@@ -98,12 +98,12 @@ export default function User() {
   };
 
   const data = {
-    brightness: brightness,
-    contrast: contrast,
-    skewness: skewness,
-    noise: noise,
-    weather: weather,
-    sharpness: sharpness,
+    brightness: [...brightness, values.prob1],
+    contrast: [...contrast, values.prob2],
+    skewness: [...skewness, values.prob3],
+    noise: [...noise, values.prob4],
+    weather: [...weather, values.prob5],
+    sharpness: [...sharpness, values.prob6],
   };
   console.log("data", data);
   const handleAugment = () => {
