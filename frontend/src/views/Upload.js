@@ -64,15 +64,21 @@ class Upload extends React.Component {
           </Toast>
         )}
         <form>
-          <div style={{ color: "black" }}>Add New Data</div>
-          <div>
-            <input
-              ref={(ref) => {
-                this.uploadInput = ref;
-              }}
-              type="file"
-            />
-            <Button onClick={this.handleUploadImage}>Upload</Button>
+          {/* <div style={{ color: "black" }}>Add New Data</div> */}
+          <div style = {{padding: "0 0 0 2em", textAlign: "center"}}>
+            <Row>
+              <Col>
+                <input
+                  ref={(ref) => {
+                    this.uploadInput = ref;
+                  }}
+                  type="file"
+                />
+              </Col>
+              <Col>
+                <Button onClick={this.handleUploadImage}>Upload</Button>
+              </Col>
+            </Row>
           </div>
         </form>
        
