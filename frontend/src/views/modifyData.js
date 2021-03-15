@@ -20,12 +20,12 @@ import {
   Col,
 } from "reactstrap";
 const initialValues = {
-  prob1: 1,
-  prob2: 1,
-  prob3: 1,
-  prob4: 1,
-  prob5: 1,
-  prob6: 1,
+  prob1: "",
+  prob2: "",
+  prob3: "",
+  prob4: "",
+  prob5: "",
+  prob6: "",
 };
 
 const useStyles = makeStyles({
@@ -59,6 +59,9 @@ const marks = [
 function valuetext(value) {
   return `${value}°C`;
 }
+function valueLabelFormat(value) {
+  return `${value}%`;
+}
 
 export default function User() {
   const [values, setValues] = useState(initialValues);
@@ -70,7 +73,7 @@ export default function User() {
       [name]: value,
     });
   };
-  console.log("values", values);
+
   const [contrast, setContrast] = useState([10, 20]);
   const [brightness, setBrightness] = useState([20, 40]);
   const [skewness, setSkewness] = useState([10, 20]);
@@ -123,7 +126,11 @@ export default function User() {
     return console.log("text", valueRef.current.value); //on clicking button accesing current value of TextField and outputing it to console
   };
   const classes = useStyles();
+  const [percent, setPercent] = React.useState(10);
 
+  const handlePercent = (event, newValue) => {
+    setPercent(newValue);
+  };
   return (
     <>
       <div className="content">
@@ -142,6 +149,22 @@ export default function User() {
               <CardBody>
                 <p className="description text-center">
                   <div style={{ color: "black" }}>Add from Sample Dataset</div>
+                  <div>
+                    <Slider
+                      value={percent}
+                      min={10}
+                      step={10}
+                      max={100}
+                      style={{ width: "150px" }}
+                      //scale={(x) => x ** 10}
+                      getAriaValueText={valueLabelFormat}
+                      valueLabelFormat={valueLabelFormat}
+                      onChange={handlePercent}
+                      valueLabelDisplay="auto"
+                      aria-labelledby="non-linear-slider"
+                    />
+                  </div>
+
                   <Button style={{ backgroundColor: "#34B5B8" }}>Add</Button>
                 </p>
               </CardBody>
@@ -159,6 +182,7 @@ export default function User() {
                   <Row className="pr-1" md="12">
                     <FormGroup>
                       <label>Brightness</label>
+                      <label style={{ marginLeft: "160px" }}>Probabilty</label>
                       <div className={classes.root}>
                         <Row>
                           <Col md="8">
@@ -174,15 +198,21 @@ export default function User() {
                             />
                           </Col>
                           <Col md="4" className={classes.text}>
-                            <TextField
+                            <input
+                              type="range"
+                              min="0"
+                              max="1"
+                              step="0.01"
                               value={values.prob1}
-                              id="outlined-basic"
+                              onChange={handleProb}
                               size="small"
                               label="Probabilty"
-                              variant="outlined"
-                              onChange={handleProb}
                               name="prob1"
-                            />
+                              id="outlined-basic"
+                              variant="outlined"
+                            ></input>
+
+                            <div>{values.prob1}</div>
                           </Col>
                         </Row>
                       </div>
@@ -206,15 +236,21 @@ export default function User() {
                             />
                           </Col>
                           <Col md="4" className={classes.text}>
-                            <TextField
+                            <input
+                              type="range"
+                              min="0"
+                              max="1"
+                              step="0.01"
                               value={values.prob2}
-                              id="outlined-basic"
+                              onChange={handleProb}
                               size="small"
                               label="Probabilty"
-                              variant="outlined"
-                              onChange={handleProb}
                               name="prob2"
-                            />
+                              id="outlined-basic"
+                              variant="outlined"
+                            ></input>
+
+                            <div>{values.prob2}</div>
                           </Col>
                         </Row>
                       </div>
@@ -237,15 +273,21 @@ export default function User() {
                             />
                           </Col>
                           <Col md="4" className={classes.text}>
-                            <TextField
+                            <input
+                              type="range"
+                              min="0"
+                              max="1"
+                              step="0.01"
                               value={values.prob3}
-                              id="outlined-basic"
+                              onChange={handleProb}
                               size="small"
                               label="Probabilty"
-                              variant="outlined"
-                              onChange={handleProb}
                               name="prob3"
-                            />
+                              id="outlined-basic"
+                              variant="outlined"
+                            ></input>
+
+                            <div>{values.prob3}</div>
                           </Col>
                         </Row>
                       </div>
@@ -269,15 +311,21 @@ export default function User() {
                             />
                           </Col>
                           <Col md="4" className={classes.text}>
-                            <TextField
+                            <input
+                              type="range"
+                              min="0"
+                              max="1"
+                              step="0.01"
                               value={values.prob4}
-                              id="outlined-basic"
+                              onChange={handleProb}
                               size="small"
                               label="Probabilty"
-                              variant="outlined"
-                              onChange={handleProb}
                               name="prob4"
-                            />
+                              id="outlined-basic"
+                              variant="outlined"
+                            ></input>
+
+                            <div>{values.prob4}</div>
                           </Col>
                         </Row>
                       </div>
@@ -300,15 +348,21 @@ export default function User() {
                             />
                           </Col>
                           <Col md="4" className={classes.text}>
-                            <TextField
+                            <input
+                              type="range"
+                              min="0"
+                              max="1"
+                              step="0.01"
                               value={values.prob5}
-                              id="outlined-basic"
+                              onChange={handleProb}
                               size="small"
                               label="Probabilty"
-                              variant="outlined"
-                              onChange={handleProb}
                               name="prob5"
-                            />
+                              id="outlined-basic"
+                              variant="outlined"
+                            ></input>
+
+                            <div>{values.prob5}</div>
                           </Col>
                         </Row>
                       </div>
@@ -332,15 +386,21 @@ export default function User() {
                             />
                           </Col>
                           <Col md="4" className={classes.text}>
-                            <TextField
+                            <input
+                              type="range"
+                              min="0"
+                              max="1"
+                              step="0.01"
                               value={values.prob6}
-                              id="outlined-basic"
+                              onChange={handleProb}
                               size="small"
                               label="Probabilty"
-                              variant="outlined"
-                              onChange={handleProb}
                               name="prob6"
-                            />
+                              id="outlined-basic"
+                              variant="outlined"
+                            ></input>
+
+                            <div>{values.prob1}</div>
                           </Col>
                         </Row>
                       </div>
