@@ -63,7 +63,10 @@ class Upload extends React.Component {
         )}
         <form>
           {/* <div style={{ color: "black" }}>Add New Data</div> */}
-          <div style={{ padding: "0 0 0 2em", textAlign: "center" }}>
+          <div style={{textAlign: "center" }}>
+            <div style={{ color: "black" }}>
+        Upload New Dataset
+            </div>
             <Row>
               <Col>
                 <input

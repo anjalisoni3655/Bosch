@@ -149,7 +149,11 @@ export default function User() {
               <CardBody>
                 <p className="description text-center">
                   <div style={{ color: "black" }}>Add from Sample Dataset</div>
+
                   <div>
+                    <div style={{ color: "black", fontSize: "10px" }}>
+                      Select percentage of sample data
+                    </div>
                     <Slider
                       value={percent}
                       min={10}
@@ -165,7 +169,7 @@ export default function User() {
                     />
                   </div>
 
-                  <Button style={{ backgroundColor: "#34B5B8" }}>Add</Button>
+                  <Button style={{ backgroundColor: "#34B5B8",marginTop:"-10px" }}>Add</Button>
                 </p>
               </CardBody>
             </Card>
