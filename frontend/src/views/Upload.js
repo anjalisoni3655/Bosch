@@ -6,9 +6,7 @@ import Row from "react-bootstrap/Row";
 
 import axios from "axios";
 
-
 class Upload extends React.Component {
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +26,7 @@ class Upload extends React.Component {
     const data = new FormData();
     data.append("file", this.uploadInput.files[0]);
     // data.append('filename', this.fileName.value);
-
+    console.log("data", data);
     axios.post("http://localhost:5000/upload", data).then((res) => {
       console.log("file uploadede");
       alert("File Uploaded");
@@ -41,7 +39,7 @@ class Upload extends React.Component {
 
   render() {
     return (
-      <div >
+      <div>
         {this.state.isUploaded && (
           <Toast
             onClose={() => (this.state.isUploaded = false)}
@@ -65,7 +63,7 @@ class Upload extends React.Component {
         )}
         <form>
           {/* <div style={{ color: "black" }}>Add New Data</div> */}
-          <div style = {{padding: "0 0 0 2em", textAlign: "center"}}>
+          <div style={{ padding: "0 0 0 2em", textAlign: "center" }}>
             <Row>
               <Col>
                 <input
@@ -81,8 +79,6 @@ class Upload extends React.Component {
             </Row>
           </div>
         </form>
-       
-       
       </div>
     );
   }

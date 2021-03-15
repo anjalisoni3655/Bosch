@@ -1,9 +1,10 @@
 import Upload from "./Upload";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import TextField from "@material-ui/core/TextField";
+import axios from "axios";
 
 import {
   Button,
@@ -18,6 +19,15 @@ import {
   Row,
   Col,
 } from "reactstrap";
+const initialValues = {
+  prob1: "",
+  prob2: "",
+  prob3: "",
+  prob4: "",
+  prob5: "",
+  prob6: "",
+};
+
 const useStyles = makeStyles({
   root: {
     width: 300,
@@ -51,25 +61,68 @@ function valuetext(value) {
 }
 
 export default function User() {
+  const [values, setValues] = useState(initialValues);
+
+  const handleProb = (e) => {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+  console.log("values", values);
+  const [contrast, setContrast] = useState([10, 20]);
+  const [brightness, setBrightness] = useState([20, 40]);
+  const [skewness, setSkewness] = useState([10, 20]);
+  const [noise, setNoise] = useState([20, 40]);
+  const [weather, setWeather] = useState([10, 20]);
+  const [sharpness, setSharpness] = useState([20, 40]);
+
+  const handlebrightness = (event, newValue) => {
+    setBrightness(newValue);
+  };
+  const handleContrast = (event, newValue) => {
+    setContrast(newValue);
+  };
+  const handleSkewness = (event, newValue) => {
+    setSkewness(newValue);
+  };
+  const handleNoise = (event, newValue) => {
+    setNoise(newValue);
+  };
+  const handleWeather = (event, newValue) => {
+    setWeather(newValue);
+  };
+  const handleSharpness = (event, newValue) => {
+    setSharpness(newValue);
+  };
+
+  const data = {
+    brightness: brightness,
+    contrast: contrast,
+    skewness: skewness,
+    noise: noise,
+    weather: weather,
+    sharpness: sharpness,
+  };
+  console.log("data", data);
+  const handleAugment = () => {
+    axios.post("http://localhost:5000/augment", data).then(
+      (response) => {
+        var result = response.data;
+        console.log(result);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
   const valueRef = useRef(""); //creating a refernce for TextField Component
 
   const showText = () => {
     return console.log("text", valueRef.current.value); //on clicking button accesing current value of TextField and outputing it to console
   };
   const classes = useStyles();
-  const [brightness, setBrightness] = React.useState([20, 37]);
-  const [contrast, setContrast] = React.useState([20, 37]);
-
-  const handleBrightness = (event, newValue) => {
-    console.log("brightness", brightness);
-
-    setBrightness(newValue);
-  };
-  const handleContrast = (event, newValue) => {
-    console.log("contrast", contrast);
-
-    setContrast(newValue);
-  };
 
   return (
     <>
@@ -112,21 +165,23 @@ export default function User() {
                             <Slider
                               value={brightness}
                               defaultValue={[20, 37]}
-                              onChange={handleBrightness}
+                              onChange={handlebrightness}
                               valueLabelDisplay="auto"
                               marks={marks}
                               aria-labelledby="range-slider"
                               getAriaValueText={valuetext}
+                              name="brightness"
                             />
                           </Col>
                           <Col md="4" className={classes.text}>
                             <TextField
-                              inputRef={valueRef}
+                              value={values.prob1}
                               id="outlined-basic"
                               size="small"
                               label="Probabilty"
                               variant="outlined"
-                              onChange={showText}
+                              onChange={handleProb}
+                              name="prob1"
                             />
                           </Col>
                         </Row>
@@ -147,14 +202,18 @@ export default function User() {
                               marks={marks}
                               aria-labelledby="range-slider"
                               getAriaValueText={valuetext}
+                              name="contrast"
                             />
                           </Col>
                           <Col md="4" className={classes.text}>
                             <TextField
+                              value={values.prob2}
                               id="outlined-basic"
                               size="small"
                               label="Probabilty"
                               variant="outlined"
+                              onChange={handleProb}
+                              name="prob2"
                             />
                           </Col>
                         </Row>
@@ -168,9 +227,9 @@ export default function User() {
                         <Row>
                           <Col md="8">
                             <Slider
-                              //value={value}
+                              value={sharpness}
                               defaultValue={[20, 37]}
-                              // onChange={handleChange}
+                              onChange={handleSharpness}
                               valueLabelDisplay="auto"
                               marks={marks}
                               aria-labelledby="range-slider"
@@ -179,10 +238,13 @@ export default function User() {
                           </Col>
                           <Col md="4" className={classes.text}>
                             <TextField
+                              value={values.prob3}
                               id="outlined-basic"
                               size="small"
                               label="Probabilty"
                               variant="outlined"
+                              onChange={handleProb}
+                              name="prob3"
                             />
                           </Col>
                         </Row>
@@ -197,9 +259,9 @@ export default function User() {
                         <Row>
                           <Col md="8">
                             <Slider
-                              // value={value}
+                              value={skewness}
                               defaultValue={[20, 37]}
-                              // onChange={handleChange}
+                              onChange={handleSkewness}
                               valueLabelDisplay="auto"
                               marks={marks}
                               aria-labelledby="range-slider"
@@ -208,10 +270,13 @@ export default function User() {
                           </Col>
                           <Col md="4" className={classes.text}>
                             <TextField
+                              value={values.prob4}
                               id="outlined-basic"
                               size="small"
                               label="Probabilty"
                               variant="outlined"
+                              onChange={handleProb}
+                              name="prob4"
                             />
                           </Col>
                         </Row>
@@ -225,9 +290,9 @@ export default function User() {
                         <Row>
                           <Col md="8">
                             <Slider
-                              // value={value}
+                              value={noise}
                               defaultValue={[20, 37]}
-                              //onChange={handleChange}
+                              onChange={handleNoise}
                               valueLabelDisplay="auto"
                               marks={marks}
                               aria-labelledby="range-slider"
@@ -236,10 +301,13 @@ export default function User() {
                           </Col>
                           <Col md="4" className={classes.text}>
                             <TextField
+                              value={values.prob5}
                               id="outlined-basic"
                               size="small"
                               label="Probabilty"
                               variant="outlined"
+                              onChange={handleProb}
+                              name="prob5"
                             />
                           </Col>
                         </Row>
@@ -254,9 +322,9 @@ export default function User() {
                         <Row>
                           <Col md="8">
                             <Slider
-                              //  value={value}
+                              value={weather}
                               defaultValue={[20, 37]}
-                              // onChange={handleChange}
+                              onChange={handleWeather}
                               valueLabelDisplay="auto"
                               marks={marks}
                               aria-labelledby="range-slider"
@@ -265,10 +333,13 @@ export default function User() {
                           </Col>
                           <Col md="4" className={classes.text}>
                             <TextField
+                              value={values.prob6}
                               id="outlined-basic"
                               size="small"
                               label="Probabilty"
                               variant="outlined"
+                              onChange={handleProb}
+                              name="prob6"
                             />
                           </Col>
                         </Row>
@@ -279,7 +350,12 @@ export default function User() {
 
                 <Row>
                   <div className="update ml-auto mr-auto">
-                    <Button className="btn-round" color="primary" type="submit">
+                    <Button
+                      className="btn-round"
+                      color="primary"
+                      type="submit"
+                      onClick={handleAugment}
+                    >
                       Add Augmentation
                     </Button>
                   </div>
