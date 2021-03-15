@@ -32,22 +32,15 @@ const marks = [
     value: 0,
     label: "0",
   },
+  
   {
-    value: 20,
-    label: "20",
-  },
-  {
-    value: 37,
-    label: "37",
-  },
-  {
-    value: 100,
-    label: "100",
+    value: 1,
+    label: "1",
   },
 ];
 
 function valuetext(value) {
-  return `${value}°C`;
+  return `${value}`;
 }
 
 export default function User() {
@@ -82,8 +75,20 @@ export default function User() {
             <Card className="card-user" style={{ height: "130px" }}>
               <CardBody>
                 <p className="description text-center">
-                  <div style={{ color: "black" }}>Add from Sample Dataset</div>
-                  <Button style={{ backgroundColor: "#34B5B8" }}>Add</Button>
+                  <div style={{ color: "black" }}>Sample from Existing Data</div>
+                  <Slider 
+                    value={value}
+                    defaultValue={0.1}
+                    onChange={handleChange}
+                    valueLabelDisplay="auto"
+                    min = {0}
+                    max = {1}
+                    step = {0.1}
+                    aria-labelledby="discrete-slider"
+                    getAriaValueText={valuetext}
+                    valueLabelDisplay="auto"
+                  />
+                  <Button color = "primary" >Add</Button>
                 </p>
               </CardBody>
             </Card>
@@ -273,7 +278,7 @@ export default function User() {
 
                 <Row>
                   <div className="update ml-auto mr-auto">
-                    <Button className="btn-round" color="primary" type="submit">
+                    <Button color="primary" type="submit">
                       Add Augmentation
                     </Button>
                   </div>

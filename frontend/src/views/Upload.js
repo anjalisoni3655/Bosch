@@ -31,7 +31,7 @@ class Upload extends React.Component {
 
     axios.post("http://localhost:5000/upload", data).then((res) => {
       console.log("file uploadede");
-      alert("ok");
+      alert("File Uploaded");
       this.state.isUploaded = true;
       console.log("isuploade", this.state.isUploaded);
       console.log(res);
@@ -64,7 +64,7 @@ class Upload extends React.Component {
           </Toast>
         )}
         <form>
-          <div style={{ color: "black" }}>Add New Dataset</div>
+          <div style={{ color: "black" }}>Add New Data</div>
           <div>
             <input
               ref={(ref) => {
