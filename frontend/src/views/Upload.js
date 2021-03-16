@@ -30,7 +30,10 @@ class Upload extends React.Component {
     axios.post("http://localhost:5000/upload", data).then((res) => {
       console.log("file uploadede");
       alert("File Uploaded");
-      this.state.isUploaded = true;
+      this.setState({
+        isUploaded:true,
+      })
+     
       console.log("isuploade", this.state.isUploaded);
       console.log(res);
       console.log(res.data);
