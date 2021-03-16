@@ -209,9 +209,9 @@ export default function User() {
                               value={brightness}
 
                               defaultValue={[0, 1]}
-                              min = {0}
+                              min={0}
                               max={1}
-                              step = {0.1}
+                              step={0.1}
 
                               onChange={handlebrightness}
                               valueLabelDisplay="auto"
@@ -224,10 +224,10 @@ export default function User() {
                           <Col md="4" className={classes.text}>
                             <input
                               type="range"
+                              
                               min="0"
                               max="1"
-
-                              defaultValue = {0.1}
+                              step="0.01"
 
                               value={values.prob1}
                               onChange={handleProb}
