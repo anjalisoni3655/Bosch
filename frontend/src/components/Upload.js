@@ -71,7 +71,7 @@ class Upload extends React.Component {
           </Toast>
         )}
         <form>
-          <div style={{ color: "black" }}>Add New Dataset</div>
+          <div style={{ color: "black" }}>Add New Data</div>
           <div>
             <input
               ref={(ref) => {

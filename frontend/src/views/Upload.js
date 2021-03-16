@@ -6,9 +6,7 @@ import Row from "react-bootstrap/Row";
 
 import axios from "axios";
 
-
 class Upload extends React.Component {
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -28,11 +26,14 @@ class Upload extends React.Component {
     const data = new FormData();
     data.append("file", this.uploadInput.files[0]);
     // data.append('filename', this.fileName.value);
-
+    console.log("data", data);
     axios.post("http://localhost:5000/upload", data).then((res) => {
       console.log("file uploadede");
-      alert("ok");
-      this.state.isUploaded = true;
+      alert("File Uploaded");
+      this.setState({
+        isUploaded: false,
+      });
+
       console.log("isuploade", this.state.isUploaded);
       console.log(res);
       console.log(res.data);
@@ -41,11 +42,11 @@ class Upload extends React.Component {
 
   render() {
     return (
-      <div >
+      <div>
         {this.state.isUploaded && (
           <Toast
             onClose={() => (this.state.isUploaded = false)}
-            //show={this.state.isUploaded}
+            show={this.state.isUploaded}
             delay={3000}
             autohide
           >
@@ -64,19 +65,24 @@ class Upload extends React.Component {
           </Toast>
         )}
         <form>
-          <div style={{ color: "black" }}>Add New Dataset</div>
-          <div>
-            <input
-              ref={(ref) => {
-                this.uploadInput = ref;
-              }}
-              type="file"
-            />
-            <Button onClick={this.handleUploadImage}>Upload</Button>
+          {/* <div style={{ color: "black" }}>Add New Data</div> */}
+          <div style={{ textAlign: "center" }}>
+            <div style={{ color: "black" }}>Upload New Dataset</div>
+            <Row>
+              <Col>
+                <input
+                  ref={(ref) => {
+                    this.uploadInput = ref;
+                  }}
+                  type="file"
+                />
+              </Col>
+              <Col>
+                <Button onClick={this.handleUploadImage}>Upload</Button>
+              </Col>
+            </Row>
           </div>
         </form>
-       
-       
       </div>
     );
   }
