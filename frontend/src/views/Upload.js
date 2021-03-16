@@ -69,7 +69,7 @@ class Upload extends React.Component {
           <div style={{ textAlign: "center" }}>
             <Row>
           
-              <Col style = {{padding: "1em"}}>
+              <Col style = {{padding: "1em 0 0 2em"}}>
                 <input
                   ref={(ref) => {
                     this.uploadInput = ref;
