@@ -109,7 +109,7 @@ export default function User() {
     sharpness: [...sharpness, values.prob6],
   };
   console.log("data", data);
-  const handleAugment = () => {
+  const handleAugment = () => {   
     axios.post("http://localhost:5000/augment", data).then(
       (response) => {
         var result = response.data;
@@ -147,7 +147,7 @@ export default function User() {
           <Col md="6">
             <Card className="card-user" style={{ height: "130px" }}>
               <CardBody>
-                <p className="description text-center">
+                <div className="description text-center">
                   <div style={{ color: "black" }}>Add from Sample Dataset</div>
 
                   <div>
@@ -170,7 +170,7 @@ export default function User() {
                   </div>
 
                   <Button style={{ backgroundColor: "#34B5B8",marginTop:"-10px" }}>Add</Button>
-                </p>
+                </div>
               </CardBody>
             </Card>
           </Col>

@@ -55,12 +55,19 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
 
-@app.route('/augment', methods =['POST']) 
-def augment():
-   print("hello")
-   print(request.json("brightness")) 
-   return jsonify({"Result": "Welcome to GeeksForGeeks, "
-                                   +request.json['brightness']}) 
+@app.route('/augment', methods=[ 'POST'])
+@cross_origin()
+def augmentation():
+    print(request)
+    # print(request.data)
+    if request.method == "POST":
+        print(request.data)
+        print(request.get_json())        
+        data = request.get_json()
+        print(data['brightness'])
+
+    return 'OK'
+
 
 
 if __name__ == "__main__":
