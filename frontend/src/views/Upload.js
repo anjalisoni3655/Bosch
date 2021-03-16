@@ -68,7 +68,8 @@ class Upload extends React.Component {
           {/* <div style={{ color: "black" }}>Add New Data</div> */}
           <div style={{ textAlign: "center" }}>
             <Row>
-              <Col>
+          
+              <Col style = {{padding: "1em"}}>
                 <input
                   ref={(ref) => {
                     this.uploadInput = ref;
@@ -76,6 +77,7 @@ class Upload extends React.Component {
                   type="file"
                 />
               </Col>
+              
               <Col>
                 <Button onClick={this.handleUploadImage}>Upload</Button>
               </Col>

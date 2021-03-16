@@ -191,7 +191,7 @@ export default function User() {
                         />                      
                       </Col>
                       <Col>
-                          <Button style={{ backgroundColor: "#34B5B8",marginTop:"-10px" }}>Add</Button>
+                          <Button color = "primary">Sample</Button>
                       </Col>
                     </Row>
                   </div>
