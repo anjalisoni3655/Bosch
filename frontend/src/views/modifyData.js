@@ -42,29 +42,26 @@ const marks = [
     value: 0,
     label: "0",
   },
+  
   {
-    value: 20,
-    label: "20",
-  },
-  {
-    value: 37,
-    label: "37",
-  },
-  {
-    value: 100,
-    label: "100",
+    value: 1,
+    label: "1",
   },
 ];
 
 function valuetext(value) {
-  return `${value}°C`;
+  return `${value}`;
 }
 function valueLabelFormat(value) {
   return `${value}%`;
 }
 
+let start = 1;
+
+
 export default function User() {
   const [values, setValues] = useState(initialValues);
+
 
   const handleProb = (e) => {
     const { name, value } = e.target;
@@ -74,12 +71,24 @@ export default function User() {
     });
   };
 
-  const [contrast, setContrast] = useState([10, 20]);
-  const [brightness, setBrightness] = useState([20, 40]);
-  const [skewness, setSkewness] = useState([10, 20]);
-  const [noise, setNoise] = useState([20, 40]);
-  const [weather, setWeather] = useState([10, 20]);
-  const [sharpness, setSharpness] = useState([20, 40]);
+  
+  
+  const [values, setValues] = useState(initialValues);
+  
+  if (start) {
+    console.log(values)
+    for (let property in values) {
+      values[property] = 0.1
+    }
+    start = 0;
+  }
+  const [contrast, setContrast] = useState([0, 1]);
+  const [brightness, setBrightness] = useState([0, 1]);
+  const [skewness, setSkewness] = useState([0, 1]);
+  const [noise, setNoise] = useState([0, 1]);
+  const [weather, setWeather] = useState([0, 1]);
+  const [sharpness, setSharpness] = useState([0, 1]);
+
 
   const handlebrightness = (event, newValue) => {
     setBrightness(newValue);
@@ -108,6 +117,35 @@ export default function User() {
     weather: [...weather, values.prob5],
     sharpness: [...sharpness, values.prob6],
   };
+  
+  const handleAugment = () => {   
+    axios.post("http://localhost:5000/augment", data).then(
+      (response) => {
+        var result = response.data;
+        console.log(result);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
+  const valueRef = useRef(""); //creating a refernce for TextField Component
+
+  const showText = () => {
+    return console.log("text", valueRef.current.value); //on clicking button accesing current value of TextField and outputing it to console
+  };
+  const classes = useStyles();
+  const [percent, setPercent] = React.useState(10);
+
+
+  const data = {
+    brightness: [...brightness, values.prob1],
+    contrast: [...contrast, values.prob2],
+    skewness: [...skewness, values.prob3],
+    noise: [...noise, values.prob4],
+    weather: [...weather, values.prob5],
+    sharpness: [...sharpness, values.prob6],
+  };
   console.log("data", data);
   const handleAugment = () => {   
     axios.post("http://localhost:5000/augment", data).then(
@@ -127,6 +165,7 @@ export default function User() {
   };
   const classes = useStyles();
   const [percent, setPercent] = React.useState(10);
+
 
   const handlePercent = (event, newValue) => {
     setPercent(newValue);
@@ -192,7 +231,12 @@ export default function User() {
                           <Col md="8">
                             <Slider
                               value={brightness}
-                              defaultValue={[20, 37]}
+
+                              defaultValue={[0, 1]}
+                              min = {0}
+                              max={1}
+                              step = {0.1}
+
                               onChange={handlebrightness}
                               valueLabelDisplay="auto"
                               marks={marks}
@@ -206,7 +250,9 @@ export default function User() {
                               type="range"
                               min="0"
                               max="1"
-                              step="0.01"
+
+                              defaultValue = {0.1}
+
                               value={values.prob1}
                               onChange={handleProb}
                               size="small"
@@ -230,7 +276,12 @@ export default function User() {
                           <Col md="8">
                             <Slider
                               value={contrast}
-                              defaultValue={[20, 37]}
+
+                              defaultValue={[0, 1]}
+                              min = {0}
+                              max={1}
+                              step = {0.1}
+
                               onChange={handleContrast}
                               valueLabelDisplay="auto"
                               marks={marks}
@@ -268,7 +319,12 @@ export default function User() {
                           <Col md="8">
                             <Slider
                               value={sharpness}
-                              defaultValue={[20, 37]}
+
+                              defaultValue={[0, 1]}
+                              min = {0}
+                              max={1}
+                              step = {0.1}
+
                               onChange={handleSharpness}
                               valueLabelDisplay="auto"
                               marks={marks}
@@ -305,8 +361,12 @@ export default function User() {
                         <Row>
                           <Col md="8">
                             <Slider
-                              value={skewness}
-                              defaultValue={[20, 37]}
+
+                              defaultValue={[0, 1]}
+                              min = {0}
+                              max={1}
+                              step = {0.1}
+
                               onChange={handleSkewness}
                               valueLabelDisplay="auto"
                               marks={marks}
@@ -343,7 +403,12 @@ export default function User() {
                           <Col md="8">
                             <Slider
                               value={noise}
-                              defaultValue={[20, 37]}
+
+                              defaultValue={[0, 1]}
+                              min = {0}
+                              max={1}
+                              step = {0.1}
+
                               onChange={handleNoise}
                               valueLabelDisplay="auto"
                               marks={marks}
@@ -381,7 +446,12 @@ export default function User() {
                           <Col md="8">
                             <Slider
                               value={weather}
-                              defaultValue={[20, 37]}
+
+                              defaultValue={[0, 1]}
+                              min = {0}
+                              max={1}
+                              step = {0.1}
+
                               onChange={handleWeather}
                               valueLabelDisplay="auto"
                               marks={marks}
