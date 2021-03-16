@@ -73,7 +73,6 @@ export default function User() {
 
   
   
-  const [values, setValues] = useState(initialValues);
   
   if (start) {
     console.log(values)
@@ -118,17 +117,7 @@ export default function User() {
     sharpness: [...sharpness, values.prob6],
   };
   
-  const handleAugment = () => {   
-    axios.post("http://localhost:5000/augment", data).then(
-      (response) => {
-        var result = response.data;
-        console.log(result);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  };
+ 
   const valueRef = useRef(""); //creating a refernce for TextField Component
 
   const showText = () => {
@@ -138,14 +127,7 @@ export default function User() {
   const [percent, setPercent] = React.useState(10);
 
 
-  const data = {
-    brightness: [...brightness, values.prob1],
-    contrast: [...contrast, values.prob2],
-    skewness: [...skewness, values.prob3],
-    noise: [...noise, values.prob4],
-    weather: [...weather, values.prob5],
-    sharpness: [...sharpness, values.prob6],
-  };
+ 
   console.log("data", data);
   const handleAugment = () => {   
     axios.post("http://localhost:5000/augment", data).then(
@@ -158,13 +140,7 @@ export default function User() {
       }
     );
   };
-  const valueRef = useRef(""); //creating a refernce for TextField Component
-
-  const showText = () => {
-    return console.log("text", valueRef.current.value); //on clicking button accesing current value of TextField and outputing it to console
-  };
-  const classes = useStyles();
-  const [percent, setPercent] = React.useState(10);
+  
 
 
   const handlePercent = (event, newValue) => {
