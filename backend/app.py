@@ -55,6 +55,14 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
 
+@app.route('/augment', methods =['POST']) 
+def augment():
+   print("hello")
+   print(request.json("brightness")) 
+   return jsonify({"Result": "Welcome to GeeksForGeeks, "
+                                   +request.json['brightness']}) 
+
+
 if __name__ == "__main__":
     app.secret_key = os.urandom(24)
     app.run(debug=True, port=8000)                               
