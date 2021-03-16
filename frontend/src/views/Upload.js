@@ -31,9 +31,9 @@ class Upload extends React.Component {
       console.log("file uploadede");
       alert("File Uploaded");
       this.setState({
-        isUploaded:true,
-      })
-     
+        isUploaded: false,
+      });
+
       console.log("isuploade", this.state.isUploaded);
       console.log(res);
       console.log(res.data);
@@ -46,7 +46,7 @@ class Upload extends React.Component {
         {this.state.isUploaded && (
           <Toast
             onClose={() => (this.state.isUploaded = false)}
-            //show={this.state.isUploaded}
+            show={this.state.isUploaded}
             delay={3000}
             autohide
           >
@@ -66,10 +66,8 @@ class Upload extends React.Component {
         )}
         <form>
           {/* <div style={{ color: "black" }}>Add New Data</div> */}
-          <div style={{textAlign: "center" }}>
-            <div style={{ color: "black" }}>
-        Upload New Dataset
-            </div>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ color: "black" }}>Upload New Dataset</div>
             <Row>
               <Col>
                 <input

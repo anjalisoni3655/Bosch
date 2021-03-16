@@ -404,7 +404,7 @@ export default function User() {
                               variant="outlined"
                             ></input>
 
-                            <div>{values.prob1}</div>
+                            <div>{values.prob6}</div>
                           </Col>
                         </Row>
                       </div>
