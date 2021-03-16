@@ -89,7 +89,7 @@ export default function User() {
   const [sharpness, setSharpness] = useState([0, 1]);
 
 
-  const handlebrightness = (event, newValue) => {
+  const handleBrightness = (event, newValue) => {
     setBrightness(newValue);
   };
   const handleContrast = (event, newValue) => {
@@ -151,7 +151,10 @@ export default function User() {
       <div className="content">
         <Row>
           <Col md="6">
-            <Card className="card-user" style={{ height: "130px" }}>
+            <Card className="card-user" style={{ height: "180px" }}>
+            <CardHeader>
+              <CardTitle tag="h5">Add New Data</CardTitle>
+            </CardHeader>
               <CardBody>
                 <p className="description text-center">
                   <Upload></Upload>
@@ -160,31 +163,39 @@ export default function User() {
             </Card>
           </Col>
           <Col md="6">
-            <Card className="card-user" style={{ height: "130px" }}>
+            <Card className="card-user" style={{ height: "180px" }}>
+            <CardHeader>
+              <CardTitle tag="h5">Sample from Existing Data</CardTitle>
+            </CardHeader>
               <CardBody>
                 <div className="description text-center">
-                  <div style={{ color: "black" }}>Add from Sample Dataset</div>
-
                   <div>
-                    <div style={{ color: "black", fontSize: "10px" }}>
-                      Select percentage of sample data
-                    </div>
-                    <Slider
-                      value={percent}
-                      min={10}
-                      step={10}
-                      max={100}
-                      style={{ width: "150px" }}
-                      //scale={(x) => x ** 10}
-                      getAriaValueText={valueLabelFormat}
-                      valueLabelFormat={valueLabelFormat}
-                      onChange={handlePercent}
-                      valueLabelDisplay="auto"
-                      aria-labelledby="non-linear-slider"
-                    />
+                    <Row>
+                      <Col>
+                        <Typography>
+                          Select percentage of sample data
+                        </Typography>
+                        <Slider
+                          value={percent}
+                          min={0}
+                          step={5}
+                          max={100}
+                          style={{ width: "150px" }}
+                          marks = {[{value: 0,label: "0",},{value: 100,label: "100",},]}
+                          
+                          getAriaValueText={valueLabelFormat}
+                          valueLabelFormat={valueLabelFormat}
+                          onChange={handlePercent}
+                          valueLabelDisplay="auto"
+                          aria-labelledby="non-linear-slider"
+                        />                      
+                      </Col>
+                      <Col>
+                          <Button style={{ backgroundColor: "#34B5B8",marginTop:"-10px" }}>Add</Button>
+                      </Col>
+                    </Row>
                   </div>
 
-                  <Button style={{ backgroundColor: "#34B5B8",marginTop:"-10px" }}>Add</Button>
                 </div>
               </CardBody>
             </Card>
@@ -213,7 +224,7 @@ export default function User() {
                               max={1}
                               step={0.1}
 
-                              onChange={handlebrightness}
+                              onChange={handleBrightness}
                               valueLabelDisplay="auto"
                               marks={marks}
                               aria-labelledby="range-slider"
