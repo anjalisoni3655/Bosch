@@ -3,6 +3,7 @@ from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from flask_cors import CORS, cross_origin
+
 import zipfile
 from augmentations import *
 UPLOAD_FOLDER = 'uploads'
@@ -17,9 +18,11 @@ app.config['EXTRACTION_FOLDER'] = EXTRACTION_FOLDER
 app.config['AUGMENTATION_FOLDER'] = AUGMENTATION_FOLDER
 app.config['DATASET_FOLDER'] = DATASET_FOLDER
 
+
 app.config.update(SECRET_KEY=os.urandom(24))
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+
 
 
 folder_to_augment = ""
@@ -27,6 +30,7 @@ folder_to_augment = ""
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 def create_folder(foldername):
     if not os.path.exists(foldername):
@@ -49,6 +53,7 @@ def create_folder_entry(root,foldername):
 @app.route('/upload', methods=[ 'POST','GET'])
 @cross_origin()
 def upload_file():
+
     global folder_to_augment
     if request.method == 'POST':
         # check if the post request has the file part
@@ -61,6 +66,7 @@ def upload_file():
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
+
         elif not allowed_file(file.filename):
             flash("Unsupported file extension, Please upload .zip")
             return redirect(request.url)
@@ -95,6 +101,7 @@ def uploaded_file(filename):
 @app.route('/augment', methods=[ 'POST'])
 @cross_origin()
 def augmentation():
+
     if request.method == "POST":
         data = request.get_json()
         for key in data:
@@ -111,6 +118,7 @@ def augmentation():
     
             apply_augmentation(folder_to_augment, augmentedfolder, data)
         print("Augmentation complete")
+
     return 'OK'
 
 
