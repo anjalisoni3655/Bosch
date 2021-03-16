@@ -3,25 +3,53 @@ from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from flask_cors import CORS, cross_origin
-
+import zipfile
+from augmentations import *
 UPLOAD_FOLDER = 'uploads'
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','zip'}
+EXTRACTION_FOLDER = 'extracted'
+AUGMENTATION_FOLDER = 'augmented'
+DATASET_FOLDER = 'dataset'
+ALLOWED_EXTENSIONS = {'zip'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['EXTRACTION_FOLDER'] = EXTRACTION_FOLDER
+app.config['AUGMENTATION_FOLDER'] = AUGMENTATION_FOLDER
+app.config['DATASET_FOLDER'] = DATASET_FOLDER
+
 app.config.update(SECRET_KEY=os.urandom(24))
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
+folder_to_augment = ""
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def create_folder(foldername):
+    if not os.path.exists(foldername):
+        os.makedirs(foldername)
+def create_folder_entry(root,foldername):
+    lis = os.listdir(root)
+    
+    maxn = 0
+    for i in lis:
+        if os.path.isdir(os.path.join(root,i)):
+            
+            maxn = max(maxn,int(list(i.split('_'))[1]))
+
+    maxn+=1
+    create_folder(os.path.join(root,foldername+"_"+str(maxn)))
+    return os.path.join(root,foldername+"_"+str(maxn))
+
+    
 
 @app.route('/upload', methods=[ 'POST','GET'])
 @cross_origin()
 def upload_file():
+    global folder_to_augment
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -33,21 +61,30 @@ def upload_file():
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
-        if file and allowed_file(file.filename):
+        elif not allowed_file(file.filename):
+            flash("Unsupported file extension, Please upload .zip")
+            return redirect(request.url)
+        elif file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
+            create_folder(app.config["UPLOAD_FOLDER"])
+            create_folder(app.config["EXTRACTION_FOLDER"])
+            uploaded_folder = create_folder_entry(app.config['UPLOAD_FOLDER'],"uploaded")
+            file.save(os.path.join(uploaded_folder, filename))
+            
+            
+            print("File uploaded to "+os.path.join(app.config['UPLOAD_FOLDER'],filename))
+            print("Unzipping "+ filename)
+
+            newfoldername = create_folder_entry(app.config['EXTRACTION_FOLDER'],"extracted")
+            with zipfile.ZipFile(os.path.join(uploaded_folder, filename), 'r') as zip_ref:
+                zip_ref.extractall(newfoldername)
+            print("Unzipped to "+newfoldername)
+            folder_to_augment = newfoldername
+
+            return redirect(url_for('uploaded_file',filename=filename))
+
     return 'OK'
-    # return '''
-    # <!doctype html>
-    # <title>Upload new File</title>
-    # <h1>Upload new File</h1>
-    # <form method=post enctype=multipart/form-data>
-    #   <input type=file name=file>
-    #   <input type=submit value=Upload>
-    # </form>
-    # '''
+
 
 
 @app.route('/uploads/<filename>')
@@ -58,14 +95,22 @@ def uploaded_file(filename):
 @app.route('/augment', methods=[ 'POST'])
 @cross_origin()
 def augmentation():
-    print(request)
-    # print(request.data)
     if request.method == "POST":
-        print(request.data)
-        print(request.get_json())        
         data = request.get_json()
-        print(data['brightness'])
-
+        for key in data:
+            for i in range(len(data[key])):
+                if(isinstance(data[key][i], str)):
+                    data[key][i] = float(data[key][i]) if data[key][i]!="" else 0
+        
+    
+        if(folder_to_augment==""):
+            flash('Augmentation folder not specified')
+        else:
+            create_folder(app.config["AUGMENTATION_FOLDER"])
+            augmentedfolder = create_folder_entry(app.config["AUGMENTATION_FOLDER"], "augmented")
+    
+            apply_augmentation(folder_to_augment, augmentedfolder, data)
+        print("Augmentation complete")
     return 'OK'
 
 

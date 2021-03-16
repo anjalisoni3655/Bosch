@@ -10,3 +10,6 @@ __pycache__/
 *.py[cod]
 package-lock.json
 uploads/
+extracted/
+augmented/
+dataset/
