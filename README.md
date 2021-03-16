@@ -5,7 +5,7 @@ It's a template on which we can build a React app and call endpoints to make pre
 The complete guide to use this repository: https://towardsdatascience.com/create-a-complete-machine-learning-web-application-using-react-and-flask-859340bddb33
 
 ### Steps To Set Up Flask 
- 1. Move to service folder
+ 1. Move to backend folder
  2. For installing virtual environment - python3 -m pip install --user virtualenv
  3. Create A Virtual env - python3 -m venv env
  4. Activate virtual env - source env/bin/activate
