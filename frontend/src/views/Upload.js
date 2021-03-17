@@ -12,6 +12,8 @@ class Upload extends React.Component {
     this.state = {
       imageURL: "",
       isUploaded: false,
+      isError: false,
+      errorMessage: "",
     };
     this.handleUploadImage = this.handleUploadImage.bind(this);
     this.fileValidate = this.fileValidate.bind(this);
@@ -27,7 +29,7 @@ class Upload extends React.Component {
 
     // Allowing file type
     var allowedExtensions = ".zip";
-
+    console.log("Checking extension")
     if (!allowedExtensions.exec(filePath)) {
       alert("Invalid file type");
       fileInput.value = "";
@@ -41,27 +43,35 @@ class Upload extends React.Component {
     const data = new FormData();
     data.append("file", this.uploadInput.files[0]);
     // data.append('filename', this.fileName.value);
-    console.log("data", data);
+    
     const res = await axios.post("http://localhost:5000/upload", data);
 
-    console.log("file uploadeded");
+    
 
     if (res.data == "OK") {
       this.setState({
         isUploaded: true,
       });
-      // alert("File Uploaded");
+      
     } else {
-      alert("File not  Uploaded");
+        this.setState({
+          isError: true,
+          errorMessage: res.data,
+        });
+        
+        
     }
 
     console.log("isuploade", this.state.isUploaded);
+    console.log("iserror", this.state.isError);
     console.log(res);
     console.log(res.data);
   }
   handleClose() {
     this.setState({
       isUploaded: false,
+      isError: false,
+      errorMessage:"",
     });
   }
 
@@ -78,10 +88,29 @@ class Upload extends React.Component {
               position: "absolute",
               top: -90,
               right: -20,
+              background:"green",
             }}
           >
             <Toast.Header>
               <strong className="mr-auto">File Uploaded Successfully</strong>
+            </Toast.Header>
+          </Toast>
+        )}
+        {this.state.isError && (
+          <Toast
+            onClose={this.handleClose.bind(this)}
+            show={this.state.isError}
+            delay={3000}
+            autohide
+            style={{
+              position: "absolute",
+              top: -90,
+              right: -20,
+              background: "red",
+            }}
+          >
+            <Toast.Header>
+              <strong className="mr-auto">File Upload error, {this.state.errorMessage}</strong>
             </Toast.Header>
           </Toast>
         )}

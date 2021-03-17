@@ -10,34 +10,7 @@ import UserPage from "views/modifyData.js";
 import UpgradeToPro from "views/Upgrade.js";
 
 var routes = [
-  // {
-  //   path: "/dashboard",
-  //   name: "Dashboard",
-  //   icon: "nc-icon nc-bank",
-  //   component: Dashboard,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/icons",
-  //   name: "Icons",
-  //   icon: "nc-icon nc-diamond",
-  //   component: Icons,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/maps",
-  //   name: "Maps",
-  //   icon: "nc-icon nc-pin-3",
-  //   component: Maps,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/notifications",
-  //   name: "Notifications",
-  //   icon: "nc-icon nc-bell-55",
-  //   component: Notifications,
-  //   layout: "/admin",
-  // },
+  
   {
     path: "/modify-dataset",
     name: "Modify Dataset",
@@ -59,13 +32,6 @@ var routes = [
     component: Typography,
   
   },
-  // {
-  //   pro: true,
-  //   path: "/upgrade",
-  //   name: "Upgrade to PRO",
-  //   icon: "nc-icon nc-spaceship",
-  //   component: UpgradeToPro,
-  //   layout: "/admin",
-  // },
+  
 ];
 export default routes;
