@@ -104,6 +104,7 @@ def uploaded_file(filename):
                                filename)
 
 
+
 @app.route('/sample', methods = ['POST'])
 @cross_origin()
 def sampling():
@@ -123,7 +124,9 @@ def sampling():
     return 'OK'
 
 
-@app.route('/augment', methods=[ 'POST'])
+
+@app.route('/augment', methods=[ 'POST','GET'])
+
 @cross_origin()
 def augmentation():
 
@@ -136,14 +139,15 @@ def augmentation():
         
     
         if(folder_to_augment==""):
-            flash('Augmentation folder not specified')
+            print("Augmentation folder not found")
+            return 'Augmentation folder not found'
         else:
             create_folder(app.config["AUGMENTATION_FOLDER"])
             augmentedfolder = create_folder_entry(app.config["AUGMENTATION_FOLDER"], "augmented")
     
             apply_augmentation(folder_to_augment, augmentedfolder, data)
         print("Augmentation complete")
-
+    print("Aug comp")
     return 'OK'
 
 if __name__ == "__main__":

@@ -5,7 +5,9 @@ import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.css';
 import {
   Button,
   Card,
@@ -70,7 +72,7 @@ export default function User() {
   if (start) {
     console.log(values)
     for (let property in values) {
-      values[property] = 0.10
+      values[property] = "0.10"
     }
     start = 0;
   }
@@ -142,36 +144,44 @@ export default function User() {
   const classes = useStyles();
   const [percent, setPercent] = React.useState(10);
 
-
- 
-  console.log("data", data);
-  const handleAugment = () => {   
-    axios.post("http://localhost:5000/augment", data).then(
-      (response) => {
-        var result = response.data;
-        console.log(result);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  };
-
+  
   const samplePercent = {
     sample: percent
   }
+  console.log("data", data);
+  const handleAugment = () => {   
 
-  console.log("Sample Percent: ", percent)
-  const handleSample = () => {
-    axios.post("http://localhost:5000/sample", samplePercent).then(
+    const res = axios.post("http://localhost:5000/augment", data).then(
       (response) => {
-        var result = response.samplePercent;
-        console.log(result)
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      console.log("response: ", response);
+        if (response.data == "OK") {
+          toast.success('🦄 Data Augmented succesfully');
+        } else {
+          toast.error("💀 Error : " + response.data);
+        }
+    }, (error) => {
+      console.log("error: ", error)
+    });
+   
+  };
+
+  
+
+  
+  const handleSample = () => {
+    console.log(samplePercent);
+    const res = axios.post("http://localhost:5000/sample", samplePercent).then(
+      (response) => {
+        console.log("response: ", response);
+        if (response.data == "OK") {
+          toast.success('🦄 Data Sampled succesfully');
+        } else {
+          toast.error("💀 Error : " + response.data);
+        }
+      }, (error) => {
+        console.log("error: ", error)
+      });
+
   };
   
 
@@ -182,8 +192,10 @@ export default function User() {
 
 
   return (
-    <>
+    
+
       <div className="content">
+        <ToastContainer />
         <Row>
           <Col md="6">
             <Card className="card-user" style={{ height: "180px" }}>
@@ -703,7 +715,7 @@ export default function User() {
                   <div className="update ml-auto mr-auto">
                     <Button
                       color="primary"
-                      type="submit"
+                      
                       onClick={handleAugment}
                     >
                       Apply
@@ -715,6 +727,6 @@ export default function User() {
           </Card>
         </Col>
       </div>
-    </>
+    
   );
 }
