@@ -72,7 +72,7 @@ export default function User() {
   if (start) {
     console.log(values)
     for (let property in values) {
-      values[property] = 0.10
+      values[property] = "0.10"
     }
     start = 0;
   }
@@ -144,30 +144,44 @@ export default function User() {
   const classes = useStyles();
   const [percent, setPercent] = React.useState(10);
 
-
- 
-  console.log("data", data);
-  const handleAugment = () => {   
-    const res = axios.post("http://localhost:5000/augment", data);
-    if (res.data == "OK") {
-      toast.success('🦄 Data Augmented succesfully');
-    } else {
-      toast.error("💀 Error : " + res.data);
-    }
-  };
-
+  
   const samplePercent = {
     sample: percent
   }
+  console.log("data", data);
+  const handleAugment = () => {   
 
-  console.log("Sample Percent: ", percent)
+    const res = axios.post("http://localhost:5000/augment", data).then(
+      (response) => {
+      console.log("response: ", response);
+        if (response.data == "OK") {
+          toast.success('🦄 Data Augmented succesfully');
+        } else {
+          toast.error("💀 Error : " + response.data);
+        }
+    }, (error) => {
+      console.log("error: ", error)
+    });
+   
+  };
+
+  
+
+  
   const handleSample = () => {
-    const res = axios.post("http://localhost:5000/sample", samplePercent);
-    if (res.data == "OK") {
-      toast.success('🦄 Data Sampled succesfully');
-    } else {
-      toast.error("💀 Error : " + res.data);
-    }
+    console.log(samplePercent);
+    const res = axios.post("http://localhost:5000/sample", samplePercent).then(
+      (response) => {
+        console.log("response: ", response);
+        if (response.data == "OK") {
+          toast.success('🦄 Data Sampled succesfully');
+        } else {
+          toast.error("💀 Error : " + response.data);
+        }
+      }, (error) => {
+        console.log("error: ", error)
+      });
+
   };
   
 
@@ -701,7 +715,7 @@ export default function User() {
                   <div className="update ml-auto mr-auto">
                     <Button
                       color="primary"
-                      type="submit"
+                      
                       onClick={handleAugment}
                     >
                       Apply
