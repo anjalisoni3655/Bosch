@@ -44,7 +44,7 @@ class Upload extends React.Component {
     console.log("data", data);
     const res = await axios.post("http://localhost:5000/upload", data);
 
-    console.log("file uploadede");
+    console.log("file uploadeded");
 
     if (res.data == "OK") {
       this.setState({

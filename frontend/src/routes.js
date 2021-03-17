@@ -43,21 +43,21 @@ var routes = [
     name: "Modify Dataset",
     icon: "nc-icon nc-single-02",
     component: UserPage,
-    layout: "/admin",
+   
   },
   {
     path: "/view-data-stats",
     name: "View Data Stats",
     icon: "nc-icon nc-tile-56",
     component: TableList,
-    layout: "/admin",
+   
   },
   {
     path: "/view-model-stat",
     name: "View Model Stats",
     icon: "nc-icon nc-caps-small",
     component: Typography,
-    layout: "/admin",
+  
   },
   // {
   //   pro: true,

@@ -16,7 +16,7 @@ ReactDOM.render(
   <Router history={hist}>
     <Switch>
 
-      <Redirect exact from="/" to="/admin/modify-dataset" />
+      <Redirect exact from="/" to="/modify-dataset" />
       <Route path="/" render={(props) => <AdminLayout {...props} />} />
 
     </Switch>
