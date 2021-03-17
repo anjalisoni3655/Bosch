@@ -156,6 +156,23 @@ export default function User() {
       }
     );
   };
+
+  const samplePercent = {
+    sample: percent
+  }
+
+  console.log("Sample Percent: ", percent)
+  const handleSample = () => {
+    axios.post("http://localhost:5000/sample", samplePercent).then(
+      (response) => {
+        var result = response.samplePercent;
+        console.log(result)
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
   
 
 
@@ -210,7 +227,7 @@ export default function User() {
                         />                      
                       </Col>
                       <Col>
-                          <Button color = "primary">Sample</Button>
+                          <Button color = "primary" type = "submit" onClick = {handleSample}>Sample</Button>
                       </Col>
                     </Row>
                   </div>
