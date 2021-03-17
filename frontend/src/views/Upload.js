@@ -14,29 +14,54 @@ class Upload extends React.Component {
       isUploaded: false,
     };
     this.handleUploadImage = this.handleUploadImage.bind(this);
+    this.fileValidate = this.fileValidate.bind(this);
   }
 
   /*  var axios = require('axios');
 
    */
+  fileValidate() {
+    var fileInput = document.getElementById("file");
 
-  handleUploadImage(ev) {
+    var filePath = fileInput.value;
+
+    // Allowing file type
+    var allowedExtensions = ".zip";
+
+    if (!allowedExtensions.exec(filePath)) {
+      alert("Invalid file type");
+      fileInput.value = "";
+      return false;
+    }
+  }
+
+  async handleUploadImage(ev) {
     ev.preventDefault();
 
     const data = new FormData();
     data.append("file", this.uploadInput.files[0]);
     // data.append('filename', this.fileName.value);
     console.log("data", data);
-    axios.post("http://localhost:5000/upload", data).then((res) => {
-      console.log("file uploadede");
-      alert("File Uploaded");
-      this.setState({
-        isUploaded: false,
-      });
+    const res = await axios.post("http://localhost:5000/upload", data);
 
-      console.log("isuploade", this.state.isUploaded);
-      console.log(res);
-      console.log(res.data);
+    console.log("file uploadede");
+
+    if (res.data == "OK") {
+      this.setState({
+        isUploaded: true,
+      });
+      // alert("File Uploaded");
+    } else {
+      alert("File not  Uploaded");
+    }
+
+    console.log("isuploade", this.state.isUploaded);
+    console.log(res);
+    console.log(res.data);
+  }
+  handleClose() {
+    this.setState({
+      isUploaded: false,
     });
   }
 
@@ -45,41 +70,42 @@ class Upload extends React.Component {
       <div>
         {this.state.isUploaded && (
           <Toast
-            onClose={() => (this.state.isUploaded = false)}
+            onClose={this.handleClose.bind(this)}
             show={this.state.isUploaded}
             delay={3000}
             autohide
+            style={{
+              position: "absolute",
+              top: -90,
+              right: -20,
+            }}
           >
             <Toast.Header>
-              <img
-                src="holder.js/20x20?text=%20"
-                className="rounded mr-2"
-                alt=""
-              />
-              <strong className="mr-auto">Bootstrap</strong>
-              <small>11 mins ago</small>
+              <strong className="mr-auto">File Uploaded Successfully</strong>
             </Toast.Header>
-            <Toast.Body>
-              Woohoo, you're reading this text in a Toast!
-            </Toast.Body>
           </Toast>
         )}
         <form>
           {/* <div style={{ color: "black" }}>Add New Data</div> */}
           <div style={{ textAlign: "center" }}>
             <Row>
-          
-              <Col style = {{padding: "1em 0 0 2em"}}>
+              <Col style={{ padding: "1em 0 0 2em" }}>
                 <input
                   ref={(ref) => {
                     this.uploadInput = ref;
                   }}
                   type="file"
+                  id="file"
                 />
               </Col>
-              
+
               <Col>
-                <Button onClick={this.handleUploadImage}>Upload</Button>
+                <Button
+                  onChange={this.fileValidate}
+                  onClick={this.handleUploadImage}
+                >
+                  Upload
+                </Button>
               </Col>
             </Row>
           </div>
