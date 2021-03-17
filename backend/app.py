@@ -108,7 +108,7 @@ def augmentation():
         
     
         if(folder_to_augment==""):
-            flash('Augmentation folder not specified')
+            return 'Augmentation folder not found'
         else:
             create_folder(app.config["AUGMENTATION_FOLDER"])
             augmentedfolder = create_folder_entry(app.config["AUGMENTATION_FOLDER"], "augmented")

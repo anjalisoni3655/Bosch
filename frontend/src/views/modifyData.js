@@ -5,7 +5,9 @@ import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.css';
 import {
   Button,
   Card,
@@ -146,15 +148,12 @@ export default function User() {
  
   console.log("data", data);
   const handleAugment = () => {   
-    axios.post("http://localhost:5000/augment", data).then(
-      (response) => {
-        var result = response.data;
-        console.log(result);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    const res = axios.post("http://localhost:5000/augment", data);
+    if (res.data == "OK") {
+      toast.success('🦄 Data Augmented succesfully');
+    } else {
+      toast.error("💀 Error : " + res.data);
+    }
   };
 
   const samplePercent = {
@@ -163,15 +162,12 @@ export default function User() {
 
   console.log("Sample Percent: ", percent)
   const handleSample = () => {
-    axios.post("http://localhost:5000/sample", samplePercent).then(
-      (response) => {
-        var result = response.samplePercent;
-        console.log(result)
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    const res = axios.post("http://localhost:5000/sample", samplePercent);
+    if (res.data == "OK") {
+      toast.success('🦄 Data Sampled succesfully');
+    } else {
+      toast.error("💀 Error : " + res.data);
+    }
   };
   
 
@@ -182,8 +178,10 @@ export default function User() {
 
 
   return (
-    <>
+    
+
       <div className="content">
+        <ToastContainer />
         <Row>
           <Col md="6">
             <Card className="card-user" style={{ height: "180px" }}>
@@ -715,6 +713,6 @@ export default function User() {
           </Card>
         </Col>
       </div>
-    </>
+    
   );
 }

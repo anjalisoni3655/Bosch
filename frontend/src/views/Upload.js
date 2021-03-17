@@ -30,9 +30,7 @@ class Upload extends React.Component {
     
 
     if (res.data == "OK") {
-      
       toast.success('🦄 Data uploaded succesfully');
-      
     } else {
       toast.error("💀 Error : "+res.data);
     }

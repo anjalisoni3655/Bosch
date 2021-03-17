@@ -72,102 +72,7 @@ class User extends React.Component {
                   </div>
                 </CardFooter> */}
               </Card>
-              {/* <Card>
-                <CardHeader>
-                  <CardTitle tag="h4">Team Members</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <ul className="list-unstyled team-members">
-                    <li>
-                      <Row>
-                        <Col md="2" xs="2">
-                          <div className="avatar">
-                            <img
-                              alt="..."
-                              className="img-circle img-no-padding img-responsive"
-                              src={require("assets/img/faces/ayo-ogunseinde-2.jpg")}
-                            />
-                          </div>
-                        </Col>
-                        <Col md="7" xs="7">
-                          DJ Khaled <br />
-                          <span className="text-muted">
-                            <small>Offline</small>
-                          </span>
-                        </Col>
-                        <Col className="text-right" md="3" xs="3">
-                          <Button
-                            className="btn-round btn-icon"
-                            color="success"
-                            outline
-                            size="sm"
-                          >
-                            <i className="fa fa-envelope" />
-                          </Button>
-                        </Col>
-                      </Row>
-                    </li>
-                    <li>
-                      <Row>
-                        <Col md="2" xs="2">
-                          <div className="avatar">
-                            <img
-                              alt="..."
-                              className="img-circle img-no-padding img-responsive"
-                              src={require("assets/img/faces/joe-gardner-2.jpg")}
-                            />
-                          </div>
-                        </Col>
-                        <Col md="7" xs="7">
-                          Creative Tim <br />
-                          <span className="text-success">
-                            <small>Available</small>
-                          </span>
-                        </Col>
-                        <Col className="text-right" md="3" xs="3">
-                          <Button
-                            className="btn-round btn-icon"
-                            color="success"
-                            outline
-                            size="sm"
-                          >
-                            <i className="fa fa-envelope" />
-                          </Button>
-                        </Col>
-                      </Row>
-                    </li>
-                    <li>
-                      <Row>
-                        <Col md="2" xs="2">
-                          <div className="avatar">
-                            <img
-                              alt="..."
-                              className="img-circle img-no-padding img-responsive"
-                              src={require("assets/img/faces/clem-onojeghuo-2.jpg")}
-                            />
-                          </div>
-                        </Col>
-                        <Col className="col-ms-7" xs="7">
-                          Flume <br />
-                          <span className="text-danger">
-                            <small>Busy</small>
-                          </span>
-                        </Col>
-                        <Col className="text-right" md="3" xs="3">
-                          <Button
-                            className="btn-round btn-icon"
-                            color="success"
-                            outline
-                            size="sm"
-                          >
-                            <i className="fa fa-envelope" />
-                          </Button>
-                        </Col>
-                      </Row>
-                    </li>
-                  </ul>
-                </CardBody>
-              </Card>  */}
+              {}
             </Col>
             <Col md="6">
               <Card className="card-user">
@@ -181,9 +86,7 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Brightness</label>
                           <Input
-                            //defaultValue="Creative Code Inc."
-                            // disabled
-                            //placeholder="Company"
+                            
                             type="text"
                           />
                         </FormGroup>
@@ -192,8 +95,7 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Contrast</label>
                           <Input
-                            //defaultValue="michael23"
-                            // placeholder="Username"
+                            
                             type="text"
                           />
                         </FormGroup>
@@ -213,8 +115,7 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Skewness</label>
                           <Input
-                            //defaultValue="Chet"
-                            //placeholder="Company"
+                            
                             type="text"
                           />
                         </FormGroup>
@@ -223,8 +124,7 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Add Noise to the image</label>
                           <Input
-                            //defaultValue="Faker"
-                            //placeholder="Last Name"
+                            
                             type="text"
                           />
                         </FormGroup>
@@ -236,52 +136,13 @@ class User extends React.Component {
                           
                           <label>Weather Filters</label>
                           <Input
-                            // defaultValue="Melbourne, Australia"
-                            //placeholder="Home Address"
+                            
                             type="text"
                           />
                         </FormGroup>
                       </Col>
                     </Row>
-                    {/* <Row>
-                      <Col className="pr-1" md="4">
-                        <FormGroup>
-                          <label>City</label>
-                          <Input
-                            defaultValue="Melbourne"
-                            placeholder="City"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-1" md="4">
-                        <FormGroup>
-                          <label>Country</label>
-                          <Input
-                            defaultValue="Australia"
-                            placeholder="Country"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-1" md="4">
-                        <FormGroup>
-                          <label>Postal Code</label>
-                          <Input placeholder="ZIP Code" type="number" />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row> */}
-                    {/* <Col md="12">
-                        <FormGroup>
-                          <label>About Me</label>
-                          <Input
-                            type="textarea"
-                            defaultValue="Oh so, your weak rhyme You doubt I'll bother, reading into it"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row> */}
+                    }
                     <Row>
                       <div className="update ml-auto mr-auto">
                         <Button
