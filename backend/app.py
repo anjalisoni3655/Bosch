@@ -3,7 +3,7 @@ from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from flask_cors import CORS, cross_origin
-
+import json
 import zipfile
 from augmentations import *
 UPLOAD_FOLDER = 'uploads'
@@ -48,8 +48,6 @@ def create_folder_entry(root,foldername):
     create_folder(os.path.join(root,foldername+"_"+str(maxn)))
     return os.path.join(root,foldername+"_"+str(maxn))
 
-    
-
 @app.route('/upload', methods=[ 'POST','GET'])
 @cross_origin()
 def upload_file():
@@ -58,18 +56,18 @@ def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
+            
+            return "No file part"
         file = request.files['file']
         # if user does not select file, browser also
         # submit an empty part without filename
         if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
+            
+            return "No file selected"
 
         elif not allowed_file(file.filename):
-            flash("Unsupported file extension, Please upload .zip")
-            return redirect(request.url)
+            print("Unsupported file extension, Please upload .zip")
+            return "Unsupported file extension, Please use .zip"
         elif file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             create_folder(app.config["UPLOAD_FOLDER"])
@@ -80,14 +78,13 @@ def upload_file():
             
             print("File uploaded to "+os.path.join(app.config['UPLOAD_FOLDER'],filename))
             print("Unzipping "+ filename)
-
             newfoldername = create_folder_entry(app.config['EXTRACTION_FOLDER'],"extracted")
             with zipfile.ZipFile(os.path.join(uploaded_folder, filename), 'r') as zip_ref:
                 zip_ref.extractall(newfoldername)
             print("Unzipped to "+newfoldername)
             folder_to_augment = newfoldername
 
-            return redirect(url_for('uploaded_file',filename=filename))
+            return 'OK'
 
     return 'OK'
 

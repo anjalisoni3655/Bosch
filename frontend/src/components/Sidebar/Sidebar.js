@@ -39,9 +39,9 @@ class Sidebar extends React.Component {
         data-active-color={this.props.activeColor}
       >
         <div className="logo">
-            <div className="logo-img">
-              <img src={logo} alt="react-logo" />
-            </div>
+          <div className="logo-img">
+            <img src={logo} alt="react-logo" />
+          </div>
         </div>
         <div className="sidebar-wrapper" ref={this.sidebar}>
           <Nav>
@@ -55,7 +55,7 @@ class Sidebar extends React.Component {
                   key={key}
                 >
                   <NavLink
-                    to={prop.layout + prop.path}
+                    to={prop.path}
                     className="nav-link"
                     activeClassName="active"
                   >
