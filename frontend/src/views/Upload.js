@@ -26,8 +26,8 @@ class Upload extends React.Component {
     var filePath = fileInput.value;
 
     // Allowing file type
-    var allowedExtensions = ".zip";
-
+    var allowedExtensions = "zip";
+    
     if (!allowedExtensions.exec(filePath)) {
       alert("Invalid file type");
       fileInput.value = "";
@@ -89,6 +89,11 @@ class Upload extends React.Component {
           {/* <div style={{ color: "black" }}>Add New Data</div> */}
           <div style={{ textAlign: "center" }}>
             <Row>
+              <Col>
+                <b style={{fontWeight: '700'}}>Only zip files are accepted</b>                
+              </Col>
+            </Row>
+            <Row>
               <Col style={{ padding: "1em 0 0 2em" }}>
                 <input
                   ref={(ref) => {
@@ -96,6 +101,7 @@ class Upload extends React.Component {
                   }}
                   type="file"
                   id="file"
+                  accept=".zip"
                 />
               </Col>
 
