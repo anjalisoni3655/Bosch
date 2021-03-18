@@ -37,7 +37,7 @@ const initialValues = {
   prob8: "",
   prob9: "",
   prob10: "",
-  prob11:""
+  prob11: "",
 };
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
-
 
 const marks = [
   { value: 0, label: "0" },
@@ -84,7 +83,7 @@ export default function User() {
       [name]: event.target.value,
     });
   };
-console.log("Rain",rain);
+  console.log("Rain", rain);
   const [values, setValues] = useState(initialValues);
 
   const handleProb = (e) => {
@@ -155,7 +154,7 @@ console.log("Rain",rain);
     shear: [...shear, values.prob8],
     blur: [...blur, values.prob9],
     degrade: [...degrade, values.prob10],
-    rain:[rain.age,values.prob11]
+    rain: [rain.age, values.prob11],
   };
 
   const valueRef = useRef(""); //creating a refernce for TextField Component
@@ -748,7 +747,6 @@ console.log("Rain",rain);
                     <div style={{ padding: "1em" }} className={classes.root}>
                       <Row>
                         <Col md="8">
-                         
                           <FormControl
                             variant="outlined"
                             className={classes.formControl}
