@@ -8,6 +8,7 @@ import axios from "axios";
 import Select from "@material-ui/core/Select";
 import { ToastContainer, toast } from "react-toastify";
 import InputLabel from "@material-ui/core/InputLabel";
+import Divider from "@material-ui/core/Divider";
 
 import FormControl from "@material-ui/core/FormControl";
 
@@ -25,6 +26,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import Augment from "./augment";
 
 const initialValues = {
   prob1: "",
@@ -37,9 +39,12 @@ const initialValues = {
   prob8: "",
   prob9: "",
   prob10: "",
-  prob11:""
+  prob11: "",
 };
 const useStyles = makeStyles((theme) => ({
+  card: {
+    maxWidth:"200%",
+  },
   root: {
     width: 300,
   },
@@ -55,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
-
 
 const marks = [
   { value: 0, label: "0" },
@@ -84,7 +88,7 @@ export default function User() {
       [name]: event.target.value,
     });
   };
-console.log("Rain",rain);
+  console.log("Rain", rain);
   const [values, setValues] = useState(initialValues);
 
   const handleProb = (e) => {
@@ -155,7 +159,7 @@ console.log("Rain",rain);
     shear: [...shear, values.prob8],
     blur: [...blur, values.prob9],
     degrade: [...degrade, values.prob10],
-    rain:[rain.age,values.prob11]
+    rain: [rain.age, values.prob11],
   };
 
   const valueRef = useRef(""); //creating a refernce for TextField Component
@@ -210,78 +214,16 @@ console.log("Rain",rain);
   return (
     <div className="content">
       <ToastContainer />
-      <Row>
-        <Col md="6">
-          <Card className="card-user" style={{ height: "180px" }}>
-            <CardHeader>
-              <CardTitle tag="h5" style={{ textAlign: "center" }}>
-                Add New Data
-              </CardTitle>
-            </CardHeader>
-            <CardBody>
-              <p className="description text-center">
-                <Upload></Upload>
-              </p>
-            </CardBody>
-          </Card>
-        </Col>
 
-        <Col md="6">
-          <Card className="card-user" style={{ height: "180px" }}>
-            <CardHeader>
-              <CardTitle tag="h5" style={{ textAlign: "center" }}>
-                Sample from Existing Data
-              </CardTitle>
-            </CardHeader>
-            <CardBody>
-              <div className="description text-center">
-                <div>
-                  <Row>
-                    <Col>
-                      <Typography>Percentage of Sample Data</Typography>
-                      <Slider
-                        value={percent}
-                        min={0}
-                        step={5}
-                        max={100}
-                        style={{ width: "150px" }}
-                        marks={[
-                          { value: 0, label: "0" },
-                          { value: 100, label: "100" },
-                        ]}
-                        getAriaValueText={valueLabelFormat}
-                        valueLabelFormat={valueLabelFormat}
-                        onChange={handlePercent}
-                        valueLabelDisplay="auto"
-                        aria-labelledby="non-linear-slider"
-                      />
-                    </Col>
-                    <Col>
-                      <Button
-                        color="primary"
-                        type="submit"
-                        onClick={handleSample}
-                      >
-                        Sample
-                      </Button>
-                    </Col>
-                  </Row>
-                </div>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-
-      <Col md="6">
-        <Card className="card-user">
-          <CardHeader>
-            <CardTitle tag="h5" style={{ textAlign: "center" }}>
-              Add Augmentation
-            </CardTitle>
-          </CardHeader>
-          <CardBody>
-            <Form>
+      <Card className="card-user" className={classes.card}>
+        <CardHeader>
+          <CardTitle tag="h5" style={{ textAlign: "center" }}>
+            Add Augmentation
+          </CardTitle>
+        </CardHeader>
+        <CardBody>
+          <Form>
+            <Row>
               <Col>
                 <Row className="pl-1" md="12">
                   <FormGroup>
@@ -376,7 +318,6 @@ console.log("Rain",rain);
                     </div>
                   </FormGroup>
                 </Row>
-
                 <Row className="pl-1" md="12">
                   <FormGroup>
                     <div style={{ padding: "1em" }} className={classes.root}>
@@ -422,333 +363,11 @@ console.log("Rain",rain);
                     </div>
                   </FormGroup>
                 </Row>
-
                 <Row className="pl-1" md="12">
                   <FormGroup>
                     <div style={{ padding: "1em" }} className={classes.root}>
                       <Row>
                         <Col md="8">
-                          <label>Fog</label>
-                          <Slider
-                            value={fog}
-                            // defaultValue={[0, 1]}
-                            min={0}
-                            max={1}
-                            step={0.1}
-                            onChange={handleFog}
-                            valueLabelDisplay="auto"
-                            marks={[
-                              { value: 0, label: "0" },
-                              { value: 1, label: "1" },
-                              { value: 0.5, label: "0.5" },
-                            ]}
-                            aria-labelledby="range-slider"
-                            getAriaValueText={valuetext}
-                          />
-                        </Col>
-                        <Col md="4" className={classes.text}>
-                          <label>Probabilty</label>
-                          <input
-                            type="range"
-                            min="0"
-                            max="1"
-                            step="0.05"
-                            value={values.prob4}
-                            onChange={handleProb}
-                            size="small"
-                            label="Probabilty"
-                            name="prob4"
-                            id="outlined-basic"
-                            variant="outlined"
-                          ></input>
-
-                          <div>{values.prob4}</div>
-                        </Col>
-                      </Row>
-                    </div>
-                  </FormGroup>
-                </Row>
-
-                <Row className="pl-1" md="12">
-                  <FormGroup>
-                    <div style={{ padding: "1em" }} className={classes.root}>
-                      <Row>
-                        <Col md="8">
-                          <label>Shadow</label>
-                          <Slider
-                            value={shadow}
-                            // defaultValue={[0, 1]}
-                            min={0}
-                            max={5}
-                            step={1}
-                            onChange={handleShadow}
-                            valueLabelDisplay="auto"
-                            marks={[
-                              { value: 5, label: "5" },
-                              { value: 0, label: "0" },
-                            ]}
-                            aria-labelledby="range-slider"
-                            getAriaValueText={valuetext}
-                          />
-                        </Col>
-                        <Col md="4" className={classes.text}>
-                          <label>Probabilty</label>
-                          <input
-                            type="range"
-                            min="0"
-                            max="1"
-                            step="0.05"
-                            value={values.prob5}
-                            onChange={handleProb}
-                            size="small"
-                            label="Probabilty"
-                            name="prob5"
-                            id="outlined-basic"
-                            variant="outlined"
-                          ></input>
-
-                          <div>{values.prob5}</div>
-                        </Col>
-                      </Row>
-                    </div>
-                  </FormGroup>
-                </Row>
-
-                <Row className="pl-1" md="12">
-                  <FormGroup>
-                    <div style={{ padding: "1em" }} className={classes.root}>
-                      <Row>
-                        <Col md="8">
-                          <label>Snow</label>
-                          <Slider
-                            value={snow}
-                            // defaultValue={[0, 1]}
-                            min={0}
-                            max={1}
-                            step={0.1}
-                            onChange={handleSnow}
-                            valueLabelDisplay="auto"
-                            marks={[
-                              { value: 1, label: "1" },
-                              { value: 0, label: "0" },
-                              { value: 0.5, label: "0.5" },
-                            ]}
-                            aria-labelledby="range-slider"
-                            getAriaValueText={valuetext}
-                          />
-                        </Col>
-                        <Col md="4" className={classes.text}>
-                          <label>Probabilty</label>
-                          <input
-                            type="range"
-                            min="0"
-                            max="1"
-                            step="0.05"
-                            value={values.prob6}
-                            onChange={handleProb}
-                            size="small"
-                            label="Probabilty"
-                            name="prob6"
-                            id="outlined-basic"
-                            variant="outlined"
-                          ></input>
-
-                          <div>{values.prob6}</div>
-                        </Col>
-                      </Row>
-                    </div>
-                  </FormGroup>
-                </Row>
-
-                <Row className="pl-1" md="12">
-                  <FormGroup>
-                    <div style={{ padding: "1em" }} className={classes.root}>
-                      <Row>
-                        <Col md="8">
-                          <label>Sunflare</label>
-                          <Slider
-                            value={sunflare}
-                            // defaultValue={[0, 1]}
-                            min={0}
-                            max={20}
-                            step={1}
-                            onChange={handleSunflare}
-                            valueLabelDisplay="auto"
-                            marks={[
-                              { value: 20, label: "20" },
-                              { value: 0, label: "0" },
-                              { value: 10, label: "10" },
-                            ]}
-                            aria-labelledby="range-slider"
-                            getAriaValueText={valuetext}
-                          />
-                        </Col>
-                        <Col md="4" className={classes.text}>
-                          <label>Probabilty</label>
-                          <input
-                            type="range"
-                            min="0"
-                            max="1"
-                            step="0.05"
-                            value={values.prob7}
-                            onChange={handleProb}
-                            size="small"
-                            label="Probabilty"
-                            name="prob7"
-                            id="outlined-basic"
-                            variant="outlined"
-                          ></input>
-
-                          <div>{values.prob7}</div>
-                        </Col>
-                      </Row>
-                    </div>
-                  </FormGroup>
-                </Row>
-
-                <Row className="pl-1" md="12">
-                  <FormGroup>
-                    <div style={{ padding: "1em" }} className={classes.root}>
-                      <Row>
-                        <Col md="8">
-                          <label>Shear</label>
-                          <Slider
-                            value={shear}
-                            // defaultValue={[0, 1]}
-                            min={-30}
-                            max={30}
-                            step={1}
-                            onChange={handleShear}
-                            valueLabelDisplay="auto"
-                            marks={[
-                              { value: -30, label: "-30" },
-                              { value: 30, label: "30" },
-                              { value: 0, label: "0" },
-                            ]}
-                            aria-labelledby="range-slider"
-                            getAriaValueText={valuetext}
-                          />
-                        </Col>
-                        <Col md="4" className={classes.text}>
-                          <label>Probabilty</label>
-                          <input
-                            type="range"
-                            min="0"
-                            max="1"
-                            step="0.05"
-                            value={values.prob8}
-                            onChange={handleProb}
-                            size="small"
-                            label="Probabilty"
-                            name="prob8"
-                            id="outlined-basic"
-                            variant="outlined"
-                          ></input>
-
-                          <div>{values.prob8}</div>
-                        </Col>
-                      </Row>
-                    </div>
-                  </FormGroup>
-                </Row>
-
-                <Row className="pl-1" md="12">
-                  <FormGroup>
-                    <div style={{ padding: "1em" }} className={classes.root}>
-                      <Row>
-                        <Col md="8">
-                          <label>Blur</label>
-                          <Slider
-                            value={blur}
-                            // defaultValue={[0, 1]}
-                            min={0}
-                            max={50}
-                            step={1}
-                            onChange={handleBlur}
-                            valueLabelDisplay="auto"
-                            marks={[
-                              { value: 0, label: "0" },
-                              { value: 25, label: "25" },
-                              { value: 50, label: "50" },
-                            ]}
-                            aria-labelledby="range-slider"
-                            getAriaValueText={valuetext}
-                          />
-                        </Col>
-                        <Col md="4" className={classes.text}>
-                          <label>Probabilty</label>
-                          <input
-                            type="range"
-                            min="0"
-                            max="1"
-                            step="0.05"
-                            value={values.prob9}
-                            onChange={handleProb}
-                            size="small"
-                            label="Probabilty"
-                            name="prob9"
-                            id="outlined-basic"
-                            variant="outlined"
-                          ></input>
-
-                          <div>{values.prob9}</div>
-                        </Col>
-                      </Row>
-                    </div>
-                  </FormGroup>
-                </Row>
-
-                <Row className="pl-1" md="12">
-                  <FormGroup>
-                    <div style={{ padding: "1em" }} className={classes.root}>
-                      <Row>
-                        <Col md="8">
-                          <label>Degrade</label>
-                          <Slider
-                            value={degrade}
-                            // defaultValue={[0, 1]}
-                            min={0}
-                            max={30}
-                            step={1}
-                            onChange={handleDegrade}
-                            valueLabelDisplay="auto"
-                            marks={[
-                              { value: 0, label: "0" },
-                              { value: 15, label: "15" },
-                              { value: 30, label: "30" },
-                            ]}
-                            aria-labelledby="range-slider"
-                            getAriaValueText={valuetext}
-                          />
-                        </Col>
-                        <Col md="4" className={classes.text}>
-                          <label>Probabilty</label>
-                          <input
-                            type="range"
-                            min="0"
-                            max="1"
-                            step="0.05"
-                            value={values.prob10}
-                            onChange={handleProb}
-                            size="small"
-                            label="Probabilty"
-                            name="prob10"
-                            id="outlined-basic"
-                            variant="outlined"
-                          ></input>
-
-                          <div>{values.prob10}</div>
-                        </Col>
-                      </Row>
-                    </div>
-                  </FormGroup>
-                </Row>
-                <Row className="pl-1" md="12">
-                  <FormGroup>
-                    <div style={{ padding: "1em" }} className={classes.root}>
-                      <Row>
-                        <Col md="8">
-                         
                           <FormControl
                             variant="outlined"
                             className={classes.formControl}
@@ -797,17 +416,343 @@ console.log("Rain",rain);
                 </Row>
               </Col>
 
-              <Row>
-                <div className="update ml-auto mr-auto">
-                  <Button color="primary" onClick={handleAugment}>
-                    Apply
-                  </Button>
-                </div>
-              </Row>
-            </Form>
-          </CardBody>
-        </Card>
-      </Col>
+              <Divider orientation="vertical" flexItem />
+
+              <Col>
+                <Row className="pl-1" md="12">
+                  <FormGroup>
+                    <div style={{ padding: "1em" }} className={classes.root}>
+                      <Row>
+                        <Col md="8">
+                          <label>Fog</label>
+                          <Slider
+                            value={fog}
+                            // defaultValue={[0, 1]}
+                            min={0}
+                            max={1}
+                            step={0.1}
+                            onChange={handleFog}
+                            valueLabelDisplay="auto"
+                            marks={[
+                              { value: 0, label: "0" },
+                              { value: 1, label: "1" },
+                              { value: 0.5, label: "0.5" },
+                            ]}
+                            aria-labelledby="range-slider"
+                            getAriaValueText={valuetext}
+                          />
+                        </Col>
+                        <Col md="4" className={classes.text}>
+                          <label>Probabilty</label>
+                          <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.05"
+                            value={values.prob4}
+                            onChange={handleProb}
+                            size="small"
+                            label="Probabilty"
+                            name="prob4"
+                            id="outlined-basic"
+                            variant="outlined"
+                          ></input>
+
+                          <div>{values.prob4}</div>
+                        </Col>
+                      </Row>
+                    </div>
+                  </FormGroup>
+                </Row>
+                <Row className="pl-1" md="12">
+                  <FormGroup>
+                    <div style={{ padding: "1em" }} className={classes.root}>
+                      <Row>
+                        <Col md="8">
+                          <label>Shadow</label>
+                          <Slider
+                            value={shadow}
+                            // defaultValue={[0, 1]}
+                            min={0}
+                            max={5}
+                            step={1}
+                            onChange={handleShadow}
+                            valueLabelDisplay="auto"
+                            marks={[
+                              { value: 5, label: "5" },
+                              { value: 0, label: "0" },
+                            ]}
+                            aria-labelledby="range-slider"
+                            getAriaValueText={valuetext}
+                          />
+                        </Col>
+                        <Col md="4" className={classes.text}>
+                          <label>Probabilty</label>
+                          <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.05"
+                            value={values.prob5}
+                            onChange={handleProb}
+                            size="small"
+                            label="Probabilty"
+                            name="prob5"
+                            id="outlined-basic"
+                            variant="outlined"
+                          ></input>
+
+                          <div>{values.prob5}</div>
+                        </Col>
+                      </Row>
+                    </div>
+                  </FormGroup>
+                </Row>
+                <Row className="pl-1" md="12">
+                  <FormGroup>
+                    <div style={{ padding: "1em" }} className={classes.root}>
+                      <Row>
+                        <Col md="8">
+                          <label>Snow</label>
+                          <Slider
+                            value={snow}
+                            // defaultValue={[0, 1]}
+                            min={0}
+                            max={1}
+                            step={0.1}
+                            onChange={handleSnow}
+                            valueLabelDisplay="auto"
+                            marks={[
+                              { value: 1, label: "1" },
+                              { value: 0, label: "0" },
+                              { value: 0.5, label: "0.5" },
+                            ]}
+                            aria-labelledby="range-slider"
+                            getAriaValueText={valuetext}
+                          />
+                        </Col>
+                        <Col md="4" className={classes.text}>
+                          <label>Probabilty</label>
+                          <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.05"
+                            value={values.prob6}
+                            onChange={handleProb}
+                            size="small"
+                            label="Probabilty"
+                            name="prob6"
+                            id="outlined-basic"
+                            variant="outlined"
+                          ></input>
+
+                          <div>{values.prob6}</div>
+                        </Col>
+                      </Row>
+                    </div>
+                  </FormGroup>
+                </Row>
+                <Row className="pl-1" md="12">
+                  <FormGroup>
+                    <div style={{ padding: "1em" }} className={classes.root}>
+                      <Row>
+                        <Col md="8">
+                          <label>Sunflare</label>
+                          <Slider
+                            value={sunflare}
+                            // defaultValue={[0, 1]}
+                            min={0}
+                            max={20}
+                            step={1}
+                            onChange={handleSunflare}
+                            valueLabelDisplay="auto"
+                            marks={[
+                              { value: 20, label: "20" },
+                              { value: 0, label: "0" },
+                              { value: 10, label: "10" },
+                            ]}
+                            aria-labelledby="range-slider"
+                            getAriaValueText={valuetext}
+                          />
+                        </Col>
+                        <Col md="4" className={classes.text}>
+                          <label>Probabilty</label>
+                          <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.05"
+                            value={values.prob7}
+                            onChange={handleProb}
+                            size="small"
+                            label="Probabilty"
+                            name="prob7"
+                            id="outlined-basic"
+                            variant="outlined"
+                          ></input>
+
+                          <div>{values.prob7}</div>
+                        </Col>
+                      </Row>
+                    </div>
+                  </FormGroup>
+                </Row>
+              </Col>
+
+              <Divider orientation="vertical" flexItem />
+
+              <Col>
+                <Row className="pl-1" md="12">
+                  <FormGroup>
+                    <div style={{ padding: "1em" }} className={classes.root}>
+                      <Row>
+                        <Col md="8">
+                          <label>Shear</label>
+                          <Slider
+                            value={shear}
+                            // defaultValue={[0, 1]}
+                            min={-30}
+                            max={30}
+                            step={1}
+                            onChange={handleShear}
+                            valueLabelDisplay="auto"
+                            marks={[
+                              { value: -30, label: "-30" },
+                              { value: 30, label: "30" },
+                              { value: 0, label: "0" },
+                            ]}
+                            aria-labelledby="range-slider"
+                            getAriaValueText={valuetext}
+                          />
+                        </Col>
+                        <Col md="4" className={classes.text}>
+                          <label>Probabilty</label>
+                          <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.05"
+                            value={values.prob8}
+                            onChange={handleProb}
+                            size="small"
+                            label="Probabilty"
+                            name="prob8"
+                            id="outlined-basic"
+                            variant="outlined"
+                          ></input>
+
+                          <div>{values.prob8}</div>
+                        </Col>
+                      </Row>
+                    </div>
+                  </FormGroup>
+                </Row>
+                <Row className="pl-1" md="12">
+                  <FormGroup>
+                    <div style={{ padding: "1em" }} className={classes.root}>
+                      <Row>
+                        <Col md="8">
+                          <label>Blur</label>
+                          <Slider
+                            value={blur}
+                            // defaultValue={[0, 1]}
+                            min={0}
+                            max={50}
+                            step={1}
+                            onChange={handleBlur}
+                            valueLabelDisplay="auto"
+                            marks={[
+                              { value: 0, label: "0" },
+                              { value: 25, label: "25" },
+                              { value: 50, label: "50" },
+                            ]}
+                            aria-labelledby="range-slider"
+                            getAriaValueText={valuetext}
+                          />
+                        </Col>
+                        <Col md="4" className={classes.text}>
+                          <label>Probabilty</label>
+                          <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.05"
+                            value={values.prob9}
+                            onChange={handleProb}
+                            size="small"
+                            label="Probabilty"
+                            name="prob9"
+                            id="outlined-basic"
+                            variant="outlined"
+                          ></input>
+
+                          <div>{values.prob9}</div>
+                        </Col>
+                      </Row>
+                    </div>
+                  </FormGroup>
+                </Row>
+                <Row className="pl-1" md="12">
+                  <FormGroup>
+                    <div style={{ padding: "1em" }} className={classes.root}>
+                      <Row>
+                        <Col md="8">
+                          <label>Degrade</label>
+                          <Slider
+                            value={degrade}
+                            // defaultValue={[0, 1]}
+                            min={0}
+                            max={30}
+                            step={1}
+                            onChange={handleDegrade}
+                            valueLabelDisplay="auto"
+                            marks={[
+                              { value: 0, label: "0" },
+                              { value: 15, label: "15" },
+                              { value: 30, label: "30" },
+                            ]}
+                            aria-labelledby="range-slider"
+                            getAriaValueText={valuetext}
+                          />
+                        </Col>
+                        <Col md="4" className={classes.text}>
+                          <label>Probabilty</label>
+                          <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.05"
+                            value={values.prob10}
+                            onChange={handleProb}
+                            size="small"
+                            label="Probabilty"
+                            name="prob10"
+                            id="outlined-basic"
+                            variant="outlined"
+                          ></input>
+
+                          <div>{values.prob10}</div>
+                        </Col>
+                      </Row>
+                    </div>
+                  </FormGroup>
+                </Row>
+              </Col>
+            </Row>
+          </Form>
+        </CardBody>
+        <div
+          className="update ml-auto mr-auto"
+          style={{ justifyContent: "center" }}
+        >
+          <Button color="primary" onClick={handleAugment}>
+            Apply
+          </Button>
+        </div>
+      </Card>
+
+      <Augment></Augment>
     </div>
   );
 }
