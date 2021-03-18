@@ -2,10 +2,11 @@ import Dashboard from "views/Dashboard.js";
 import Notifications from "views/Notifications.js";
 import Icons from "views/Icons.js";
 import Typography from "views/Typography.js";
-import Augment from "views/augment.js";
+// import Augment from "views/augment.js";
 import Maps from "views/Map.js";
 
-import UploadData from "views/modifyData.js";
+import modifyData from "views/modifyData.js";
+import AddData from "views/addData.js";
 
 import UpgradeToPro from "views/Upgrade.js";
 
@@ -14,13 +15,13 @@ var routes = [
     path: "/upload-dataset",
     name: "Upload Dataset",
     icon: "nc-icon nc-single-02",
-    component: UploadData,
+    component: AddData,
   },
   {
     path: "/augment-modify",
     name: "Augment and modify",
     icon: "nc-icon nc-tile-56",
-    component: Augment,
+    component: modifyData,
   },
   {
     path: "/view-data-stats",
