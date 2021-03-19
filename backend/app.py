@@ -1,5 +1,5 @@
 import os
-from flask import Flask, flash, request, redirect, url_for
+from flask import Flask, flash, request, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from flask_cors import CORS, cross_origin
@@ -7,6 +7,7 @@ import json
 import zipfile
 from augmentations import *
 from sample import *
+from dataStats import *
 
 UPLOAD_FOLDER = 'uploads'
 EXTRACTION_FOLDER = 'extracted'
@@ -149,6 +150,18 @@ def augmentation():
         print("Augmentation complete")
     print("Aug comp")
     return 'OK'
+
+
+@app.route('/view-data-stats', methods = ['POST', 'GET'])
+@cross_origin()
+def view_data_stats():
+    if request.method == 'GET':
+        folder = app.config['DATASET_FOLDER']
+        print(folder)
+        stats = getCardStats(folder)
+        print(stats)
+    return jsonify(stats)
+
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(24)
