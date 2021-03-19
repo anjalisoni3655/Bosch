@@ -386,9 +386,9 @@ export default function User() {
                               }}
                             >
                               <option aria-label="None" value="" />
-                              <option value={10}>Ten</option>
-                              <option value={20}>Twenty</option>
-                              <option value={30}>Thirty</option>
+                              <option value={0}>Drizzle</option>
+                              <option value={1}>Heavy</option>
+                              <option value={2}>Torrestial</option>
                             </Select>
                           </FormControl>
                         </Col>
@@ -403,7 +403,7 @@ export default function User() {
                             onChange={handleProb}
                             size="small"
                             label="Probabilty"
-                            name="prob10"
+                            name="prob11"
                             id="outlined-basic"
                             variant="outlined"
                           ></input>

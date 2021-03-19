@@ -55,7 +55,8 @@ def degrade(params, p):
 
 # radio -- One of [None, "drizzle", "heavy", "torrestial"]
 def rain(params, p):
-    rain_type = params[0]
+    rain_types = {0:"drizzle", 1:"heavy", 2:"torrestial"}
+    rain_type = rain_types[params[0]]
     return A.RandomRain(rain_type = rain_type, p = p)
 
 def augmentImgs(imgs, parameters):
