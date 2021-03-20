@@ -61,25 +61,40 @@ class Dashboard extends React.Component {
     })
   }
 
-
+  toggleDataSeries(e) {
+		if(typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+			e.dataSeries.visible = false;
+		}
+		else {
+			e.dataSeries.visible = true;
+		}
+		this.chart.render();
+	}
 
   render() {
     
     const options = {
 			animationEnabled: true,
-      
+      height: "600",
 			theme: "light2",
       // height: 800,
 			axisX: {
+        // title: "Classes",
+        // titleFontSize: 20,
         interval: 1,
         interlacedColor: "#F0F8FF",
+        labelAngle: -90,
+        labelFontSize: 12
 				// gridColor: "#FFFFFF"
 			},
 			axisY: {
+        title: "Number of Images",
+        titleFontSize: 15,
         gridThickness: 1,
         // gridColor: "lightblue",
 				lineThickness: 1,
-        tickLength: 10
+        tickLength: 10 ,
+        labelFontSize: 12
 
 			},
       
@@ -91,11 +106,14 @@ class Dashboard extends React.Component {
 			},
 			legend:{
 				// cursor: "pointer",
-				// itemclick: this.toggleDataSeries
+				itemclick: this.toggleDataSeries,
+        fontSize: 15, 
+        
 			},
-      dataPointWidth: 2,
+      dataPointWidth: 20,
 			data: [{
-				type: "stackedBar",
+        color: "#51cbce",
+				type: "stackedColumn",
 				name: "Original",
 				showInLegend: "true",
         // indexLabel: "{y}",
@@ -104,7 +122,8 @@ class Dashboard extends React.Component {
 				dataPoints: this.state.allData.dataOG,
 			},
 			{
-				type: "stackedBar",
+        color: "#FFC0A4",
+				type: "stackedColumn",
 				name: "Augmented",
 				showInLegend: "true",
         // indexLabel: "{y}",
@@ -264,7 +283,7 @@ class Dashboard extends React.Component {
 
 
          
-          <Row style = {{height: "1000px"}}>
+          <Row>
             <Col md="12">
               <Card style = {{height: "100%"}}>
                 <CardHeader>
