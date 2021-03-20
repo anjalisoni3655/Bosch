@@ -87,20 +87,20 @@ def upload_file():
             newfoldername = create_folder_entry(app.config['EXTRACTION_FOLDER'],"extracted")
 
             with zipfile.ZipFile(os.path.join(uploaded_folder, filename), 'r') as zip_ref:
-                zip_ref.extractall(newfoldername)
+                zip_ref.extractall(app.config['EXTRACTION_FOLDER'])
             
-            print("Unzipped to "+newfoldername)
-            folder_to_augment = newfoldername
+            print("Unzipped to "+app.config['EXTRACTION_FOLDER'])
+            folder_to_augment = app.config['EXTRACTION_FOLDER']
 
             return 'OK'
 
     return 'OK'
 
 
-
-@app.route('/uploads/<filename>')
+@app.route('/uploads/<filename>', methods=['GET'])
+@cross_origin()
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
+    return send_from_directory(app.config['EXTRACTION_FOLDER'],
                                filename)
 
 
