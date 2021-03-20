@@ -8,6 +8,18 @@ import zipfile
 from augmentations import *
 from sample import *
 
+import sys
+import requests
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import storage
+
+cred = credentials.Certificate('./bosch-traffic-signal-firebase-adminsdk-7vpqs-88e19ec6cb.json')
+firebase_admin.initialize_app(cred, {
+    'storageBucket': 'bosch-traffic-signal.appspot.com'
+})
+bucket = storage.bucket()
+
 UPLOAD_FOLDER = 'uploads'
 EXTRACTION_FOLDER = 'extracted'
 AUGMENTATION_FOLDER = 'augmented'
@@ -87,14 +99,35 @@ def upload_file():
             newfoldername = create_folder_entry(app.config['EXTRACTION_FOLDER'],"extracted")
 
             with zipfile.ZipFile(os.path.join(uploaded_folder, filename), 'r') as zip_ref:
-                zip_ref.extractall(app.config['EXTRACTION_FOLDER'])
+                print(zip_ref)
+                zip_ref.extractall(newfoldername)
             
-            print("Unzipped to "+app.config['EXTRACTION_FOLDER'])
-            folder_to_augment = app.config['EXTRACTION_FOLDER']
-
+            print("Unzipped to "+newfoldername)
+            folder_to_augment = newfoldername
+            # print(filename)
+            # print(os.path.splitext(os.path.join(newfoldername, filename))[0])
+            # print(os.path.splitext(os.path.join(newfoldername, filename))[0])
+            upload_to_firebase(os.path.splitext(os.path.join(newfoldername, filename))[0])
             return 'OK'
 
     return 'OK'
+
+def upload_to_firebase(upload_folder):
+    entries = os.listdir(upload_folder)
+    print(entries)
+    print(bucket)
+    for entry in entries:
+        blob = bucket.blob(entry)
+        # blob.upload_from_string(
+        #             entry,
+        #             content_type='image'
+        #     )    
+        # print(os.path.join(upload_folder, entry))
+        blob.upload_from_filename(os.path.join(upload_folder, entry))        
+    # for entry in entries:
+        # print(entry)
+
+
 
 
 @app.route('/uploads/<filename>', methods=['GET'])
