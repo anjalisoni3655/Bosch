@@ -72,6 +72,27 @@ const IMAGES = [
     thumbnailWidth: 320,
     thumbnailHeight: 212,
   },
+  {
+    src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
+    thumbnail:
+      "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
+    thumbnailWidth: 320,
+    thumbnailHeight: 212,
+  },
+  {
+    src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
+    thumbnail:
+      "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
+    thumbnailWidth: 320,
+    thumbnailHeight: 212,
+  },
+  {
+    src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
+    thumbnail:
+      "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
+    thumbnailWidth: 320,
+    thumbnailHeight: 212,
+  },
 ];
 class Augment extends React.Component {
   constructor(props) {
@@ -124,14 +145,14 @@ class Augment extends React.Component {
           overflow: "auto",
         }}
       >
-        <div
+        {/* <div
           style={{
             padding: "2px",
             color: "#666",
           }}
         >
           Current image: {this.state.currentImage}
-        </div>
+        </div> */}
         <Gallery
           images={this.state.images}
           enableLightbox={true}
