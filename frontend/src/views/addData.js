@@ -26,6 +26,28 @@ import {
   Row,
   Col,
 } from "reactstrap";
+const url = `http://localhost:5000/static/extracted/extracted_1/image/`;
+
+var images_array = [];
+
+for (let i = 1; i <= 5; i++) {
+  images_array.push(url + i.toString() + ".png");
+}
+console.log("images array", images_array);
+
+var IMAGES = [];
+
+for (var i = 0; i < 5; i++) {
+  IMAGES.push({
+    src: images_array[i],
+    thumbnail: images_array[i],
+    thumbnailWidth: 320,
+    thumbnailHeight: 174,
+    isSelected: false,
+    caption: "After Rain (Jeshu John - designerspics.com)",
+  });
+}
+
 
 // const extract = require('extract-zip');
 // const path = require('path');
@@ -256,7 +278,7 @@ export default function AddData() {
               </CardTitle>
             </CardHeader>
             <CardBody>
-              <Augment></Augment>
+              <Augment images={IMAGES}></Augment>
             </CardBody>
           </Card>
         </Col>
