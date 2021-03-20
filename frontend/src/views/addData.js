@@ -195,7 +195,7 @@ export default function AddData() {
                 style={{ marginTop: "50px" }}
               >
                 <Upload
-                  datasetClass={uploadClass}
+                  datasetClass={"NULL"}
                   gridImages={(e) => handleFile(e)}
                 ></Upload>
               </div>
