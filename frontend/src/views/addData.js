@@ -95,43 +95,12 @@ export default function AddData() {
     setPercent(newValue);
   };
 
-  // const [file,setFile] = React.useState(null);
-
-  // const handleFileInside = (event, newValue) => {
-  //   setFile(newValue);
-  // };
+  
   let file;
-  const target = "/home/tushar/Bosch/frontend/src/assets/uploaded";
-  // async function forExtract (source) {
-  //   try {
-  //     await extract(source, { dir: target })
-  //     console.log('Extraction complete')
-  //   } catch (err) {
-  //     // handle any errors
-  //   }
-  // }
-
-  // function _extractUpdateFile(filePath) {
-  //   return new Promise((resolve, reject) => {
-  //     extract(
-  //       filePath,
-  //       {dir: path.join(filePath, '../')},
-  //       error => {
-  //         if (error) reject(error);
-  //         else {
-  //           fs.removeSync(filePath);
-  //           resolve(path.join(filePath, '../'));
-  //         }
-  //       }
-  //     )
-  //   })
-  // }
+ 
   function handleFile(fileFromUpload) {
     file = fileFromUpload;
-    // forExtract(file);
-    // handleFileInside(fileFromUpload);
-    // _extractUpdateFile(file);
-    // extract(file, { dir: target });
+    
     console.log("From Uploads");
     console.log(file);
   }
@@ -195,7 +164,7 @@ export default function AddData() {
                 style={{ marginTop: "50px" }}
               >
                 <Upload
-                  datasetClass={uploadClass}
+                  datasetClass={"NULL"}
                   gridImages={(e) => handleFile(e)}
                 ></Upload>
               </div>
