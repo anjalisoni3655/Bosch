@@ -3,27 +3,32 @@ import React, { useState } from "react";
 import { render } from "react-dom";
 import Gallery from "react-grid-gallery";
 import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
-import image1 from '../assets/uploaded/images/1.ppm';
+import image1 from "../assets/uploaded/images/1.ppm";
 
-const url = `http://localhost:5000/static/extracted/extracted_7/images/`;
+const url = `http://localhost:5000/static/extracted/extracted_1/image/`;
 
 var images_array = [];
 
-for(let i=1;i<=9;i++)
-{
-    images_array.push(url+i.toString()+'.png')    
+for (let i = 1; i <= 5; i++) {
+  images_array.push(url + i.toString() + ".png");
 }
+console.log("images array", images_array);
 
-const IMAGES = [
-  {
-    src: images_array[1],
-    thumbnail:images_array[1],
+
+var IMAGES = [];
+
+for (var i = 0; i < 5; i++) {
+  IMAGES.push({
+    src: images_array[i],
+    thumbnail: images_array[i],
     thumbnailWidth: 320,
     thumbnailHeight: 174,
-    isSelected: false,
+     isSelected: false,
     caption: "After Rain (Jeshu John - designerspics.com)",
-  },
-];
+  });
+}
+
+
 class Augment extends React.Component {
   constructor(props) {
     super(props);
@@ -36,21 +41,17 @@ class Augment extends React.Component {
     this.deleteImage = this.deleteImage.bind(this);
   }
 
-//   componentDidMount() {
-//     // Simple GET request using axios
-//     axios.get('http://localhost:5000/uploads/document')
-//         .then(response => this.setState({ totalReactPackages: response.data.total }));
-// }  
-
-
+  //   componentDidMount() {
+  //     // Simple GET request using axios
+  //     axios.get('http://localhost:5000/uploads/document')
+  //         .then(response => this.setState({ totalReactPackages: response.data.total }));
+  // }
 
   onCurrentImageChange(index) {
-
     this.setState({ currentImage: index });
   }
 
   deleteImage() {
-      
     if (
       window.confirm(
         `Are you sure you want to delete image number ${this.state.currentImage}?`

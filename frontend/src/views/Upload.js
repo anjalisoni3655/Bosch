@@ -30,7 +30,7 @@ class Upload extends React.Component {
     const className = this.props.datasetClass;
 
     const res = await axios.post(
-      `http://localhost:5000/upload-file?className=${className}`,
+      `http://localhost:5000/upload?className=${className}`,
       data
     );
 
