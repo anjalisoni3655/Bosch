@@ -43,7 +43,7 @@ const initialValues = {
 };
 const useStyles = makeStyles((theme) => ({
   card: {
-    maxWidth:"200%",
+    maxWidth: "200%",
   },
   root: {
     width: 300,
