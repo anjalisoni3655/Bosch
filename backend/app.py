@@ -157,10 +157,12 @@ def augmentation():
 def view_data_stats():
     if request.method == 'GET':
         folder = app.config['DATASET_FOLDER']
-        print(folder)
+        # print(folder)
         stats = getCardStats(folder)
-        print(stats)
-    return jsonify(stats)
+        # print(stats)
+        dataOG, dataAUG = getGraphStats(folder)
+        data = {'cardData': stats, 'dataOG': dataOG, 'dataAUG': dataAUG}
+    return jsonify(data)
 
 
 if __name__ == "__main__":
