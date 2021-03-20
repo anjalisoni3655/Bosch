@@ -256,7 +256,7 @@ export default function AddData() {
               </CardTitle>
             </CardHeader>
             <CardBody>
-              <Augment gridImages={file}></Augment>
+              <Augment></Augment>
             </CardBody>
           </Card>
         </Col>

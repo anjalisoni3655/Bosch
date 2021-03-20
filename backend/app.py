@@ -8,10 +8,16 @@ import zipfile
 from augmentations import *
 from sample import *
 
-UPLOAD_FOLDER = 'uploads'
-EXTRACTION_FOLDER = 'extracted'
-AUGMENTATION_FOLDER = 'augmented'
-DATASET_FOLDER = 'dataset'
+import sys
+import requests
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import storage
+
+UPLOAD_FOLDER = 'static/uploads'
+EXTRACTION_FOLDER = 'static/extracted'
+AUGMENTATION_FOLDER = 'static/augmented'
+DATASET_FOLDER = 'static/dataset'
 ALLOWED_EXTENSIONS = {'zip'}
 
 app = Flask(__name__)
@@ -87,17 +93,31 @@ def upload_file():
             newfoldername = create_folder_entry(app.config['EXTRACTION_FOLDER'],"extracted")
 
             with zipfile.ZipFile(os.path.join(uploaded_folder, filename), 'r') as zip_ref:
-                zip_ref.extractall(app.config['EXTRACTION_FOLDER'])
+                print(zip_ref)
+                zip_ref.extractall(newfoldername)
             
-            print("Unzipped to "+app.config['EXTRACTION_FOLDER'])
-            folder_to_augment = app.config['EXTRACTION_FOLDER']
+            print("Unzipped to "+newfoldername)
+            folder_to_augment = newfoldername
 
+            change_name(os.path.splitext(os.path.join(newfoldername, filename))[0])
             return 'OK'
 
     return 'OK'
 
+def change_name(upload_folder):
+    entries = os.listdir(upload_folder)
+    print(entries)
+    i =0
+    for entry in entries:
+        i=i+1
+        filename, file_extension = os.path.splitext(entry)
+        os.rename(os.path.join(upload_folder,entry),os.path.join(upload_folder,str(i)+file_extension))
+        
 
-@app.route('/uploads/<filename>', methods=['GET'])
+
+
+
+@app.route('/uploads/extracted/images/<filename>', methods=['GET'])
 @cross_origin()
 def uploaded_file(filename):
     return send_from_directory(app.config['EXTRACTION_FOLDER'],
