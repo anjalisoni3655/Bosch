@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import InputLabel from "@material-ui/core/InputLabel";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Augment from "./augment";
+//import image_ok from "/home/anjalisoni/Downloads/Bosch/frontend/src/assets/uploaded/1.jpg";
 
 import FormControl from "@material-ui/core/FormControl";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,24 +31,24 @@ const url = `http://localhost:5000/static/extracted/extracted_1/image/`;
 
 var images_array = [];
 
-for (let i = 1; i <= 5; i++) {
+for (let i = 1; i <= 9; i++) {
   images_array.push(url + i.toString() + ".png");
 }
 console.log("images array", images_array);
 
 var IMAGES = [];
 
-for (var i = 0; i < 5; i++) {
+for (var i = 0; i < 9; i++) {
+  const image1 = "../assets/uploaded/" + i.toString() + ".jpg";
   IMAGES.push({
-    src: images_array[i],
-    thumbnail: images_array[i],
+    src: {image1},
+    thumbnail: { image1 },
     thumbnailWidth: 320,
     thumbnailHeight: 174,
     isSelected: false,
     caption: "After Rain (Jeshu John - designerspics.com)",
   });
 }
-
 
 // const extract = require('extract-zip');
 // const path = require('path');
@@ -163,6 +164,10 @@ export default function AddData() {
   return (
     <div className="content">
       <ToastContainer />
+      {/* <img
+        src={require("/home/anjalisoni/Downloads/Bosch/frontend/src/assets/uploaded/1.jpg")}
+      /> */}
+
       <Row>
         <Col md="4">
           <Card className="card-user" style={{ height: "45vh" }}>
