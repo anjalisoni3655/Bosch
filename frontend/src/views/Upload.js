@@ -3,20 +3,22 @@ import Button from "react-bootstrap/Button";
 import Toast from "react-bootstrap/Toast";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css";
-
+let number_images=0;
 class Upload extends React.Component {
   constructor(props) {
     super(props);
 
     this.handleUploadImage = this.handleUploadImage.bind(this);
+    this.state = {
+      number: 0
+    };
   }
 
   // const [file,setfile] : {};
+  
 
   async handleUploadImage(ev) {
     ev.preventDefault();
@@ -34,7 +36,12 @@ class Upload extends React.Component {
       data
     );
 
-    if (res.data == "OK") {
+    if (res.data !== null) {
+      console.log('Images');
+      console.log(res.data);
+      this.setState({number:parseInt(res.data)});
+      console.log(this.state.number);
+      number_images = this.state.number;
       toast.success("🦄 Data uploaded succesfully");
     } else {
       toast.error("💀 Error : " + res.data);
@@ -76,4 +83,8 @@ class Upload extends React.Component {
   }
 }
 
-export default Upload;
+export {
+  number_images,
+  Upload
+}
+// export default Upload;

@@ -7,9 +7,13 @@ import json
 import zipfile
 from augmentations import *
 from sample import *
+import shutil 
+from PIL import Image
 
 import sys
 import requests
+
+number_of_images = 0 
 
 
 UPLOAD_FOLDER = 'static/uploads'
@@ -79,7 +83,8 @@ def upload_file():
             return "Unsupported file extension, Please use .zip"
         
         elif file and allowed_file(file.filename):
-        
+            
+            shutil.rmtree('../frontend/src/assets/uploaded/images') 
             filename = secure_filename(file.filename)
             create_folder(app.config["UPLOAD_FOLDER"])
             create_folder(app.config["EXTRACTION_FOLDER"])
@@ -92,26 +97,49 @@ def upload_file():
 
             with zipfile.ZipFile(os.path.join(uploaded_folder, filename), 'r') as zip_ref:
                 print(zip_ref)
-                zip_ref.extractall(newfoldername)
+                # zip_ref.extractall(newfoldername)
+                zip_ref.extractall('../frontend/src/assets/uploaded')                
             
             print("Unzipped to "+newfoldername)
             folder_to_augment = newfoldername
 
-            change_name(os.path.splitext(os.path.join(newfoldername, filename))[0])
-            return 'OK'
+            # change_name(os.path.splitext(os.path.join(newfoldername, filename))[0])
+            # print(os.path.splitext(os.path.join('../frontend/src/assets/uploaded', filename)))
+            
+            change_name(os.path.splitext(os.path.join('../frontend/src/assets/uploaded', filename))[0])
+            print('Number Of Images')
+            entries = os.listdir(os.path.splitext(os.path.join('../frontend/src/assets/uploaded', filename))[0])
+            print(len(entries))
+            return str(len(entries))
+            # test_name(os.path.splitext(os.path.join('../frontend/src/assets/uploaded', filename))[0])
 
     return 'OK'
 
 def change_name(upload_folder):
     entries = os.listdir(upload_folder)
+    print('No of files')
     print(entries)
     i =0
     for entry in entries:
-        i=i+1
         filename, file_extension = os.path.splitext(entry)
-        os.rename(os.path.join(upload_folder,entry),os.path.join(upload_folder,str(i)+file_extension))
-        
+        # print(entry)
+        os.rename(os.path.join(upload_folder,entry),os.path.join(upload_folder,str(i)+'.png'))
+        i=i+1
 
+
+# def test_name(upload_folder):
+#     entries = os.listdir(upload_folder)
+#     i =0
+#     for entry in entries:
+#         print(entry)
+
+
+@app.route('/get-images', methods=['GET'])
+@cross_origin()
+def images_number():
+    entries = os.listdir('../frontend/src/assets/uploaded/images')
+    print(len(entries))
+    return str(len(entries))
 
 
 

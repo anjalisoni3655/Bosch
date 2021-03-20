@@ -1,20 +1,26 @@
-import React, { useState }from "react";
+import React, { useState, useEffect }from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
-
+import axios from "axios";
 var IMAGES = [];
 
- for (var i = 0; i < 8; i++) {
+ for (var i = 0; i < 12; i++) {
   IMAGES.push({
-    img: "../assets/uploaded/" + i.toString() + ".jpg",
+    img: "../assets/uploaded/images/" + i.toString() + ".jpg",
     title: i.toString(),
     author: "anjali",
   });
  }
+
+// const [number_of_images, setNumber_of_images] = useState(0);
+  // const [loading, setLoading] = useState(false);
+
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,24 +46,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *     featured: true,
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
 export default function Augment() {
   const [currentImage, setImage] = useState(0);
   const[imageArray,setImageArray]=useState(IMAGES)
@@ -81,6 +69,18 @@ export default function Augment() {
      }
   }
 
+  useEffect(() => {
+    fetchData();
+  });
+  const fetchData = () => {
+    axios.get(`http://localhost:5000/get-images`)
+      .then(res => {
+        console.log('Number of images after axios')
+        console.log(res)
+      })
+  };
+
+
   return (
     <div className={classes.root}>
       <GridList cellHeight={300} spacing={1} className={classes.gridList}>
@@ -90,7 +90,7 @@ export default function Augment() {
             cols={tile.featured ? 2 : 1}
             rows={tile.featured ? 2 : 1}
           >
-            <img src={require("../assets/uploaded/"+index.toString()+".jpg")} alt={tile.title} />
+            <img src={require("../assets/uploaded/images/"+index.toString()+".png")} alt={tile.title} />
             <GridListTileBar
               title={tile.title}
               titlePosition="top"
