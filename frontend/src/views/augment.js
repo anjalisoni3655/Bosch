@@ -2,7 +2,19 @@ import React, { useState } from "react";
 import { render } from "react-dom";
 import Gallery from "react-grid-gallery";
 import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
-
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  CardTitle,
+  FormGroup,
+  Form,
+  Input,
+  Row,
+  Col,
+} from "reactstrap";
 const IMAGES = [
   {
     src: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg",
@@ -164,7 +176,11 @@ class Augment extends React.Component {
             </button>,
           ]}
         />
+        
       </div>
+      
+        
+      
     );
   }
 }
