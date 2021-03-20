@@ -8,9 +8,10 @@ import axios from "axios";
 import Select from "@material-ui/core/Select";
 import { ToastContainer, toast } from "react-toastify";
 import InputLabel from "@material-ui/core/InputLabel";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Augment from "./augment";
 
 import FormControl from "@material-ui/core/FormControl";
-
 import "react-toastify/dist/ReactToastify.css";
 import {
   Button,
@@ -25,6 +26,10 @@ import {
   Row,
   Col,
 } from "reactstrap";
+
+// const extract = require('extract-zip');
+// const path = require('path');
+// const fs = require('fs');
 
 const initialValues = {
   prob1: "",
@@ -142,6 +147,7 @@ export default function AddData() {
   const handleDegrade = (event, newValue) => {
     setDegrade(newValue);
   };
+  const [uploadClass,setuploadClass]=useState('')
 
   const data = {
     brightness: [...brightness, values.prob1],
@@ -206,21 +212,75 @@ export default function AddData() {
     setPercent(newValue);
   };
 
+  // const [file,setFile] = React.useState(null);
+
+  // const handleFileInside = (event, newValue) => {
+  //   setFile(newValue);
+  // };
+  let file;
+  const target = '/home/tushar/Bosch/frontend/src/assets/uploaded';     
+  // async function forExtract (source) {
+  //   try {
+  //     await extract(source, { dir: target })
+  //     console.log('Extraction complete')
+  //   } catch (err) {
+  //     // handle any errors
+  //   }
+  // }    
+
+  // function _extractUpdateFile(filePath) {
+  //   return new Promise((resolve, reject) => {
+  //     extract(
+  //       filePath,
+  //       {dir: path.join(filePath, '../')},
+  //       error => {
+  //         if (error) reject(error);
+  //         else {
+  //           fs.removeSync(filePath);
+  //           resolve(path.join(filePath, '../'));
+  //         }
+  //       }
+  //     )
+  //   })
+  // }  
+  function handleFile(fileFromUpload){
+    file = fileFromUpload;    
+    // forExtract(file);
+    // handleFileInside(fileFromUpload);
+    // _extractUpdateFile(file);
+    // extract(file, { dir: target });
+    console.log('From Uploads');
+    console.log(file);
+  };
+
+  const classes_dataset = ['U-turn', 'Zebra-Crossing', 'No Entry'];
+
   return (
     <div className="content">
       <ToastContainer />
       <Row>
         <Col md="6">
-          <Card className="card-user" style={{ height: "180px" }}>
+          <Card className="card-user" style={{ height: "40vh" }}>
             <CardHeader>
               <CardTitle tag="h5" style={{ textAlign: "center" }}>
-                Add New Data
+                Add New Data                  
               </CardTitle>
+              <p style={{ textAlign: "center" }}>
+              <b style={{fontWeight: '700'}}>Only zip files are accepted</b>  
+              </p>               
             </CardHeader>
             <CardBody>
-              <p className="description text-center">
-                <Upload></Upload>
-              </p>
+            <Autocomplete
+              onChange={(event, value) => setuploadClass(value)}
+              id="combo-box-demo"
+              options={classes_dataset}
+              getOptionLabel={(option) => option}
+              style={{ width: 300 }}
+              renderInput={(params) => <TextField {...params} label="Select Class" variant="outlined" />}
+            />
+            <p className="description text-center">
+            <Upload datasetClass={uploadClass} gridImages={(e)=> handleFile(e)}></Upload>
+            </p>            
             </CardBody>
           </Card>
         </Col>
@@ -270,6 +330,18 @@ export default function AddData() {
             </CardBody>
           </Card>
         </Col>
+        <Col md="6">
+          <Card className="card-user" style={{ height: "auto" }}>
+            <CardHeader>
+              <CardTitle tag="h5" style={{ textAlign: "center" }}>
+                Added Data                 
+              </CardTitle>          
+            </CardHeader>
+            <CardBody>
+              <Augment gridImages={file}></Augment>
+            </CardBody>
+          </Card>
+        </Col>        
       </Row>
 
      

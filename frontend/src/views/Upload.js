@@ -8,6 +8,23 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import firebase from "firebase/app";
+import "firebase/storage";
+
+// var firebaseConfig = {
+//   apiKey: "AIzaSyAFK5tQRC7uAyDbvYc-19q1F-eGdCDV5oE",
+//   authDomain: "bosch-traffic-signal.firebaseapp.com",
+//   projectId: "bosch-traffic-signal",
+//   storageBucket: "bosch-traffic-signal.appspot.com",
+//   messagingSenderId: "852991309472",
+//   appId: "1:852991309472:web:8637044c6c5c67f21c3bc5",
+//   measurementId: "G-LB38RGW5F6"
+// };
+// firebase.initializeApp(firebaseConfig);
+
+// firebase.analytics();
+// import storage from "../Firebase/index";
+
 class Upload extends React.Component {
   constructor(props) {
     super(props);
@@ -16,16 +33,29 @@ class Upload extends React.Component {
     
   }
 
-  
- 
+  // const [file,setfile] : {};
+
+
   async handleUploadImage(ev) {
     ev.preventDefault();
-
     const data = new FormData();
+    console.log(this.uploadInput.files);
     data.append("file", this.uploadInput.files[0]);
+    this.props.gridImages(this.uploadInput.files[0]);
     
     
     const res = await axios.post("http://localhost:5000/upload", data);
+
+    // const uploadTask = storageRef.child(`images/${selectedFile.name}`).put(selectedFile); //create a child directory called images, and place the file inside this directory
+    // uploadTask.on('state_changed', (snapshot) => {
+    // // Observe state change events such as progress, pause, and resume
+    // }, (error) => {
+    //   // Handle unsuccessful uploads
+    //   console.log(error);
+    // }, () => {
+    //    // Do something once upload is complete
+    //    console.log('success');
+    // });
 
     
 
@@ -48,7 +78,7 @@ class Upload extends React.Component {
           <div style={{ textAlign: "center" }}>
             <Row>
               <Col>
-                <b style={{fontWeight: '700'}}>Only zip files are accepted</b>                
+                <b style={{fontWeight: '700'}}>For Class : {this.props.datasetClass}</b>                
               </Col>
             </Row>
             <Row>

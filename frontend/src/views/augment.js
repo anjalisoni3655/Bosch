@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { render } from "react-dom";
 import Gallery from "react-grid-gallery";
+import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 
 const IMAGES = [
   {
@@ -75,7 +76,6 @@ const IMAGES = [
 class Augment extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       images: IMAGES,
       currentImage: 0,
@@ -85,11 +85,21 @@ class Augment extends React.Component {
     this.deleteImage = this.deleteImage.bind(this);
   }
 
+//   componentDidMount() {
+//     // Simple GET request using axios
+//     axios.get('http://localhost:5000/uploads/document')
+//         .then(response => this.setState({ totalReactPackages: response.data.total }));
+// }  
+
+
+
   onCurrentImageChange(index) {
+
     this.setState({ currentImage: index });
   }
 
   deleteImage() {
+      
     if (
       window.confirm(
         `Are you sure you want to delete image number ${this.state.currentImage}?`
