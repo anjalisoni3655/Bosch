@@ -82,7 +82,7 @@ create_folder(app.config["TRAIN_FOLDER"])
 create_folder(app.config["VALIDATION_FOLDER"])
 create_folder(app.config["TEST_FOLDER"])
 
-@app.route('/upload-file', methods=[ 'POST','GET'])
+@app.route('/upload', methods=[ 'POST','GET'])
 @cross_origin()
 def upload_file():
 
