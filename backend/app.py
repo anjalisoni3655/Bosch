@@ -1,5 +1,5 @@
 import os
-from flask import Flask, flash, request, redirect, url_for
+from flask import Flask, flash, request, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from flask_cors import CORS, cross_origin
@@ -7,6 +7,9 @@ import json
 import zipfile
 from augmentations import *
 from sample import *
+
+from dataStats import *
+
 import random
 import shutil
 
@@ -18,6 +21,7 @@ DATASET_FOLDER = ROOT_FOLDER+'dataset/'
 TRAIN_FOLDER = DATASET_FOLDER+'train/'
 VALIDATION_FOLDER = DATASET_FOLDER+'validation/'
 TEST_FOLDER = DATASET_FOLDER+'test/'
+
 
 ALLOWED_EXTENSIONS = {'zip'}
 
@@ -203,6 +207,20 @@ def augmentation():
         print("Augmentation complete")
     
     return 'OK'
+
+
+@app.route('/view-data-stats', methods = ['POST', 'GET'])
+@cross_origin()
+def view_data_stats():
+    if request.method == 'GET':
+        folder = app.config['DATASET_FOLDER']
+        # print(folder)
+        stats = getCardStats(folder)
+        # print(stats)
+        dataOG, dataAUG = getGraphStats(folder)
+        data = {'cardData': stats, 'dataOG': dataOG, 'dataAUG': dataAUG}
+    return jsonify(data)
+
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(24)

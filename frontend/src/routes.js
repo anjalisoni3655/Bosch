@@ -27,13 +27,13 @@ var routes = [
     path: "/view-data-stats",
     name: "View Data Stats",
     icon: "nc-icon nc-caps-small",
-    component: Typography,
+    component: Dashboard,
   },
   {
-    path: "/view-model-stat",
+    path: "/view-model-stats",
     name: "View Model Stats",
     icon: "nc-icon nc-caps-small",
-    component: Typography,
+    component: Icons,
   },
 ];
 export default routes;
