@@ -84,31 +84,31 @@ def upload_file():
         
         elif file and allowed_file(file.filename):
             
-            shutil.rmtree('../frontend/src/assets/uploaded/images') 
+            shutil.rmtree(os.path.splitext(os.path.join(app.config['EXTRACTION_FOLDER'], 'images'))[0]) 
             filename = secure_filename(file.filename)
             create_folder(app.config["UPLOAD_FOLDER"])
             create_folder(app.config["EXTRACTION_FOLDER"])
-            uploaded_folder = create_folder_entry(app.config['UPLOAD_FOLDER'],"uploaded")
-            file.save(os.path.join(uploaded_folder, filename))  
+            # uploaded_folder = create_folder_entry(app.config['UPLOAD_FOLDER'],"uploaded")
+            file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))  
             
             print("File uploaded to "+os.path.join(app.config['UPLOAD_FOLDER'],filename))
             print("Unzipping "+ filename)
-            newfoldername = create_folder_entry(app.config['EXTRACTION_FOLDER'],"extracted")
+            # newfoldername = create_folder_entry(app.config['EXTRACTION_FOLDER'],"extracted")
 
-            with zipfile.ZipFile(os.path.join(uploaded_folder, filename), 'r') as zip_ref:
+            with zipfile.ZipFile(os.path.join(app.config["UPLOAD_FOLDER"], filename), 'r') as zip_ref:
                 print(zip_ref)
-                zip_ref.extractall(newfoldername)
+                zip_ref.extractall(app.config['EXTRACTION_FOLDER'])
                 # zip_ref.extractall('../frontend/src/assets/uploaded')                
             
-            print("Unzipped to "+newfoldername)
-            folder_to_augment = newfoldername
+            print("Unzipped to "+app.config['EXTRACTION_FOLDER'])
+            folder_to_augment = os.path.splitext(os.path.join(app.config['EXTRACTION_FOLDER'], filename))[0]
 
             # change_name(os.path.splitext(os.path.join(newfoldername, filename))[0])
             # print(os.path.splitext(os.path.join('../frontend/src/assets/uploaded', filename)))
             
-            change_name(os.path.splitext(os.path.join(newfoldername, filename))[0])
+            change_name(os.path.splitext(os.path.join(app.config['EXTRACTION_FOLDER'], filename))[0])
             print('Number Of Images')
-            entries = os.listdir(os.path.splitext(os.path.join(newfoldername, filename))[0])
+            entries = os.listdir(os.path.splitext(os.path.join(app.config['EXTRACTION_FOLDER'], filename))[0])
             print(len(entries))
             return str(len(entries))
             # test_name(os.path.splitext(os.path.join('../frontend/src/assets/uploaded', filename))[0])
@@ -172,7 +172,6 @@ def sampling():
 
 
 @app.route('/augment', methods=[ 'POST','GET'])
-
 @cross_origin()
 def augmentation():
 
@@ -196,7 +195,13 @@ def augmentation():
     print("Aug comp")
     return 'OK'
 
+@app.route("/static/<path:path>" , methods=['GET'])
+@cross_origin()
+def static_dir(path):
+    return send_from_directory("static", path)    
+
 if __name__ == "__main__":
     app.secret_key = os.urandom(24)
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug=True, port=8000)                               
 

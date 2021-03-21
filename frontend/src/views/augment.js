@@ -8,9 +8,18 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
 var IMAGES = [];
 
- for (var i = 0; i < 12; i++) {
+ for (var i = 0; i < 15; i++) {
+  // let image;
+  // console.log("http://localhost:5000/static/extracted/images/" + i.toString() + ".png");
+  // axios.get("http://localhost:5000/static/extracted/images/" + i.toString() + ".png")
+  // .then(res => {
+    
+  //   image = res.data;
+  //   // console.log(image);
+  // })
+  
   IMAGES.push({
-    img: "../assets/uploaded/images/" + i.toString() + ".jpg",
+    img: "http://localhost:5000/static/extracted/images/" + i.toString() + ".png",
     title: i.toString(),
     author: "anjali",
   });
@@ -69,16 +78,16 @@ export default function Augment() {
      }
   }
 
-  useEffect(() => {
-    fetchData();
-  });
-  const fetchData = () => {
-    axios.get(`http://localhost:5000/get-images`)
-      .then(res => {
-        console.log('Number of images after axios')
-        console.log(res)
-      })
-  };
+  // useEffect(() => {
+  //   fetchData();
+  // });
+  // const fetchData = () => {
+    // axios.get(`http://localhost:5000/get-images`)
+    //   .then(res => {
+    //     console.log('Number of images after axios')
+    //     console.log(res)
+    //   })
+  // };
 
 
   return (
@@ -90,7 +99,7 @@ export default function Augment() {
             cols={tile.featured ? 2 : 1}
             rows={tile.featured ? 2 : 1}
           >
-            <img src={require("../assets/uploaded/images/"+index.toString()+".png")} alt={tile.title} />
+            <img src={"http://localhost:5000/static/extracted/images/"+index.toString()+".png"} alt={tile.title} />
             <GridListTileBar
               title={tile.title}
               titlePosition="top"

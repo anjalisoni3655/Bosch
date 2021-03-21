@@ -43,6 +43,7 @@ class Upload extends React.Component {
       console.log(this.state.number);
       number_images = this.state.number;
       toast.success("🦄 Data uploaded succesfully");
+      window.location.reload(false);
     } else {
       toast.error("💀 Error : " + res.data);
     }
@@ -72,7 +73,7 @@ class Upload extends React.Component {
               </Row>
 
               <Row style={{ justifyContent: "center" }}>
-                <Button onClick={this.handleUploadImage}>Upload</Button>
+                <Button onClick={this.handleUploadImage} type="submit">Upload</Button>
               </Row>
             </Col>
           </div>

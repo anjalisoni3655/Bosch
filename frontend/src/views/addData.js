@@ -29,13 +29,13 @@ import {
 } from "reactstrap";
 const url = `http://localhost:5000/static/extracted/extracted_1/image/`;
 
-const fetchData = () => {
-  axios.get(`http://localhost:5000/get-images`)
-    .then(res => {
-      console.log('Number of images after axios in adddata')
-      console.log(res)
-    })
-};
+// const fetchData = () => {
+//   axios.get(`http://localhost:5000/get-images`)
+//     .then(res => {
+//       console.log('Number of images after axios in adddata')
+//       console.log(res)
+//     })
+// };
 
 
 var images_array = [];
