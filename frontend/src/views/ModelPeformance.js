@@ -11,7 +11,7 @@ import {
   Col,
 } from "reactstrap";
 
-const options = ["Option 1", "Option 2"];
+const options = ["1", "2"];
 
 export default function ModelPerformance() {
   const [value, setValue] = React.useState(options[0]);
@@ -47,7 +47,7 @@ export default function ModelPerformance() {
             <Col md="8" xs="7">
               <div className="numbers">
                 <p className="card-category">Total Images</p>
-                <CardTitle tag="p">title1</CardTitle>
+                <CardTitle tag="p">{value}</CardTitle>
                 <p>
                   <br />
                 </p>

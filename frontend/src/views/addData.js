@@ -33,7 +33,7 @@ const url = `http://localhost:5000/static/grid/extracted/image/`;
 
 //console.log("images array", images_array);
 console.log("Number of images after import");
-//console.log(number_images)
+console.log(number_images);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -256,7 +256,11 @@ export default function AddData() {
               </CardTitle>
             </CardHeader>
             <CardBody>
-              <Augment url={url} showDelete={false}></Augment>
+              <Augment
+                url={url}
+                showDelete={false}
+                number_images={10}
+              ></Augment>
             </CardBody>
           </Card>
         </Col>

@@ -91,36 +91,46 @@ export default function Augment(props) {
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={200} spacing={1} className={classes.gridList} cols={5}>
-        {imageArray.map((tile, index) => (
-          <GridListTile
-            key={tile.img}
-            // cols={tile.featured ? 2 : 1}
-            // rows={tile.featured ? 2 : 1}
-          >
-            <img src={props.url + index.toString() + ".png"} alt={tile.title} />
-
-            {props.showDelete && (
-              <GridListTileBar
-                title={tile.title}
-                titlePosition="top"
-                actionIcon={
-                  <IconButton
-                    onChange={currentImageChange}
-                    aria-label={`star ${tile.title}`}
-                    className={classes.icon}
-                    onClick={deleteImage}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                }
-                actionPosition="left"
-                className={classes.titleBar}
+      {props.number_images && (
+        <GridList
+          cellHeight={200}
+          spacing={1}
+          className={classes.gridList}
+          cols={5}
+        >
+          {imageArray.map((tile, index) => (
+            <GridListTile
+              key={tile.img}
+              // cols={tile.featured ? 2 : 1}
+              // rows={tile.featured ? 2 : 1}
+            >
+              <img
+                src={props.url + index.toString() + ".png"}
+                alt={tile.title}
               />
-            )}
-          </GridListTile>
-        ))}
-      </GridList>
+
+              {props.showDelete && (
+                <GridListTileBar
+                  title={tile.title}
+                  titlePosition="top"
+                  actionIcon={
+                    <IconButton
+                      onChange={currentImageChange}
+                      aria-label={`star ${tile.title}`}
+                      className={classes.icon}
+                      onClick={deleteImage}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  }
+                  actionPosition="left"
+                  className={classes.titleBar}
+                />
+              )}
+            </GridListTile>
+          ))}
+        </GridList>
+      )}
     </div>
   );
 }
