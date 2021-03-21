@@ -109,7 +109,7 @@ def upload_file():
         
         elif file and allowed_file(file.filename):
             
-            shutil.rmtree(os.path.splitext(os.path.join(app.config['EXTRACTION_FOLDER'], 'images'))[0]) 
+            shutil.rmtree(os.path.splitext(os.path.join(app.config['EXTRACTION_FOLDER'], 'image'))[0]) 
             filename = secure_filename(file.filename)
             create_folder(app.config["UPLOAD_FOLDER"])
             create_folder(app.config["EXTRACTION_FOLDER"])
@@ -276,4 +276,3 @@ if __name__ == "__main__":
     app.secret_key = os.urandom(24)
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug=True, port=8000)                               
-

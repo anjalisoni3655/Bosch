@@ -1,4 +1,4 @@
-import {Upload, number_images} from "./Upload";
+import { Upload, number_images } from "./Upload";
 import React, { useRef, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -9,6 +9,8 @@ import Select from "@material-ui/core/Select";
 import { ToastContainer, toast } from "react-toastify";
 import InputLabel from "@material-ui/core/InputLabel";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
 import Augment from "./augment";
 //import image_ok from "/home/anjalisoni/Downloads/Bosch/frontend/src/assets/uploaded/1.jpg";
 
@@ -27,18 +29,11 @@ import {
   Row,
   Col,
 } from "reactstrap";
-const uploadurl = `http://localhost:5000/static/grid/extracted/images/`;
-
-
-
-
-
+const uploadurl = `http://localhost:5000/static/grid/extracted/image/`;
 
 //console.log("images array", images_array);
-console.log('Number of images after import')
+console.log("Number of images after import");
 //console.log(number_images)
-
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,16 +93,16 @@ export default function AddData() {
         console.log("error: ", error);
       }
     );
+    window.location.reload();
   };
 
   const handlePercent = (event, newValue) => {
     setPercent(newValue);
   };
 
-  
   let file;
   const target = "/home/tushar/Bosch/frontend/src/assets/uploaded";
- 
+
   function handleFile(fileFromUpload) {
     file = fileFromUpload;
     // forExtract(file);
@@ -117,18 +112,20 @@ export default function AddData() {
     console.log("From Uploads");
     console.log(file);
   }
+var images_array = [];
 
+for (var i = 0; i < 4; i++) {
+  images_array.push({
+    img: "http://localhost:5000/static/grid/extracted/image/"+i.toString()+".png",
+    title: i.toString(),
+    author: "anjali",
+  });
+}
   const classes_dataset = ["U-turn", "Zebra-Crossing", "No Entry"];
 
-
-  
-
-  
-  
   return (
     <div className="content">
       <ToastContainer />
-     
 
       <Row>
         <Col md="4">
@@ -245,8 +242,13 @@ export default function AddData() {
               </CardTitle>
             </CardHeader>
             <CardBody>
-              
-              <Augment url={uploadurl} showDelete={false}></Augment>
+              <GridList cellHeight={160} className={classes.gridList} cols={3}>
+                {images_array.map((image,index) => (
+                  <GridListTile key={index} cols={1}>
+                    <img src={image.img} alt={image.title} />
+                  </GridListTile>
+                ))}
+              </GridList>
             </CardBody>
           </Card>
         </Col>

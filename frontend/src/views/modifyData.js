@@ -41,9 +41,7 @@ const initialValues = {
   prob10: "",
   prob11: "",
 };
-const url = `http://localhost:5000/static/grid/augmented/images/`;
-
-
+const url = `http://localhost:5000/static/grid/augmented/image/`;
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -179,8 +177,8 @@ export default function User() {
     sample: percent,
   };
   const trainPercentData = {
-    train:trainPercent
-  }
+    train: trainPercent,
+  };
   console.log("data", data);
   const handleAugment = () => {
     const res = axios.post("http://localhost:5000/augment", data).then(
@@ -198,19 +196,21 @@ export default function User() {
     );
   };
   const sendTrainPercent = () => {
-    const res = axios.post("http://localhost:5000/train-percent", trainPercentData).then(
-      (response) => {
-        console.log("response: ", response);
-        if (response.data == "OK") {
-          toast.success("🦄 Data Split and added succesfully");
-        } else {
-          toast.error("💀 Error : " + response.data);
+    const res = axios
+      .post("http://localhost:5000/train-percent", trainPercentData)
+      .then(
+        (response) => {
+          console.log("response: ", response);
+          if (response.data == "OK") {
+            toast.success("🦄 Data Split and added succesfully");
+          } else {
+            toast.error("💀 Error : " + response.data);
+          }
+        },
+        (error) => {
+          console.log("error: ", error);
         }
-      },
-      (error) => {
-        console.log("error: ", error);
-      }
-    );
+      );
   };
 
   const handleSample = () => {
@@ -233,7 +233,7 @@ export default function User() {
   const handlePercent = (event, newValue) => {
     setPercent(newValue);
   };
-  const handleTrainPercent = (event, newValue) =>{
+  const handleTrainPercent = (event, newValue) => {
     setTrainPercent(newValue);
   };
 
@@ -778,16 +778,13 @@ export default function User() {
         </div>
       </Card>
 
-
-     
-      <Augment  url={url} showDelete={true}></Augment>
+      <Augment url={url} showDelete={true}></Augment>
 
       <br />
-      <Row style={{ justifyContent: "center" }}> 
+      <Row style={{ justifyContent: "center" }}>
         <Typography>Percentage of Train Data</Typography>
       </Row>
       <Row style={{ justifyContent: "center" }}>
-        
         <Slider
           value={trainPercent}
           min={0}
@@ -804,13 +801,10 @@ export default function User() {
           valueLabelDisplay="auto"
           aria-labelledby="non-linear-slider"
         />
-      </Row> 
+      </Row>
       <Row style={{ justifyContent: "center" }}>
-        <Button onClick={sendTrainPercent} >Add to Dataset</Button>
-      </Row>  
-        
-        
-
+        <Button onClick={sendTrainPercent}>Add to Dataset</Button>
+      </Row>
     </div>
   );
 }
