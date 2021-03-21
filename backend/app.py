@@ -213,7 +213,7 @@ def augmentation():
 @cross_origin()
 def view_data_stats():
     if request.method == 'GET':
-        folder = app.config['DATASET_FOLDER']
+        folder = app.config['TRAIN_FOLDER']
         # print(folder)
         stats = getCardStats(folder)
         # print(stats)
