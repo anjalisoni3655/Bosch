@@ -21,7 +21,7 @@ from dataStats import *
 import random
 import shutil
 
-ROOT_FOLDER="static/grid/"
+ROOT_FOLDER="static/"
 UPLOAD_FOLDER = ROOT_FOLDER+'uploads/'
 EXTRACTION_FOLDER = ROOT_FOLDER+'extracted/'
 AUGMENTATION_FOLDER = ROOT_FOLDER+'augmented/'
@@ -29,7 +29,9 @@ DATASET_FOLDER = ROOT_FOLDER+'dataset/'
 TRAIN_FOLDER = DATASET_FOLDER+'train/'
 VALIDATION_FOLDER = DATASET_FOLDER+'validation/'
 TEST_FOLDER = DATASET_FOLDER+'test/'
-
+GRID_FOLDER = ROOT_FOLDER+"grid/"
+GRID_AUGMENTED_FOLDER = GRID_FOLDER + "augmented/"
+GRID_EXTRACTED_FOLDER = GRID_FOLDER + "extracted/" 
 
 ALLOWED_EXTENSIONS = {'zip'}
 
@@ -42,6 +44,9 @@ app.config['DATASET_FOLDER'] = DATASET_FOLDER
 app.config["TRAIN_FOLDER"] = TRAIN_FOLDER
 app.config["VALIDATION_FOLDER"] = VALIDATION_FOLDER
 app.config["TEST_FOLDER"] = TEST_FOLDER
+app.config["GRID_FOLDER"] = GRID_FOLDER
+app.config["GRID_AUGMENTED_FOLDER"] = GRID_AUGMENTED_FOLDER
+app.config["GRID_EXTRACTED_FOLDER"] = GRID_EXTRACTED_FOLDER
 
 app.config.update(SECRET_KEY=os.urandom(24))
 CORS(app)
@@ -72,7 +77,15 @@ def create_folder_entry(root,foldername):
     maxn+=1
     create_folder(os.path.join(root,foldername+"_"+str(maxn)))
     return os.path.join(root,foldername+"_"+str(maxn))
-
+def copy_rename_recursive(src, dest):
+    currentNo = 0
+    for x in os.listdir(src):
+        if(os.path.isdir(os.path.join(src,x))):
+            copy_rename_recursive(os.path.join(src,x),dest)
+        else:
+            ext = '.' + list(x.split('.'))[1]
+            shutil.copy(os.path.join(src,x),os.path.join(dest,str(currentNo)+ext))
+            currentNo+=1
 create_folder(app.config["ROOT_FOLDER"])
 create_folder(app.config["UPLOAD_FOLDER"])
 create_folder(app.config["EXTRACTION_FOLDER"])
@@ -81,6 +94,9 @@ create_folder(app.config["DATASET_FOLDER"])
 create_folder(app.config["TRAIN_FOLDER"])
 create_folder(app.config["VALIDATION_FOLDER"])
 create_folder(app.config["TEST_FOLDER"])
+create_folder(app.config["GRID_FOLDER"])
+create_folder(app.config["GRID_AUGMENTED_FOLDER"])
+create_folder(app.config["GRID_EXTRACTED_FOLDER"])
 
 @app.route('/upload', methods=[ 'POST','GET'])
 @cross_origin()
@@ -109,54 +125,26 @@ def upload_file():
         
         elif file and allowed_file(file.filename):
             
-            shutil.rmtree(os.path.splitext(os.path.join(app.config['EXTRACTION_FOLDER'], 'image'))[0]) 
+            
             filename = secure_filename(file.filename)
-            create_folder(app.config["UPLOAD_FOLDER"])
-            create_folder(app.config["EXTRACTION_FOLDER"])
-            # uploaded_folder = create_folder_entry(app.config['UPLOAD_FOLDER'],"uploaded")
-            file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))  
+            uploaded_folder = create_folder_entry(app.config['UPLOAD_FOLDER'],"uploaded")
+            file.save(os.path.join(uploaded_folder, filename))  
             
-            print("File uploaded to "+os.path.join(app.config["UPLOAD_FOLDER"],filename))
+            print("File uploaded to "+os.path.join(uploaded_folder,filename))
             print("Unzipping "+ filename)
-            # newfoldername = create_folder_entry(app.config['EXTRACTION_FOLDER'],"extracted")
+            folder_to_augment = create_folder_entry(app.config['EXTRACTION_FOLDER'],"extracted")
 
-            with zipfile.ZipFile(os.path.join(app.config["UPLOAD_FOLDER"], filename), 'r') as zip_ref:
-                print(zip_ref)
-                zip_ref.extractall(app.config['EXTRACTION_FOLDER'])
-                # zip_ref.extractall('../frontend/src/assets/uploaded')                
-            
-            print("Unzipped to "+app.config['EXTRACTION_FOLDER'])
-            folder_to_augment = os.path.splitext(os.path.join(app.config['EXTRACTION_FOLDER'], filename))[0]
+            with zipfile.ZipFile(os.path.join(uploaded_folder, filename), 'r') as zip_ref:
+                zip_ref.extractall(folder_to_augment)
+            print("Unzipped to "+folder_to_augment)
+            shutil.rmtree(app.config["GRID_EXTRACTED_FOLDER"]) 
+            create_folder(app.config["GRID_EXTRACTED_FOLDER"])
+            copy_rename_recursive(folder_to_augment, app.config["GRID_EXTRACTED_FOLDER"])
 
-            # change_name(os.path.splitext(os.path.join(newfoldername, filename))[0])
-            # print(os.path.splitext(os.path.join('../frontend/src/assets/uploaded', filename)))
-            
-            change_name(os.path.splitext(os.path.join(app.config['EXTRACTION_FOLDER'], filename))[0])
-            print('Number Of Images')
-            entries = os.listdir(os.path.splitext(os.path.join(app.config['EXTRACTION_FOLDER'], filename))[0])
-            print(len(entries))
-            return str(len(entries))
-            # test_name(os.path.splitext(os.path.join('../frontend/src/assets/uploaded', filename))[0])
 
     return 'OK'
 
-def change_name(upload_folder):
-    entries = os.listdir(upload_folder)
-    print('No of files')
-    print(entries)
-    i =0
-    for entry in entries:
-        filename, file_extension = os.path.splitext(entry)
-        # print(entry)
-        os.rename(os.path.join(upload_folder,entry),os.path.join(upload_folder,str(i)+'.png'))
-        i=i+1
 
-
-# def test_name(upload_folder):
-#     entries = os.listdir(upload_folder)
-#     i =0
-#     for entry in entries:
-#         print(entry)
 
 
 @app.route('/get-images', methods=['GET'])
@@ -167,12 +155,6 @@ def images_number():
     return "10"
 
 
-
-@app.route('/uploads/extracted/images/<filename>', methods=['GET'])
-@cross_origin()
-def uploaded_file(filename):
-    return send_from_directory(app.config['EXTRACTION_FOLDER'],
-                               filename)
 
 
 
@@ -251,7 +233,11 @@ def augmentation():
     
             apply_augmentation_recursive(folder_to_augment, augmentedfolder, data,className)
         print("Augmentation complete")
-    
+        shutil.rmtree(app.config["GRID_AUGMENTED_FOLDER"]) 
+        create_folder(app.config["GRID_AUGMENTED_FOLDER"])
+        copy_rename_recursive(folder_to_augment, app.config["GRID_AUGMENTED_FOLDER"])
+        
+
     return 'OK'
 
 @app.route("/static/<path:path>" , methods=['GET'])
