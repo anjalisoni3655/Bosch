@@ -112,15 +112,18 @@ export default function AddData() {
     console.log("From Uploads");
     console.log(file);
   }
-var images_array = [];
+  var images_array = [];
 
-for (var i = 0; i < 4; i++) {
-  images_array.push({
-    img: "http://localhost:5000/static/grid/extracted/image/"+i.toString()+".png",
-    title: i.toString(),
-    author: "anjali",
-  });
-}
+  for (var i = 0; i < 4; i++) {
+    images_array.push({
+      img:
+        "http://localhost:5000/static/grid/extracted/image/" +
+        i.toString() +
+        ".png",
+      title: i.toString(),
+      author: "anjali",
+    });
+  }
   const classes_dataset = ["U-turn", "Zebra-Crossing", "No Entry"];
 
   return (
@@ -242,8 +245,8 @@ for (var i = 0; i < 4; i++) {
               </CardTitle>
             </CardHeader>
             <CardBody>
-              <GridList cellHeight={160} className={classes.gridList} cols={3}>
-                {images_array.map((image,index) => (
+              <GridList cellHeight={160} className={classes.gridList} cols={5}>
+                {images_array.map((image, index) => (
                   <GridListTile key={index} cols={1}>
                     <img src={image.img} alt={image.title} />
                   </GridListTile>

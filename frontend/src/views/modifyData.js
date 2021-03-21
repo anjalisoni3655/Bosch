@@ -166,9 +166,7 @@ export default function User() {
 
   const valueRef = useRef(""); //creating a refernce for TextField Component
 
-  const showText = () => {
-    return console.log("text", valueRef.current.value); //on clicking button accesing current value of TextField and outputing it to console
-  };
+  
   const classes = useStyles();
   const [percent, setPercent] = React.useState(10);
   const [trainPercent, setTrainPercent] = React.useState(90);
@@ -194,6 +192,7 @@ export default function User() {
         console.log("error: ", error);
       }
     );
+    window.location.reload();
   };
   const sendTrainPercent = () => {
     const res = axios
@@ -210,29 +209,13 @@ export default function User() {
         (error) => {
           console.log("error: ", error);
         }
-      );
-  };
-
-  const handleSample = () => {
-    console.log(samplePercent);
-    const res = axios.post("http://localhost:5000/sample", samplePercent).then(
-      (response) => {
-        console.log("response: ", response);
-        if (response.data == "OK") {
-          toast.success("🦄 Data Sampled succesfully");
-        } else {
-          toast.error("💀 Error : " + response.data);
-        }
-      },
-      (error) => {
-        console.log("error: ", error);
-      }
     );
+    
   };
 
-  const handlePercent = (event, newValue) => {
-    setPercent(newValue);
-  };
+
+
+
   const handleTrainPercent = (event, newValue) => {
     setTrainPercent(newValue);
   };
