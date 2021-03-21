@@ -30,8 +30,20 @@ var routes = [
     component: Dashboard,
   },
   {
-    path: "/view-model-stats",
-    name: "View Model Stats",
+    path: "/model-performance",
+    name: "Model Peformance",
+    icon: "nc-icon nc-caps-small",
+    component: Icons,
+  },
+  {
+    path: "/model-summary",
+    name: "Model Summary",
+    icon: "nc-icon nc-caps-small",
+    component: Icons,
+  },
+  {
+    path: "/model-analysis",
+    name: "Model Analysis",
     icon: "nc-icon nc-caps-small",
     component: Icons,
   },
