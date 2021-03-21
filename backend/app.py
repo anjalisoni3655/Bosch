@@ -13,7 +13,7 @@ import requests
 
 
 UPLOAD_FOLDER = 'static/uploads'
-EXTRACTION_FOLDER = 'static/extracted'
+EXTRACTION_FOLDER = '/home/anjalisoni/Downloads/Bosch/frontend/src/assets/uploaded/image'
 AUGMENTATION_FOLDER = 'static/augmented'
 DATASET_FOLDER = 'static/dataset'
 ALLOWED_EXTENSIONS = {'zip'}

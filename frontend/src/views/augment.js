@@ -1,4 +1,4 @@
-import React, { useState }from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -8,13 +8,14 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 var IMAGES = [];
 
- for (var i = 0; i < 8; i++) {
+for (var i = 0; i < 8; i++) {
   IMAGES.push({
-    img: "../assets/uploaded/" + i.toString() + ".jpg",
+    //img: "../assets/uploaded/image/" + i.toString() + ".jpg",
+    img: "../assets/uploaded/image/anjali.jpg",
     title: i.toString(),
     author: "anjali",
   });
- }
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,37 +61,41 @@ const useStyles = makeStyles((theme) => ({
  */
 export default function Augment() {
   const [currentImage, setImage] = useState(0);
-  const[imageArray,setImageArray]=useState(IMAGES)
+  const [imageArray, setImageArray] = useState(IMAGES);
   const classes = useStyles();
   // currentImageChange(index) {
   //       this.setState({ currentImage: index });
   //   }
   const currentImageChange = (index) => {
     setImage(index);
-    
-  }
+  };
   const deleteImage = () => {
-     if (
-       window.confirm(
-         `Are you sure you want to delete image number ${currentImage}?`
-       )
-     ) {
-       var images = imageArray.slice();
-       images.splice(currentImage, 1);
-       setImageArray(images);
-     }
-  }
+    if (
+      window.confirm(
+        `Are you sure you want to delete image number ${currentImage}?`
+      )
+    ) {
+      var images = imageArray.slice();
+      images.splice(currentImage, 1);
+      setImageArray(images);
+    }
+  };
 
   return (
     <div className={classes.root}>
       <GridList cellHeight={300} spacing={1} className={classes.gridList}>
-        {imageArray.map((tile,index) => (
+        {imageArray.map((tile, index) => (
           <GridListTile
             key={tile.img}
             cols={tile.featured ? 2 : 1}
             rows={tile.featured ? 2 : 1}
           >
-            <img src={require("../assets/uploaded/"+index.toString()+".jpg")} alt={tile.title} />
+            <img
+              src={require("../assets/uploaded/image/extracted_1/image/" +
+                index.toString() +
+                ".jpg")}
+              alt={tile.title}
+            />
             <GridListTileBar
               title={tile.title}
               titlePosition="top"
