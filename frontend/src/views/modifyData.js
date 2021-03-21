@@ -191,10 +191,14 @@ export default function User() {
   };
   const classes = useStyles();
   const [percent, setPercent] = React.useState(10);
+  const [trainPercent, setTrainPercent] = React.useState(90);
 
   const samplePercent = {
     sample: percent,
   };
+  const trainPercentData = {
+    train:trainPercent
+  }
   console.log("data", data);
   const handleAugment = () => {
     const res = axios.post("http://localhost:5000/augment", data).then(
@@ -202,6 +206,21 @@ export default function User() {
         console.log("response: ", response);
         if (response.data == "OK") {
           toast.success("🦄 Data Augmented succesfully");
+        } else {
+          toast.error("💀 Error : " + response.data);
+        }
+      },
+      (error) => {
+        console.log("error: ", error);
+      }
+    );
+  };
+  const sendTrainPercent = () => {
+    const res = axios.post("http://localhost:5000/train-percent", trainPercentData).then(
+      (response) => {
+        console.log("response: ", response);
+        if (response.data == "OK") {
+          toast.success("🦄 Data Split and added succesfully");
         } else {
           toast.error("💀 Error : " + response.data);
         }
@@ -231,6 +250,9 @@ export default function User() {
 
   const handlePercent = (event, newValue) => {
     setPercent(newValue);
+  };
+  const handleTrainPercent = (event, newValue) =>{
+    setTrainPercent(newValue);
   };
 
   return (
@@ -774,7 +796,38 @@ export default function User() {
         </div>
       </Card>
 
+
       <Augment images={IMAGES}></Augment>
+
+      <br />
+      <Row style={{ justifyContent: "center" }}> 
+        <Typography>Percentage of Train Data</Typography>
+      </Row>
+      <Row style={{ justifyContent: "center" }}>
+        
+        <Slider
+          value={trainPercent}
+          min={0}
+          step={5}
+          max={100}
+          style={{ width: "150px" }}
+          marks={[
+            { value: 0, label: "0" },
+            { value: 100, label: "100" },
+          ]}
+          getAriaValueText={valueLabelFormat}
+          valueLabelFormat={valueLabelFormat}
+          onChange={handleTrainPercent}
+          valueLabelDisplay="auto"
+          aria-labelledby="non-linear-slider"
+        />
+      </Row> 
+      <Row style={{ justifyContent: "center" }}>
+        <Button onClick={sendTrainPercent} >Add to Dataset</Button>
+      </Row>  
+        
+        
+
     </div>
   );
 }

@@ -83,8 +83,12 @@ def augmentImgs(imgs, parameters):
 
 
 def apply_augmentation(folder,outfolder,parameters):
+    print(folder)
+    print(outfolder)
     imgs = []
     imgnames = []
+    if not os.path.exists(outfolder):
+        os.makedirs(outfolder)
     for file in os.listdir(folder):
         
         img = cv2.imread(os.path.join(folder ,file))
@@ -100,5 +104,17 @@ def apply_augmentation(folder,outfolder,parameters):
         cv2.imwrite(os.path.join(outfolder,imgnames[i]), img)
 
 
-
+def apply_augmentation_recursive(folder,outfolder,parameters,className="NULL"):
+    subdir = 0
+    for x in os.listdir(folder):
+        if(os.path.isdir(os.path.join(folder,x))):
+            apply_augmentation_recursive(os.path.join(folder,x),outfolder, parameters)
+            subdir=1
+    if(subdir==1):
+        return 1
+    print(className)
+    if(className!="NULL"):
+        apply_augmentation(folder,os.path.join(outfolder,className),parameters) 
+    else:
+        apply_augmentation(folder,os.path.join(outfolder,os.path.basename(os.path.normpath(folder))),parameters)
 

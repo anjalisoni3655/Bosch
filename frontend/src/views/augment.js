@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect }from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
@@ -24,6 +25,25 @@ var IMAGES = [];
     author: "anjali",
   });
  }
+
+
+import { render } from "react-dom";
+import Gallery from "react-grid-gallery";
+import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  CardTitle,
+  FormGroup,
+  Form,
+  Input,
+  Row,
+  Col,
+} from "reactstrap";
+
 
 // const [number_of_images, setNumber_of_images] = useState(0);
   // const [loading, setLoading] = useState(false);
@@ -90,6 +110,7 @@ export default function Augment() {
   // };
 
 
+
   return (
     <div className={classes.root}>
       <GridList cellHeight={300} spacing={1} className={classes.gridList}>
@@ -121,4 +142,5 @@ export default function Augment() {
       </GridList>
     </div>
   );
+
 }
