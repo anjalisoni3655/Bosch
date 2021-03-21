@@ -7,24 +7,7 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
-var IMAGES = [];
 
- for (var i = 0; i < 15; i++) {
-  // let image;
-  // console.log("http://localhost:5000/static/extracted/images/" + i.toString() + ".png");
-  // axios.get("http://localhost:5000/static/extracted/images/" + i.toString() + ".png")
-  // .then(res => {
-    
-  //   image = res.data;
-  //   // console.log(image);
-  // })
-  
-  IMAGES.push({
-    img: "http://localhost:5000/static/extracted/images/" + i.toString() + ".png",
-    title: i.toString(),
-    author: "anjali",
-  });
- }
 
 
 import { render } from "react-dom";
@@ -49,7 +32,24 @@ import {
   // const [loading, setLoading] = useState(false);
 
 
+  var IMAGES = [];
 
+  for (var i = 0; i < 15; i++) {
+   // let image;
+   // console.log("http://localhost:5000/static/extracted/images/" + i.toString() + ".png");
+   // axios.get("http://localhost:5000/static/extracted/images/" + i.toString() + ".png")
+   // .then(res => {
+     
+   //   image = res.data;
+   //   // console.log(image);
+   // })
+   
+   IMAGES.push({
+     img: "http://localhost:5000/static/extracted/images/" + i.toString() + ".png",
+     title: i.toString(),
+     author: "anjali",
+   });
+  }
 
 const useStyles = makeStyles((theme) => ({
   root: {
