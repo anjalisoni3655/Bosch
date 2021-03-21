@@ -797,7 +797,7 @@ export default function User() {
       </Card>
 
 
-      <Augment images={IMAGES}></Augment>
+      <Augment images={IMAGES} showDelete={true}></Augment>
 
       <br />
       <Row style={{ justifyContent: "center" }}> 

@@ -282,7 +282,7 @@ export default function AddData() {
               </CardTitle>
             </CardHeader>
             <CardBody>
-              <Augment images={IMAGES}></Augment>
+              <Augment images={IMAGES} showDelete={false}></Augment>
             </CardBody>
           </Card>
         </Col>
