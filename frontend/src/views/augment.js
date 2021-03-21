@@ -1,4 +1,23 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect }from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import GridListTileBar from "@material-ui/core/GridListTileBar";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import axios from "axios";
+var IMAGES = [];
+
+ for (var i = 0; i < 12; i++) {
+  IMAGES.push({
+    img: "../assets/uploaded/images/" + i.toString() + ".jpg",
+    title: i.toString(),
+    author: "anjali",
+  });
+ }
+
+
 import { render } from "react-dom";
 import Gallery from "react-grid-gallery";
 import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
@@ -15,173 +34,104 @@ import {
   Row,
   Col,
 } from "reactstrap";
-const IMAGES = [
-  {
-    src: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg",
-    thumbnail:
-      "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_n.jpg",
-    thumbnailWidth: 320,
-    thumbnailHeight: 174,
-    isSelected: false,
-    caption: "After Rain (Jeshu John - designerspics.com)",
-  },
-  {
-    src: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg",
-    thumbnail:
-      "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_n.jpg",
-    thumbnailWidth: 320,
-    thumbnailHeight: 174,
-    isSelected: false,
-    caption: "After Rain (Jeshu John - designerspics.com)",
-  },
-  {
-    src: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg",
-    thumbnail:
-      "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_n.jpg",
-    thumbnailWidth: 320,
-    thumbnailHeight: 174,
-    isSelected: false,
-    caption: "After Rain (Jeshu John - designerspics.com)",
-  },
-  {
-    src: "https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_b.jpg",
-    thumbnail:
-      "https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_n.jpg",
-    thumbnailWidth: 320,
-    thumbnailHeight: 212,
-    tags: [
-      { value: "Ocean", title: "Ocean" },
-      { value: "People", title: "People" },
-    ],
-    caption: "Boats (Jeshu John - designerspics.com)",
-  },
 
-  {
-    src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-    thumbnail:
-      "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
-    thumbnailWidth: 320,
-    thumbnailHeight: 212,
-  },
-  {
-    src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-    thumbnail:
-      "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
-    thumbnailWidth: 320,
-    thumbnailHeight: 212,
-  },
-  {
-    src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-    thumbnail:
-      "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
-    thumbnailWidth: 320,
-    thumbnailHeight: 212,
-  },
-  {
-    src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-    thumbnail:
-      "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
-    thumbnailWidth: 320,
-    thumbnailHeight: 212,
-  },
-  {
-    src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-    thumbnail:
-      "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
-    thumbnailWidth: 320,
-    thumbnailHeight: 212,
-  },
-  {
-    src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-    thumbnail:
-      "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
-    thumbnailWidth: 320,
-    thumbnailHeight: 212,
-  },
-  {
-    src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-    thumbnail:
-      "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
-    thumbnailWidth: 320,
-    thumbnailHeight: 212,
-  },
-];
-class Augment extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      images: IMAGES,
-      currentImage: 0,
-    };
 
-    this.onCurrentImageChange = this.onCurrentImageChange.bind(this);
-    this.deleteImage = this.deleteImage.bind(this);
+// const [number_of_images, setNumber_of_images] = useState(0);
+  // const [loading, setLoading] = useState(false);
+
+
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    overflow: "hidden",
+    backgroundColor: theme.palette.background.paper,
+  },
+  gridList: {
+    width: "200%",
+    height: 450,
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: "translateZ(0)",
+  },
+  titleBar: {
+    background:
+      "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
+      "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+  },
+  icon: {
+    color: "white",
+  },
+}));
+
+export default function Augment() {
+  const [currentImage, setImage] = useState(0);
+  const[imageArray,setImageArray]=useState(IMAGES)
+  const classes = useStyles();
+  // currentImageChange(index) {
+  //       this.setState({ currentImage: index });
+  //   }
+  const currentImageChange = (index) => {
+    setImage(index);
+    
+  }
+  const deleteImage = () => {
+     if (
+       window.confirm(
+         `Are you sure you want to delete image number ${currentImage}?`
+       )
+     ) {
+       var images = imageArray.slice();
+       images.splice(currentImage, 1);
+       setImageArray(images);
+     }
   }
 
-//   componentDidMount() {
-//     // Simple GET request using axios
-//     axios.get('http://localhost:5000/uploads/document')
-//         .then(response => this.setState({ totalReactPackages: response.data.total }));
-// }  
+  useEffect(() => {
+    fetchData();
+  });
+  const fetchData = () => {
+    axios.get(`http://localhost:5000/get-images`)
+      .then(res => {
+        console.log('Number of images after axios')
+        console.log(res)
+      })
+  };
 
 
 
-  onCurrentImageChange(index) {
+  return (
+    <div className={classes.root}>
+      <GridList cellHeight={300} spacing={1} className={classes.gridList}>
+        {imageArray.map((tile,index) => (
+          <GridListTile
+            key={tile.img}
+            cols={tile.featured ? 2 : 1}
+            rows={tile.featured ? 2 : 1}
+          >
+            <img src={require("../assets/uploaded/images/"+index.toString()+".png")} alt={tile.title} />
+            <GridListTileBar
+              title={tile.title}
+              titlePosition="top"
+              actionIcon={
+                <IconButton
+                  onChange={currentImageChange}
+                  aria-label={`star ${tile.title}`}
+                  className={classes.icon}
+                  onClick={deleteImage}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              }
+              actionPosition="left"
+              className={classes.titleBar}
+            />
+          </GridListTile>
+        ))}
+      </GridList>
+    </div>
+  );
 
-    this.setState({ currentImage: index });
-  }
-
-  deleteImage() {
-      
-    if (
-      window.confirm(
-        `Are you sure you want to delete image number ${this.state.currentImage}?`
-      )
-    ) {
-      var images = this.state.images.slice();
-      images.splice(this.state.currentImage, 1);
-      this.setState({
-        images: images,
-      });
-    }
-  }
-
-  render() {
-    return (
-      <div
-        style={{
-          display: "block",
-          minHeight: "1px",
-          width: "100%",
-          border: "1px solid #ddd",
-          overflow: "auto",
-        }}
-      >
-        {/* <div
-          style={{
-            padding: "2px",
-            color: "#666",
-          }}
-        >
-          Current image: {this.state.currentImage}
-        </div> */}
-        <Gallery
-          images={this.state.images}
-          enableLightbox={true}
-          enableImageSelection={false}
-          currentImageWillChange={this.onCurrentImageChange}
-          customControls={[
-            <button key="deleteImage" onClick={this.deleteImage}>
-              Delete Image
-            </button>,
-          ]}
-        />
-        
-      </div>
-      
-        
-      
-    );
-  }
 }
-export default Augment;

@@ -1,5 +1,5 @@
-import Upload from "./Upload";
-import React, { useRef, useState } from "react";
+import {Upload, number_images} from "./Upload";
+import React, { useRef, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import InputLabel from "@material-ui/core/InputLabel";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Augment from "./augment";
+//import image_ok from "/home/anjalisoni/Downloads/Bosch/frontend/src/assets/uploaded/1.jpg";
 
 import FormControl from "@material-ui/core/FormControl";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,10 +27,39 @@ import {
   Row,
   Col,
 } from "reactstrap";
+const url = `http://localhost:5000/static/extracted/extracted_1/image/`;
 
-// const extract = require('extract-zip');
-// const path = require('path');
-// const fs = require('fs');
+const fetchData = () => {
+  axios.get(`http://localhost:5000/get-images`)
+    .then(res => {
+      console.log('Number of images after axios in adddata')
+      console.log(res)
+    })
+};
+
+
+var images_array = [];
+
+for (let i = 1; i <= 9; i++) {
+  images_array.push(url + i.toString() + ".png");
+}
+console.log("images array", images_array);
+console.log('Number of images after import')
+console.log(number_images)
+
+var IMAGES = [];
+
+for (var i = 0; i < 9; i++) {
+  const image1 = "../assets/uploaded/" + i.toString() + ".jpg";
+  IMAGES.push({
+    src: {image1},
+    thumbnail: { image1 },
+    thumbnailWidth: 320,
+    thumbnailHeight: 174,
+    isSelected: false,
+    caption: "After Rain (Jeshu John - designerspics.com)",
+  });
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,21 +125,48 @@ export default function AddData() {
     setPercent(newValue);
   };
 
-  
+  // const [file,setFile] = React.useState(null);
+
+  // const handleFileInside = (event, newValue) => {
+  //   setFile(newValue);
+  // };
   let file;
- 
+  const target = "/home/tushar/Bosch/frontend/src/assets/uploaded";
+  // async function forExtract (source) {
+  //   try {
+  //     await extract(source, { dir: target })
+  //     console.log('Extraction complete')
+  //   } catch (err) {
+  //     // handle any errors
+  //   }
+  // }
+
   function handleFile(fileFromUpload) {
     file = fileFromUpload;
-    
+    // forExtract(file);
+    // handleFileInside(fileFromUpload);
+    // _extractUpdateFile(file);
+    // extract(file, { dir: target });
     console.log("From Uploads");
     console.log(file);
   }
 
   const classes_dataset = ["U-turn", "Zebra-Crossing", "No Entry"];
 
+
+  // useEffect(() => {
+  //   fetchData();
+  // },[]);
+
+  
+  
   return (
     <div className="content">
       <ToastContainer />
+      {/* <img
+        src={require("/home/anjalisoni/Downloads/Bosch/frontend/src/assets/uploaded/1.jpg")}
+      /> */}
+
       <Row>
         <Col md="4">
           <Card className="card-user" style={{ height: "45vh" }}>
@@ -225,7 +282,7 @@ export default function AddData() {
               </CardTitle>
             </CardHeader>
             <CardBody>
-              <Augment gridImages={file}></Augment>
+              <Augment images={IMAGES}></Augment>
             </CardBody>
           </Card>
         </Col>
