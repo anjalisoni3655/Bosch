@@ -12,7 +12,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import Augment from "./augment";
-
+//import image_ok from "/home/anjalisoni/Downloads/Bosch/frontend/src/assets/uploaded/1.jpg";
 
 import FormControl from "@material-ui/core/FormControl";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,7 +33,7 @@ const url = `http://localhost:5000/static/grid/extracted/`;
 
 //console.log("images array", images_array);
 console.log("Number of images after import");
-console.log(number_images);
+//console.log(number_images)
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -112,7 +112,7 @@ export default function AddData() {
   };
 
   let file;
- 
+  const target = "/home/tushar/Bosch/frontend/src/assets/uploaded";
 
   function handleFile(fileFromUpload) {
     file = fileFromUpload;
@@ -128,7 +128,7 @@ export default function AddData() {
   for (var i = 0; i < 8; i++) {
     images_array.push({
       img:
-        "http://localhost:5000/static/grid/extracted/" +
+        "http://localhost:5000/static/grid/extracted/image/" +
         i.toString() +
         ".png",
       title: i.toString(),
@@ -256,11 +256,7 @@ export default function AddData() {
               </CardTitle>
             </CardHeader>
             <CardBody>
-              <Augment
-                url={url}
-                showDelete={false}
-                number_images={10}
-              ></Augment>
+              <Augment url={url} showDelete={false}></Augment>
             </CardBody>
           </Card>
         </Col>

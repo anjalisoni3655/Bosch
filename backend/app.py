@@ -150,9 +150,9 @@ def upload_file():
 @app.route('/get-images', methods=['GET'])
 @cross_origin()
 def images_number():
-    #entries = os.listdir('../frontend/src/assets/uploaded/images')
-    #print(len(entries))
-    return "10"
+    entries = os.listdir('static/grid/extracted')
+    print(len(entries))
+    return str(len(entries))
 
 
 

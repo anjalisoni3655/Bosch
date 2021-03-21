@@ -24,16 +24,6 @@ import {
   Col,
 } from "reactstrap";
 
-var images_array = [];
-
-for (var i = 0; i < 8; i++) {
-  images_array.push({
-    img: "",
-    title: i.toString(),
-    author: "anjali",
-  });
-}
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -58,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Augment(props) {
+  var images_array = [];
   const [currentImage, setImage] = useState(0);
   const [imageArray, setImageArray] = useState(images_array);
   const classes = useStyles();
@@ -67,6 +58,15 @@ export default function Augment(props) {
   const currentImageChange = (index) => {
     setImage(index);
   };
+  console.log("Number of images after axios");
+  console.log(props.number_images);
+  for (var i = 0; i < 10; i++) {
+    images_array.push({
+      img: "",
+      title: i.toString(),
+      author: "anjali",
+    });
+  }
   const deleteImage = () => {
     if (
       window.confirm(
@@ -81,17 +81,18 @@ export default function Augment(props) {
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
   const fetchData = () => {
     axios.get(`http://localhost:5000/get-images`).then((res) => {
       console.log("Number of images after axios");
-      console.log(res);
+      console.log(res.data);
+      setImage(res.data);
     });
   };
 
   return (
     <div className={classes.root}>
-      {props.number_images && (
+      {10 && (
         <GridList
           cellHeight={200}
           spacing={1}
@@ -105,8 +106,14 @@ export default function Augment(props) {
               // rows={tile.featured ? 2 : 1}
             >
               <img
-                src={props.url + index.toString() + ".png"}
+                src={
+                  props.url +
+                  index.toString() +
+                  ".png" +
+                  `?${new Date().getTime()}`
+                }
                 alt={tile.title}
+                style={{ height: "100%", width: "100%" }}
               />
 
               {props.showDelete && (

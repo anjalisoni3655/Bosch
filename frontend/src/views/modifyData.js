@@ -163,7 +163,7 @@ export default function User() {
     degrade: [...degrade, values.prob10],
     rain: [rain.age, values.prob11],
   };
-
+  const [currentImage, setImage] = useState(0);
   const valueRef = useRef(""); //creating a refernce for TextField Component
 
   const classes = useStyles();
@@ -181,8 +181,9 @@ export default function User() {
     const res = axios.post("http://localhost:5000/augment", data).then(
       (response) => {
         console.log("response: ", response);
-        if (response.data == "OK") {
+        if (response.data != "0") {
           toast.success("🦄 Data Augmented succesfully");
+          console.log("images", response.data);
         } else {
           toast.error("💀 Error : " + response.data);
         }
@@ -191,7 +192,7 @@ export default function User() {
         console.log("error: ", error);
       }
     );
-    // window.location.reload();
+    window.location.reload();
   };
   const sendTrainPercent = () => {
     const res = axios
@@ -756,7 +757,11 @@ export default function User() {
         </div>
       </Card>
 
-      <Augment url={url} showDelete={true}></Augment>
+      <Augment
+        url={url}
+        showDelete={true}
+        number_images={currentImage}
+      ></Augment>
 
       <br />
       <Row style={{ justifyContent: "center" }}>
