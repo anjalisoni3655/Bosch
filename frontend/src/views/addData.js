@@ -27,39 +27,18 @@ import {
   Row,
   Col,
 } from "reactstrap";
-const url = `http://localhost:5000/static/extracted/extracted_1/image/`;
-
-// const fetchData = () => {
-//   axios.get(`http://localhost:5000/get-images`)
-//     .then(res => {
-//       console.log('Number of images after axios in adddata')
-//       console.log(res)
-//     })
-// };
+const uploadurl = `http://localhost:5000/static/grid/extracted/images/`;
 
 
-var images_array = [];
 
-for (let i = 1; i <= 9; i++) {
-  images_array.push(url + i.toString() + ".png");
-}
-console.log("images array", images_array);
+
+
+
+//console.log("images array", images_array);
 console.log('Number of images after import')
-console.log(number_images)
+//console.log(number_images)
 
-var IMAGES = [];
 
-for (var i = 0; i < 9; i++) {
-  const image1 = "../assets/uploaded/" + i.toString() + ".jpg";
-  IMAGES.push({
-    src: {image1},
-    thumbnail: { image1 },
-    thumbnailWidth: 320,
-    thumbnailHeight: 174,
-    isSelected: false,
-    caption: "After Rain (Jeshu John - designerspics.com)",
-  });
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -125,22 +104,10 @@ export default function AddData() {
     setPercent(newValue);
   };
 
-  // const [file,setFile] = React.useState(null);
-
-  // const handleFileInside = (event, newValue) => {
-  //   setFile(newValue);
-  // };
+  
   let file;
   const target = "/home/tushar/Bosch/frontend/src/assets/uploaded";
-  // async function forExtract (source) {
-  //   try {
-  //     await extract(source, { dir: target })
-  //     console.log('Extraction complete')
-  //   } catch (err) {
-  //     // handle any errors
-  //   }
-  // }
-
+ 
   function handleFile(fileFromUpload) {
     file = fileFromUpload;
     // forExtract(file);
@@ -154,18 +121,14 @@ export default function AddData() {
   const classes_dataset = ["U-turn", "Zebra-Crossing", "No Entry"];
 
 
-  // useEffect(() => {
-  //   fetchData();
-  // },[]);
+  
 
   
   
   return (
     <div className="content">
       <ToastContainer />
-      {/* <img
-        src={require("/home/anjalisoni/Downloads/Bosch/frontend/src/assets/uploaded/1.jpg")}
-      /> */}
+     
 
       <Row>
         <Col md="4">
@@ -282,7 +245,7 @@ export default function AddData() {
               </CardTitle>
             </CardHeader>
             <CardBody>
-              <Augment images={IMAGES}></Augment>
+              <Augment url={uploadurl}></Augment>
             </CardBody>
           </Card>
         </Col>

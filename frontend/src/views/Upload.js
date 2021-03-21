@@ -73,7 +73,7 @@ class Upload extends React.Component {
               </Row>
 
               <Row style={{ justifyContent: "center" }}>
-                <Button onClick={this.handleUploadImage} type="submit">Upload</Button>
+                <Button onClick={this.handleUploadImage} type="submit" >Upload</Button>
               </Row>
             </Col>
           </div>

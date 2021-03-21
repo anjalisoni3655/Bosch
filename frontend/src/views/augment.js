@@ -24,24 +24,11 @@ import {
   Col,
 } from "reactstrap";
 
-// const [number_of_images, setNumber_of_images] = useState(0);
-// const [loading, setLoading] = useState(false);
-
-var IMAGES = [];
+var images_array = [];
 
 for (var i = 0; i < 4; i++) {
-  // let image;
-  // console.log("http://localhost:5000/static/extracted/images/" + i.toString() + ".png");
-  // axios.get("http://localhost:5000/static/extracted/images/" + i.toString() + ".png")
-  // .then(res => {
-
-  //   image = res.data;
-  //   // console.log(image);
-  // })
-
-  IMAGES.push({
-    img:
-      "http://localhost:5000/static/extracted/images/" + i.toString() + ".png",
+  images_array.push({
+    img: "",
     title: i.toString(),
     author: "anjali",
   });
@@ -71,9 +58,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Augment() {
+export default function Augment(props) {
   const [currentImage, setImage] = useState(0);
-  const [imageArray, setImageArray] = useState(IMAGES);
+  const [imageArray, setImageArray] = useState(images_array);
   const classes = useStyles();
   // currentImageChange(index) {
   //       this.setState({ currentImage: index });
@@ -113,14 +100,7 @@ export default function Augment() {
             cols={tile.featured ? 2 : 1}
             rows={tile.featured ? 2 : 1}
           >
-            <img
-              src={
-                "http://localhost:5000/static/extracted/images/" +
-                index.toString() +
-                ".png"
-              }
-              alt={tile.title}
-            />
+            <img src={props.url + index.toString() + ".png"} alt={tile.title} />
             <GridListTileBar
               title={tile.title}
               titlePosition="top"

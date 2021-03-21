@@ -21,7 +21,7 @@ from dataStats import *
 import random
 import shutil
 
-ROOT_FOLDER="static/"
+ROOT_FOLDER="static/grid/"
 UPLOAD_FOLDER = ROOT_FOLDER+'uploads/'
 EXTRACTION_FOLDER = ROOT_FOLDER+'extracted/'
 AUGMENTATION_FOLDER = ROOT_FOLDER+'augmented/'
