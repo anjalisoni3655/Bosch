@@ -29,7 +29,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-const uploadurl = `http://localhost:5000/static/grid/extracted/image/`;
+const url = `http://localhost:5000/static/grid/extracted/image/`;
 
 //console.log("images array", images_array);
 console.log("Number of images after import");
@@ -52,6 +52,17 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    overflow: "hidden",
+    backgroundColor: theme.palette.background.paper,
+  },
+  // gridList: {
+  //   width: 500,
+  //   height: 450,
+  // },
 }));
 
 const marks = [
@@ -114,7 +125,7 @@ export default function AddData() {
   }
   var images_array = [];
 
-  for (var i = 0; i < 4; i++) {
+  for (var i = 0; i < 8; i++) {
     images_array.push({
       img:
         "http://localhost:5000/static/grid/extracted/image/" +
@@ -245,13 +256,7 @@ export default function AddData() {
               </CardTitle>
             </CardHeader>
             <CardBody>
-              <GridList cellHeight={160} className={classes.gridList} cols={5}>
-                {images_array.map((image, index) => (
-                  <GridListTile key={index} cols={1}>
-                    <img src={image.img} alt={image.title} />
-                  </GridListTile>
-                ))}
-              </GridList>
+              <Augment url={url} showDelete={false}></Augment>
             </CardBody>
           </Card>
         </Col>

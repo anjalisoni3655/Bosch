@@ -26,7 +26,7 @@ import {
 
 var images_array = [];
 
-for (var i = 0; i < 4; i++) {
+for (var i = 0; i < 8; i++) {
   images_array.push({
     img: "",
     title: i.toString(),
@@ -43,8 +43,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
-    width: "200%",
-    height: 450,
+    flexWrap: "nowrap",
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: "translateZ(0)",
   },
@@ -92,30 +91,15 @@ export default function Augment(props) {
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={300} spacing={1} className={classes.gridList}>
+      <GridList cellHeight={200} spacing={1} className={classes.gridList} cols={5}>
         {imageArray.map((tile, index) => (
           <GridListTile
             key={tile.img}
-            cols={tile.featured ? 2 : 1}
-            rows={tile.featured ? 2 : 1}
+            // cols={tile.featured ? 2 : 1}
+            // rows={tile.featured ? 2 : 1}
           >
             <img src={props.url + index.toString() + ".png"} alt={tile.title} />
-            <GridListTileBar
-              title={tile.title}
-              titlePosition="top"
-              actionIcon={
-                <IconButton
-                  onChange={currentImageChange}
-                  aria-label={`star ${tile.title}`}
-                  className={classes.icon}
-                  onClick={deleteImage}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              }
-              actionPosition="left"
-              className={classes.titleBar}
-            />
+
             {props.showDelete && (
               <GridListTileBar
                 title={tile.title}

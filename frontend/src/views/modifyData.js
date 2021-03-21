@@ -41,7 +41,7 @@ const initialValues = {
   prob10: "",
   prob11: "",
 };
-const url = `http://localhost:5000/static/grid/augmented/image/`;
+const url = `http://localhost:5000/static/grid/extracted/image/`;
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -166,7 +166,6 @@ export default function User() {
 
   const valueRef = useRef(""); //creating a refernce for TextField Component
 
-  
   const classes = useStyles();
   const [percent, setPercent] = React.useState(10);
   const [trainPercent, setTrainPercent] = React.useState(90);
@@ -209,12 +208,8 @@ export default function User() {
         (error) => {
           console.log("error: ", error);
         }
-    );
-    
+      );
   };
-
-
-
 
   const handleTrainPercent = (event, newValue) => {
     setTrainPercent(newValue);
