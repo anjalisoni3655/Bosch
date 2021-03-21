@@ -779,7 +779,8 @@ export default function User() {
       </Card>
 
 
-      <Augment url={url}></Augment>
+     
+      <Augment  url={url} showDelete={true}></Augment>
 
       <br />
       <Row style={{ justifyContent: "center" }}> 

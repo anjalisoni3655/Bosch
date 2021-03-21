@@ -245,7 +245,8 @@ export default function AddData() {
               </CardTitle>
             </CardHeader>
             <CardBody>
-              <Augment url={uploadurl}></Augment>
+              
+              <Augment url={uploadurl} showDelete={false}></Augment>
             </CardBody>
           </Card>
         </Col>

@@ -80,16 +80,15 @@ export default function Augment(props) {
     }
   };
 
-  // useEffect(() => {
-  //   fetchData();
-  // });
-  // const fetchData = () => {
-  // axios.get(`http://localhost:5000/get-images`)
-  //   .then(res => {
-  //     console.log('Number of images after axios')
-  //     console.log(res)
-  //   })
-  // };
+  useEffect(() => {
+    fetchData();
+  });
+  const fetchData = () => {
+    axios.get(`http://localhost:5000/get-images`).then((res) => {
+      console.log("Number of images after axios");
+      console.log(res);
+    });
+  };
 
   return (
     <div className={classes.root}>
@@ -117,6 +116,24 @@ export default function Augment(props) {
               actionPosition="left"
               className={classes.titleBar}
             />
+            {props.showDelete && (
+              <GridListTileBar
+                title={tile.title}
+                titlePosition="top"
+                actionIcon={
+                  <IconButton
+                    onChange={currentImageChange}
+                    aria-label={`star ${tile.title}`}
+                    className={classes.icon}
+                    onClick={deleteImage}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                }
+                actionPosition="left"
+                className={classes.titleBar}
+              />
+            )}
           </GridListTile>
         ))}
       </GridList>
