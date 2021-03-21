@@ -82,7 +82,7 @@ create_folder(app.config["TRAIN_FOLDER"])
 create_folder(app.config["VALIDATION_FOLDER"])
 create_folder(app.config["TEST_FOLDER"])
 
-@app.route('/upload-file', methods=[ 'POST','GET'])
+@app.route('/upload', methods=[ 'POST','GET'])
 @cross_origin()
 def upload_file():
 
@@ -116,7 +116,7 @@ def upload_file():
             # uploaded_folder = create_folder_entry(app.config['UPLOAD_FOLDER'],"uploaded")
             file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))  
             
-            print("File uploaded to "+os.path.join(uploaded_folder,filename))
+            print("File uploaded to "+os.path.join(app.config["UPLOAD_FOLDER"],filename))
             print("Unzipping "+ filename)
             # newfoldername = create_folder_entry(app.config['EXTRACTION_FOLDER'],"extracted")
 
