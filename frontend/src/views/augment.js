@@ -98,7 +98,7 @@ export default function Augment(props) {
             // cols={tile.featured ? 2 : 1}
             // rows={tile.featured ? 2 : 1}
           >
-            <img src={props.url + index.toString() + ".png"} alt={tile.title} />
+            <img src={props.url + index.toString() + ".png" + `?${new Date().getTime()}`} alt={tile.title} />
 
             {props.showDelete && (
               <GridListTileBar

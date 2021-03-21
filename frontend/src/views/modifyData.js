@@ -41,7 +41,7 @@ const initialValues = {
   prob10: "",
   prob11: "",
 };
-const url = `http://localhost:5000/static/grid/augmented/image/`;
+const url = `http://localhost:5000/static/grid/augmented/`;
 
 const useStyles = makeStyles((theme) => ({
   card: {
