@@ -41,7 +41,7 @@ const initialValues = {
   prob10: "",
   prob11: "",
 };
-const url = `http://localhost:5000/static/grid/extracted/image/`;
+const url = `http://localhost:5000/static/grid/augmented/image/`;
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -191,7 +191,7 @@ export default function User() {
         console.log("error: ", error);
       }
     );
-    window.location.reload();
+    // window.location.reload();
   };
   const sendTrainPercent = () => {
     const res = axios
