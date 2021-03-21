@@ -1,5 +1,5 @@
-import Upload from "./Upload";
-import React, { useRef, useState } from "react";
+import {Upload, number_images} from "./Upload";
+import React, { useRef, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
@@ -29,12 +29,23 @@ import {
 } from "reactstrap";
 const url = `http://localhost:5000/static/extracted/extracted_1/image/`;
 
+// const fetchData = () => {
+//   axios.get(`http://localhost:5000/get-images`)
+//     .then(res => {
+//       console.log('Number of images after axios in adddata')
+//       console.log(res)
+//     })
+// };
+
+
 var images_array = [];
 
 for (let i = 1; i <= 9; i++) {
   images_array.push(url + i.toString() + ".png");
 }
 console.log("images array", images_array);
+console.log('Number of images after import')
+console.log(number_images)
 
 var IMAGES = [];
 
@@ -49,10 +60,6 @@ for (var i = 0; i < 9; i++) {
     caption: "After Rain (Jeshu John - designerspics.com)",
   });
 }
-
-// const extract = require('extract-zip');
-// const path = require('path');
-// const fs = require('fs');
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -134,21 +141,6 @@ export default function AddData() {
   //   }
   // }
 
-  // function _extractUpdateFile(filePath) {
-  //   return new Promise((resolve, reject) => {
-  //     extract(
-  //       filePath,
-  //       {dir: path.join(filePath, '../')},
-  //       error => {
-  //         if (error) reject(error);
-  //         else {
-  //           fs.removeSync(filePath);
-  //           resolve(path.join(filePath, '../'));
-  //         }
-  //       }
-  //     )
-  //   })
-  // }
   function handleFile(fileFromUpload) {
     file = fileFromUpload;
     // forExtract(file);
@@ -161,6 +153,13 @@ export default function AddData() {
 
   const classes_dataset = ["U-turn", "Zebra-Crossing", "No Entry"];
 
+
+  // useEffect(() => {
+  //   fetchData();
+  // },[]);
+
+  
+  
   return (
     <div className="content">
       <ToastContainer />

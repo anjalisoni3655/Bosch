@@ -1,17 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
+import axios from "axios";
+
+import { render } from "react-dom";
+import Gallery from "react-grid-gallery";
+import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  CardTitle,
+  FormGroup,
+  Form,
+  Input,
+  Row,
+  Col,
+} from "reactstrap";
+
+// const [number_of_images, setNumber_of_images] = useState(0);
+// const [loading, setLoading] = useState(false);
 
 var IMAGES = [];
 
-for (var i = 0; i < 8; i++) {
+for (var i = 0; i < 4; i++) {
+  // let image;
+  // console.log("http://localhost:5000/static/extracted/images/" + i.toString() + ".png");
+  // axios.get("http://localhost:5000/static/extracted/images/" + i.toString() + ".png")
+  // .then(res => {
+
+  //   image = res.data;
+  //   // console.log(image);
+  // })
+
   IMAGES.push({
-    //img: "../assets/uploaded/image/" + i.toString() + ".jpg",
-    img: "../assets/uploaded/image/anjali.jpg",
+    img:
+      "http://localhost:5000/static/extracted/images/" + i.toString() + ".png",
     title: i.toString(),
     author: "anjali",
   });
@@ -41,24 +71,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *     featured: true,
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
 export default function Augment() {
   const [currentImage, setImage] = useState(0);
   const [imageArray, setImageArray] = useState(IMAGES);
@@ -81,6 +93,17 @@ export default function Augment() {
     }
   };
 
+  // useEffect(() => {
+  //   fetchData();
+  // });
+  // const fetchData = () => {
+  // axios.get(`http://localhost:5000/get-images`)
+  //   .then(res => {
+  //     console.log('Number of images after axios')
+  //     console.log(res)
+  //   })
+  // };
+
   return (
     <div className={classes.root}>
       <GridList cellHeight={300} spacing={1} className={classes.gridList}>
@@ -91,9 +114,11 @@ export default function Augment() {
             rows={tile.featured ? 2 : 1}
           >
             <img
-              src={require("../assets/uploaded/image/extracted_1/image/" +
+              src={
+                "http://localhost:5000/static/extracted/images/" +
                 index.toString() +
-                ".jpg")}
+                ".png"
+              }
               alt={tile.title}
             />
             <GridListTileBar
