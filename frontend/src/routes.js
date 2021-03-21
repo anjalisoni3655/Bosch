@@ -1,14 +1,13 @@
 import Dashboard from "views/Dashboard.js";
 import Notifications from "views/Notifications.js";
 import Icons from "views/Icons.js";
-import Typography from "views/Typography.js";
-// import Augment from "views/augment.js";
-import Maps from "views/Map.js";
 
+import Maps from "views/Map.js";
 import modifyData from "views/modifyData.js";
 import AddData from "views/addData.js";
 
 import UpgradeToPro from "views/Upgrade.js";
+import ModelPerformance from "views/ModelPeformance";
 
 var routes = [
   {
@@ -33,17 +32,23 @@ var routes = [
     path: "/model-performance",
     name: "Model Peformance",
     icon: "nc-icon nc-caps-small",
-    component: Icons,
+    component: Notifications,
   },
   {
     path: "/model-summary",
     name: "Model Summary",
     icon: "nc-icon nc-caps-small",
-    component: Icons,
+    component: ModelPerformance,
   },
   {
     path: "/model-analysis",
     name: "Model Analysis",
+    icon: "nc-icon nc-caps-small",
+    component: Icons,
+  },
+  {
+    path: "/know-more",
+    name: "Know More",
     icon: "nc-icon nc-caps-small",
     component: Icons,
   },
