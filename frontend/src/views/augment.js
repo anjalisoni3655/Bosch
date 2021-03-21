@@ -1,7 +1,20 @@
 import React, { useState } from "react";
 import { render } from "react-dom";
 import Gallery from "react-grid-gallery";
-
+import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  CardTitle,
+  FormGroup,
+  Form,
+  Input,
+  Row,
+  Col,
+} from "reactstrap";
 const IMAGES = [
   {
     src: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg",
@@ -71,11 +84,31 @@ const IMAGES = [
     thumbnailWidth: 320,
     thumbnailHeight: 212,
   },
+  {
+    src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
+    thumbnail:
+      "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
+    thumbnailWidth: 320,
+    thumbnailHeight: 212,
+  },
+  {
+    src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
+    thumbnail:
+      "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
+    thumbnailWidth: 320,
+    thumbnailHeight: 212,
+  },
+  {
+    src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
+    thumbnail:
+      "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
+    thumbnailWidth: 320,
+    thumbnailHeight: 212,
+  },
 ];
 class Augment extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       images: IMAGES,
       currentImage: 0,
@@ -85,11 +118,21 @@ class Augment extends React.Component {
     this.deleteImage = this.deleteImage.bind(this);
   }
 
+//   componentDidMount() {
+//     // Simple GET request using axios
+//     axios.get('http://localhost:5000/uploads/document')
+//         .then(response => this.setState({ totalReactPackages: response.data.total }));
+// }  
+
+
+
   onCurrentImageChange(index) {
+
     this.setState({ currentImage: index });
   }
 
   deleteImage() {
+      
     if (
       window.confirm(
         `Are you sure you want to delete image number ${this.state.currentImage}?`
@@ -114,14 +157,14 @@ class Augment extends React.Component {
           overflow: "auto",
         }}
       >
-        <div
+        {/* <div
           style={{
             padding: "2px",
             color: "#666",
           }}
         >
           Current image: {this.state.currentImage}
-        </div>
+        </div> */}
         <Gallery
           images={this.state.images}
           enableLightbox={true}
@@ -133,7 +176,11 @@ class Augment extends React.Component {
             </button>,
           ]}
         />
+        
       </div>
+      
+        
+      
     );
   }
 }

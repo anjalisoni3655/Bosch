@@ -8,9 +8,10 @@ import axios from "axios";
 import Select from "@material-ui/core/Select";
 import { ToastContainer, toast } from "react-toastify";
 import InputLabel from "@material-ui/core/InputLabel";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import Augment from "./augment";
 
 import FormControl from "@material-ui/core/FormControl";
-
 import "react-toastify/dist/ReactToastify.css";
 import {
   Button,
@@ -26,23 +27,16 @@ import {
   Col,
 } from "reactstrap";
 
-const initialValues = {
-  prob1: "",
-  prob2: "",
-  prob3: "",
-  prob4: "",
-  prob5: "",
-  prob6: "",
-  prob7: "",
-  prob8: "",
-  prob9: "",
-  prob10: "",
-  prob11: "",
-};
+// const extract = require('extract-zip');
+// const path = require('path');
+// const fs = require('fs');
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 300,
   },
+  card: {},
+
   text: {
     width: 50,
     height: 30,
@@ -71,118 +65,13 @@ function valueLabelFormat(value) {
 let start = 1;
 
 export default function AddData() {
-  const [rain, setRain] = React.useState({
-    age: "",
-    name: "hai",
-  });
+  const [uploadClass, setuploadClass] = useState("");
 
-  const handleRain = (event) => {
-    const name = event.target.name;
-    setRain({
-      ...rain,
-      [name]: event.target.value,
-    });
-  };
-  console.log("Rain", rain);
-  const [values, setValues] = useState(initialValues);
-
-  const handleProb = (e) => {
-    const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value,
-    });
-  };
-
-  if (start) {
-    console.log(values);
-    for (let property in values) {
-      values[property] = "0.10";
-    }
-    start = 0;
-  }
-  const [brightness, setBrightness] = useState([-0.2, 0.2]);
-  const [contrast, setContrast] = useState([-0.2, 0.2]);
-  const [noise, setNoise] = useState([10, 30]);
-  const [fog, setFog] = useState([0.1, 0.4]);
-  const [shadow, setShadow] = useState([1, 3]);
-  const [snow, setSnow] = useState([0.1, 0.4]);
-  const [sunflare, setSunflare] = useState([3, 10]);
-  const [shear, setShear] = useState([-10, 10]);
-  const [blur, setBlur] = useState([10, 30]);
-  const [degrade, setDegrade] = useState([5, 20]);
-
-  const handleBrightness = (event, newValue) => {
-    setBrightness(newValue);
-  };
-  const handleContrast = (event, newValue) => {
-    setContrast(newValue);
-  };
-  const handleNoise = (event, newValue) => {
-    setNoise(newValue);
-  };
-  const handleFog = (event, newValue) => {
-    setFog(newValue);
-  };
-  const handleShadow = (event, newValue) => {
-    setShadow(newValue);
-  };
-  const handleSnow = (event, newValue) => {
-    setSnow(newValue);
-  };
-  const handleSunflare = (event, newValue) => {
-    setSunflare(newValue);
-  };
-  const handleShear = (event, newValue) => {
-    setShear(newValue);
-  };
-  const handleBlur = (event, newValue) => {
-    setBlur(newValue);
-  };
-  const handleDegrade = (event, newValue) => {
-    setDegrade(newValue);
-  };
-
-  const data = {
-    brightness: [...brightness, values.prob1],
-    contrast: [...contrast, values.prob2],
-    noise: [...noise, values.prob3],
-    fog: [...fog, values.prob4],
-    shadow: [...shadow, values.prob5],
-    snow: [...snow, values.prob6],
-    sunflare: [...sunflare, values.prob7],
-    shear: [...shear, values.prob8],
-    blur: [...blur, values.prob9],
-    degrade: [...degrade, values.prob10],
-    rain: [rain.age, values.prob11],
-  };
-
-  const valueRef = useRef(""); //creating a refernce for TextField Component
-
-  const showText = () => {
-    return console.log("text", valueRef.current.value); //on clicking button accesing current value of TextField and outputing it to console
-  };
   const classes = useStyles();
   const [percent, setPercent] = React.useState(10);
 
   const samplePercent = {
     sample: percent,
-  };
-  console.log("data", data);
-  const handleAugment = () => {
-    const res = axios.post("http://localhost:5000/augment", data).then(
-      (response) => {
-        console.log("response: ", response);
-        if (response.data == "OK") {
-          toast.success("🦄 Data Augmented succesfully");
-        } else {
-          toast.error("💀 Error : " + response.data);
-        }
-      },
-      (error) => {
-        console.log("error: ", error);
-      }
-    );
   };
 
   const handleSample = () => {
@@ -206,27 +95,85 @@ export default function AddData() {
     setPercent(newValue);
   };
 
+  
+  let file;
+ 
+  function handleFile(fileFromUpload) {
+    file = fileFromUpload;
+    
+    console.log("From Uploads");
+    console.log(file);
+  }
+
+  const classes_dataset = ["U-turn", "Zebra-Crossing", "No Entry"];
+
   return (
     <div className="content">
       <ToastContainer />
       <Row>
-        <Col md="6">
-          <Card className="card-user" style={{ height: "180px" }}>
+        <Col md="4">
+          <Card className="card-user" style={{ height: "45vh" }}>
+            <CardHeader>
+              <CardTitle tag="h5" style={{ textAlign: "center" }}>
+                Add New Data Class Wise
+              </CardTitle>
+              <p style={{ textAlign: "center" }}>
+                <b style={{ fontWeight: "700" }}>Only zip files are accepted</b>
+              </p>
+            </CardHeader>
+            <CardBody>
+              <div style={{ height: "-20px" }}>
+                <Autocomplete
+                  onChange={(event, value) => setuploadClass(value)}
+                  id="combo-box-demo"
+                  options={classes_dataset}
+                  getOptionLabel={(option) => option}
+                  style={{ width: 300, height: -10 }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Select Class"
+                      variant="outlined"
+                    />
+                  )}
+                />
+              </div>
+
+              <div style={{ paddingBottom: "-100px" }}>
+                <Upload
+                  datasetClass={uploadClass}
+                  gridImages={(e) => handleFile(e)}
+                ></Upload>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col md="4">
+          <Card className="card-user" style={{ height: "45vh" }}>
             <CardHeader>
               <CardTitle tag="h5" style={{ textAlign: "center" }}>
                 Add New Data
               </CardTitle>
+              <p style={{ textAlign: "center" }}>
+                <b style={{ fontWeight: "700" }}>Only zip files are accepted</b>
+              </p>
             </CardHeader>
             <CardBody>
-              <p className="description text-center">
-                <Upload></Upload>
-              </p>
+              <div
+                className="description text-center"
+                style={{ marginTop: "50px" }}
+              >
+                <Upload
+                  datasetClass={"NULL"}
+                  gridImages={(e) => handleFile(e)}
+                ></Upload>
+              </div>
             </CardBody>
           </Card>
         </Col>
 
-        <Col md="6">
-          <Card className="card-user" style={{ height: "180px" }}>
+        <Col md="4">
+          <Card className="card-user" style={{ height: "45vh" }}>
             <CardHeader>
               <CardTitle tag="h5" style={{ textAlign: "center" }}>
                 Sample from Existing Data
@@ -235,8 +182,8 @@ export default function AddData() {
             <CardBody>
               <div className="description text-center">
                 <div>
-                  <Row>
-                    <Col>
+                  <Col>
+                    <Row style={{ justifyContent: "center" }}>
                       <Typography>Percentage of Sample Data</Typography>
                       <Slider
                         value={percent}
@@ -254,25 +201,35 @@ export default function AddData() {
                         valueLabelDisplay="auto"
                         aria-labelledby="non-linear-slider"
                       />
-                    </Col>
-                    <Col>
-                      <Button
-                        color="primary"
-                        type="submit"
-                        onClick={handleSample}
-                      >
-                        Sample
-                      </Button>
-                    </Col>
-                  </Row>
+                    </Row>
+                    <Row style={{ justifyContent: "center" }}></Row>
+                  </Col>
                 </div>
+                <Button
+                  color="primary"
+                  type="submit"
+                  onClick={handleSample}
+                  style={{ marginTop: "35px" }}
+                >
+                  Sample
+                </Button>
               </div>
             </CardBody>
           </Card>
         </Col>
+        <Col md="12">
+          <Card className="card-user" style={{ height: "auto" }}>
+            <CardHeader>
+              <CardTitle tag="h5" style={{ textAlign: "center" }}>
+                Added Data
+              </CardTitle>
+            </CardHeader>
+            <CardBody>
+              <Augment gridImages={file}></Augment>
+            </CardBody>
+          </Card>
+        </Col>
       </Row>
-
-     
     </div>
   );
 }
