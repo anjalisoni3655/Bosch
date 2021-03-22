@@ -12,7 +12,8 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import Augment from "./augment";
-//import image_ok from "/home/anjalisoni/Downloads/Bosch/frontend/src/assets/uploaded/1.jpg";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import FormControl from "@material-ui/core/FormControl";
 import "react-toastify/dist/ReactToastify.css";
@@ -31,8 +32,6 @@ import {
 } from "reactstrap";
 const url = `http://localhost:5000/static/grid/extracted/`;
 
-//console.log("images array", images_array);
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 300,
@@ -50,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  button: {
+    paddingBottom: "-100px",
+    marginTop: "10px",
+  },
   root: {
     display: "flex",
     flexWrap: "wrap",
@@ -63,14 +66,6 @@ const useStyles = makeStyles((theme) => ({
   // },
 }));
 
-const marks = [
-  { value: 0, label: "0" },
-  { value: 1, label: "1" },
-];
-
-function valuetext(value) {
-  return `${value}`;
-}
 function valueLabelFormat(value) {
   return `${value}%`;
 }
@@ -79,6 +74,16 @@ let start = 1;
 
 export default function AddData() {
   const [uploadClass, setuploadClass] = useState("");
+  const [checked, setChecked] = React.useState(false);
+
+  const handleCheck = (event) => {
+    setChecked(event.target.checked);
+  };
+  const [checkedB, setCheckedB] = React.useState(false);
+
+  const handleCheckB = (event) => {
+    setCheckedB(event.target.checked);
+  };
 
   const classes = useStyles();
   const [percent, setPercent] = React.useState(10);
@@ -133,45 +138,8 @@ export default function AddData() {
       <ToastContainer />
 
       <Row>
-        <Col md="4">
-          <Card className="card-user" style={{ height: "45vh" }}>
-            <CardHeader>
-              <CardTitle tag="h5" style={{ textAlign: "center" }}>
-                Add New Data Class Wise
-              </CardTitle>
-              <p style={{ textAlign: "center" }}>
-                <b style={{ fontWeight: "700" }}>Only zip files are accepted</b>
-              </p>
-            </CardHeader>
-            <CardBody>
-              <div style={{ height: "-20px" }}>
-                <Autocomplete
-                  onChange={(event, value) => setuploadClass(value)}
-                  id="combo-box-demo"
-                  options={classes_dataset}
-                  getOptionLabel={(option) => option}
-                  style={{ width: 300, height: -10 }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Select Class"
-                      variant="outlined"
-                    />
-                  )}
-                />
-              </div>
-
-              <div style={{ paddingBottom: "-100px" }}>
-                <Upload
-                  datasetClass={uploadClass}
-                  gridImages={(e) => handleNoOfImages(e)}
-                ></Upload>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col md="4">
-          <Card className="card-user" style={{ height: "45vh" }}>
+        <Col md="6">
+          <Card className="card-user" style={{ height: "50vh" }}>
             <CardHeader>
               <CardTitle tag="h5" style={{ textAlign: "center" }}>
                 Add New Data
@@ -181,73 +149,149 @@ export default function AddData() {
               </p>
             </CardHeader>
             <CardBody>
-              <div
-                className="description text-center"
-                style={{ marginTop: "50px" }}
-              >
-                <Upload
-                  datasetClass={"NULL"}
-                  gridImages={(e) => handleNoOfImages(e)}
-                ></Upload>
+              <div className="description text-center">
+                <Col>
+                  <Row style={{ justifyContent: "center" }}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checkedB}
+                          onChange={handleCheckB}
+                          color="primary"
+                        />
+                      }
+                      label="Add Data Class Wise"
+                    />
+                  </Row>
+                  {checkedB ? (
+                    <Row style={{ justifyContent: "center" }}>
+                      <div style={{ height: "-20px" }}>
+                        <Autocomplete
+                          onChange={(event, value) => setuploadClass(value)}
+                          id="combo-box-demo"
+                          options={classes_dataset}
+                          getOptionLabel={(option) => option}
+                          style={{ width: 300, height: -10 }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Select Class"
+                              variant="outlined"
+                            />
+                          )}
+                        />
+                      </div>
+                    </Row>
+                  ) : (
+                    <div></div>
+                  )}
+                </Col>
+
+                <div className={classes.button}>
+                  <Upload
+                    datasetClass={uploadClass}
+                    gridImages={(e) => handleNoOfImages(e)}
+                  ></Upload>
+                </div>
               </div>
             </CardBody>
           </Card>
         </Col>
 
-        <Col md="4">
-          <Card className="card-user" style={{ height: "45vh" }}>
+        <Col md="6">
+          <Card className="card-user" style={{ height: "50vh" }}>
             <CardHeader>
-              <CardTitle tag="h5" style={{ textAlign: "center" }}>
+              <CardTitle tag="h4" style={{ textAlign: "center" }}>
                 Sample from Existing Data
               </CardTitle>
             </CardHeader>
+
             <CardBody>
               <div className="description text-center">
                 <div>
                   <Col>
                     <Row style={{ justifyContent: "center" }}>
-                      <Typography>Percentage of Sample Data</Typography>
-                      <Slider
-                        value={percent}
-                        min={0}
-                        step={5}
-                        max={100}
-                        style={{ width: "150px" }}
-                        marks={[
-                          { value: 0, label: "0" },
-                          { value: 100, label: "100" },
-                        ]}
-                        getAriaValueText={valueLabelFormat}
-                        valueLabelFormat={valueLabelFormat}
-                        onChange={handlePercent}
-                        valueLabelDisplay="auto"
-                        aria-labelledby="non-linear-slider"
+                      <Row>
+                        <Col>
+                          <Typography>Percentage of Sample Data</Typography>
+                        </Col>
+                        <Col>
+                          <Slider
+                            value={percent}
+                            min={0}
+                            step={5}
+                            max={100}
+                            style={{ width: "150px" }}
+                            marks={[
+                              { value: 0, label: "0" },
+                              { value: 100, label: "100" },
+                            ]}
+                            getAriaValueText={valueLabelFormat}
+                            valueLabelFormat={valueLabelFormat}
+                            onChange={handlePercent}
+                            valueLabelDisplay="auto"
+                            aria-labelledby="non-linear-slider"
+                          />
+                        </Col>
+                      </Row>
+                    </Row>
+                    <Row style={{ justifyContent: "center" }}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={checked}
+                            onChange={handleCheck}
+                            color="primary"
+                          />
+                        }
+                        label="Sample Class Wise"
                       />
                     </Row>
+                    {checked ? (
+                      <Row style={{ justifyContent: "center" }}>
+                        <div style={{ height: "-20px" }}>
+                          <Autocomplete
+                            onChange={(event, value) => setuploadClass(value)}
+                            id="combo-box-demo"
+                            options={classes_dataset}
+                            getOptionLabel={(option) => option}
+                            style={{ width: 300, height: -10 }}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                label="Select Class"
+                                variant="outlined"
+                              />
+                            )}
+                          />
+                        </div>
+                      </Row>
+                    ) : (
+                      <div></div>
+                    )}
                     <Row style={{ justifyContent: "center" }}></Row>
                   </Col>
                 </div>
-                <Button
-                  color="primary"
-                  onClick={handleSample}
-                  style={{ marginTop: "35px" }}
-                >
-                  Sample
-                </Button>
+                <div className={classes.button}>
+                  {" "}
+                  <Button
+                    color="primary"
+                    onClick={handleSample}
+                   
+                  >
+                    Sample
+                  </Button>
+                </div>
               </div>
             </CardBody>
           </Card>
         </Col>
 
-       
-        {numberImages!=0?<Augment
-          url={url}
-          showDelete={false}
-          images={numberImages}
-        ></Augment>:<div></div>
-        }
-          
-        
+        {numberImages != 0 ? (
+          <Augment url={url} showDelete={false} images={numberImages}></Augment>
+        ) : (
+          <div></div>
+        )}
       </Row>
     </div>
   );

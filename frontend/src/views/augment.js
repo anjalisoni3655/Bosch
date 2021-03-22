@@ -70,6 +70,9 @@ export default function Augment(props) {
       author: "anjali",
     });
   }
+  const togglePopup = () => {
+    
+  }
   const deleteImage = () => {
     if (
       window.confirm(
@@ -94,7 +97,7 @@ export default function Augment(props) {
 
   return (
     <div className={classes.root}>
-      {props.images !=0? (
+      {props.images != 0 ? (
         <GridList
           cellHeight={200}
           spacing={1}
@@ -108,6 +111,7 @@ export default function Augment(props) {
               // rows={tile.featured ? 2 : 1}
             >
               <img
+                onClick={togglePopup}
                 src={
                   props.url +
                   index.toString() +
@@ -139,7 +143,9 @@ export default function Augment(props) {
             </GridListTile>
           ))}
         </GridList>
-      ):<div></div>}
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }

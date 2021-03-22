@@ -51,19 +51,14 @@ class Upload extends React.Component {
     return (
       <div>
         <form>
-          {/* <div style={{ color: "black" }}>Add New Data</div> */}
-          <div style={{ textAlign: "center" }}>
-            {/* <Row>
-              <Col>
-                <b style={{fontWeight: '700'}}>For Class : {this.props.datasetClass}</b>                
-              </Col>
-            </Row> */}
+         
             <Col>
-              <Row style={{ padding: "1em 0 0 2em" }}>
+              <Row style={{ justifyContent: "center" }}>
                 <input
                   ref={(ref) => {
                     this.uploadInput = ref;
-                  }}
+                }}
+                style={{marginLeft:"100px"}}
                   type="file"
                   id="file"
                   accept=".zip"
@@ -71,12 +66,10 @@ class Upload extends React.Component {
               </Row>
 
               <Row style={{ justifyContent: "center" }}>
-                <Button onClick={this.handleUploadImage} >
-                  Upload
-                </Button>
+                <Button onClick={this.handleUploadImage}>Upload</Button>
               </Row>
             </Col>
-          </div>
+         
         </form>
         <ToastContainer />
       </div>

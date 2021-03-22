@@ -167,7 +167,6 @@ export default function User() {
 
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
 
-
   const valueRef = useRef(""); //creating a refernce for TextField Component
 
   const classes = useStyles();
@@ -196,7 +195,6 @@ export default function User() {
 
           setnumberImages(parseInt(response.data));
           console.log("images", numberImages);
-
 
           forceUpdate();
         } else {
@@ -773,7 +771,7 @@ export default function User() {
       </Card>
 
       {numberImages != 0 ? (
-        <Augment url={url} showDelete={false} images={numberImages}></Augment>
+        <Augment url={url} showDelete={true} images={numberImages}></Augment>
       ) : (
         <div></div>
       )}
