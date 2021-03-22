@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
-console.log("hi");
+
 const marks = [
   { value: 0, label: "0" },
   { value: 1, label: "1" },
@@ -90,7 +90,7 @@ export default function User() {
       [name]: event.target.value,
     });
   };
-  
+
   const [values, setValues] = useState(initialValues);
 
   const handleProb = (e) => {
@@ -164,9 +164,10 @@ export default function User() {
     rain: [rain.age, values.prob11],
   };
   const [currentImage, setImage] = useState(0);
-  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
-  
+  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+
+
   const valueRef = useRef(""); //creating a refernce for TextField Component
 
   const classes = useStyles();
@@ -185,19 +186,18 @@ export default function User() {
   const trainPercentData = {
     train: trainPercent,
   };
-  
+
   const handleAugment = () => {
     const res = axios.post("http://localhost:5000/augment", data).then(
       (response) => {
         console.log("response: ", response);
         if (response.data != "0") {
           toast.success("🦄 Data Augmented succesfully");
-          //  console.log("images", response.data);
+
           setnumberImages(parseInt(response.data));
           console.log("images", numberImages);
-          // handleNumberOfImages(parseInt(response.data));
 
-          console.log(" images", numberImages);
+
           forceUpdate();
         } else {
           toast.error("💀 Error : " + response.data);
@@ -207,7 +207,7 @@ export default function User() {
         console.log("error: ", error);
       }
     );
-   // window.location.reload();
+    // window.location.reload();
   };
   const sendTrainPercent = () => {
     const res = axios
@@ -772,8 +772,10 @@ export default function User() {
         </div>
       </Card>
 
-      {numberImages && (
-        <Augment url={url} showDelete={true} images={numberImages}></Augment>
+      {numberImages != 0 ? (
+        <Augment url={url} showDelete={false} images={numberImages}></Augment>
+      ) : (
+        <div></div>
       )}
 
       <br />

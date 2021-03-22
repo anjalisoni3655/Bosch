@@ -62,7 +62,7 @@ export default function Augment(props) {
   };
   // console.log("Number of images after axios");
   // console.log(number_images);
-  console.log("Rendering");
+
   for (var i = 0; i < props.images; i++) {
     images_array.push({
       img: "",
@@ -94,7 +94,7 @@ export default function Augment(props) {
 
   return (
     <div className={classes.root}>
-      {10 && (
+      {props.images !=0? (
         <GridList
           cellHeight={200}
           spacing={1}
@@ -139,7 +139,7 @@ export default function Augment(props) {
             </GridListTile>
           ))}
         </GridList>
-      )}
+      ):<div></div>}
     </div>
   );
 }
