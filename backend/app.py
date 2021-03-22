@@ -56,6 +56,8 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 folder_to_augment = ""
 augmentedfolder = ""
 className=""
+currentNo = 0
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -79,7 +81,7 @@ def create_folder_entry(root,foldername):
     return os.path.join(root,foldername+"_"+str(maxn))
 
 def copy_rename_recursive(src, dest):
-    currentNo = 0
+    global currentNo
     for x in os.listdir(src):
         if(os.path.isdir(os.path.join(src,x))):
             copy_rename_recursive(os.path.join(src,x),dest)
@@ -105,7 +107,7 @@ create_folder(app.config["GRID_EXTRACTED_FOLDER"])
 @cross_origin()
 def upload_file():
 
-    global folder_to_augment,className
+    global folder_to_augment,className, currentNo
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -142,6 +144,7 @@ def upload_file():
             print("Unzipped to "+folder_to_augment)
             shutil.rmtree(app.config["GRID_EXTRACTED_FOLDER"]) 
             create_folder(app.config["GRID_EXTRACTED_FOLDER"])
+            currentNo = 0
             copy_rename_recursive(folder_to_augment, app.config["GRID_EXTRACTED_FOLDER"])
             
             print('Return Statement')
