@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
-
+console.log("hi");
 const marks = [
   { value: 0, label: "0" },
   { value: 1, label: "1" },
@@ -760,7 +760,7 @@ export default function User() {
       <Augment
         url={url}
         showDelete={true}
-        number_images={currentImage}
+
       ></Augment>
 
       <br />

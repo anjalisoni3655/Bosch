@@ -32,8 +32,7 @@ import {
 const url = `http://localhost:5000/static/grid/extracted/`;
 
 //console.log("images array", images_array);
-console.log("Number of images after import");
-//console.log(number_images)
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -112,7 +111,7 @@ export default function AddData() {
   };
 
   let file;
-  const target = "/home/tushar/Bosch/frontend/src/assets/uploaded";
+  
 
   function handleFile(fileFromUpload) {
     file = fileFromUpload;
@@ -238,7 +237,7 @@ export default function AddData() {
                 </div>
                 <Button
                   color="primary"
-                  type="submit"
+                  
                   onClick={handleSample}
                   style={{ marginTop: "35px" }}
                 >

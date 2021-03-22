@@ -142,7 +142,7 @@ def upload_file():
             copy_rename_recursive(folder_to_augment, app.config["GRID_EXTRACTED_FOLDER"])
 
 
-    return 'OK'
+    return str(len(os.listdir(app.config["GRID_EXTRACTED_FOLDER"])))
 
 
 
@@ -235,7 +235,7 @@ def augmentation():
         print("Augmentation complete")
         shutil.rmtree(app.config["GRID_AUGMENTED_FOLDER"]) 
         create_folder(app.config["GRID_AUGMENTED_FOLDER"])
-        copy_rename_recursive(folder_to_augment, app.config["GRID_AUGMENTED_FOLDER"])
+        copy_rename_recursive(augmentedfolder, app.config["GRID_AUGMENTED_FOLDER"])
         
 
     return 'OK'

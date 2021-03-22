@@ -23,6 +23,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { number_images } from "./Upload";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,11 +48,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Augment(props) {
+export default React.memo(function Augment(props) {
   var images_array = [];
   const [currentImage, setImage] = useState(0);
   const [imageArray, setImageArray] = useState(images_array);
   const classes = useStyles();
+
   // currentImageChange(index) {
   //       this.setState({ currentImage: index });
   //   }
@@ -59,8 +61,9 @@ export default function Augment(props) {
     setImage(index);
   };
   console.log("Number of images after axios");
-  console.log(props.number_images);
-  for (var i = 0; i < 10; i++) {
+  console.log(number_images);
+  
+  for (var i = 0; i < 5; i++) {
     images_array.push({
       img: "",
       title: i.toString(),
@@ -86,7 +89,6 @@ export default function Augment(props) {
     axios.get(`http://localhost:5000/get-images`).then((res) => {
       console.log("Number of images after axios");
       console.log(res.data);
-      setImage(res.data);
     });
   };
 
@@ -140,4 +142,4 @@ export default function Augment(props) {
       )}
     </div>
   );
-}
+})
