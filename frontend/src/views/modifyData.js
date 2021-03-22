@@ -164,7 +164,9 @@ export default function User() {
     rain: [rain.age, values.prob11],
   };
   const [currentImage, setImage] = useState(0);
+
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+
 
   const valueRef = useRef(""); //creating a refernce for TextField Component
 
@@ -194,6 +196,7 @@ export default function User() {
 
           setnumberImages(parseInt(response.data));
           console.log("images", numberImages);
+
 
           forceUpdate();
         } else {
