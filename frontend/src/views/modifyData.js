@@ -169,12 +169,12 @@ export default function User() {
   const classes = useStyles();
   const [percent, setPercent] = React.useState(10);
   const [trainPercent, setTrainPercent] = React.useState(90);
-  
+
   const [numberImages, setnumberImages] = useState(0);
 
   const handleNumberOfImages = (event, newValue) => {
     setnumberImages(parseInt(newValue));
-  }
+  };
 
   const samplePercent = {
     sample: percent,
@@ -189,8 +189,12 @@ export default function User() {
         console.log("response: ", response);
         if (response.data != "0") {
           toast.success("🦄 Data Augmented succesfully");
-          console.log("images", response.data);
-          handleNumberOfImages(parseInt(response.data));
+          //  console.log("images", response.data);
+          setnumberImages(parseInt(response.data));
+          console.log("images", numberImages);
+          // handleNumberOfImages(parseInt(response.data));
+
+          console.log(" images", numberImages);
         } else {
           toast.error("💀 Error : " + response.data);
         }
@@ -199,7 +203,7 @@ export default function User() {
         console.log("error: ", error);
       }
     );
-    // window.location.reload();
+   // window.location.reload();
   };
   const sendTrainPercent = () => {
     const res = axios
@@ -764,14 +768,9 @@ export default function User() {
         </div>
       </Card>
 
-      {4&&
-        <Augment
-        url={url}
-        showDelete={true}
-        images={4}
-      ></Augment>      
-      }
-
+      {numberImages && (
+        <Augment url={url} showDelete={true} images={numberImages}></Augment>
+      )}
 
       <br />
       <Row style={{ justifyContent: "center" }}>

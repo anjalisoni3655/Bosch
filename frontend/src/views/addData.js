@@ -33,7 +33,6 @@ const url = `http://localhost:5000/static/grid/extracted/`;
 
 //console.log("images array", images_array);
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 300,
@@ -111,10 +110,9 @@ export default function AddData() {
   };
 
   const [numberImages, setNumberImages] = useState(0);
-  
 
   function handleNoOfImages(no_of_images) {
-    console.log('images from addData');
+    console.log("images from addData");
     console.log(no_of_images);
     setNumberImages(no_of_images);
   }
@@ -123,9 +121,7 @@ export default function AddData() {
   for (var i = 0; i < 8; i++) {
     images_array.push({
       img:
-        "http://localhost:5000/static/grid/extracted/" +
-        i.toString() +
-        ".png",
+        "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png",
       title: i.toString(),
       author: "anjali",
     });
@@ -233,7 +229,6 @@ export default function AddData() {
                 </div>
                 <Button
                   color="primary"
-                  
                   onClick={handleSample}
                   style={{ marginTop: "35px" }}
                 >
@@ -251,7 +246,13 @@ export default function AddData() {
               </CardTitle>
             </CardHeader>
             <CardBody>
-              {numberImages && <Augment url={url} showDelete={false} images={numberImages}></Augment>}
+              {numberImages && (
+                <Augment
+                  url={url}
+                  showDelete={false}
+                  images={numberImages}
+                ></Augment>
+              )}
             </CardBody>
           </Card>
         </Col>
