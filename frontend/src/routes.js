@@ -32,7 +32,7 @@ var routes = [
     path: "/model-performance",
     name: "Model Peformance",
     icon: "nc-icon nc-caps-small",
-    component: Notifications,
+    component: ModelPerformance,
   },
   {
     path: "/model-summary",
