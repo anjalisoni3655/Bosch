@@ -73,7 +73,7 @@ function valueLabelFormat(value) {
 let start = 1;
 
 export default function AddData() {
-  const [uploadClass, setuploadClass] = useState("");
+  const [uploadClass, setuploadClass] = useState("NULL");
   const [checked, setChecked] = React.useState(false);
 
   const handleCheck = (event) => {
