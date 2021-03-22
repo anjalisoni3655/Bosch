@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import {Grid} from "@material-ui/core"
 import {
   Card,
   CardHeader,
@@ -13,13 +14,7 @@ import {
 import axios from "axios";
 
 // export default function ModelPerformance() {
-const model_types = [
-  { title: "model 1", id: 0 },
-  { title: "model 2", id: 1 },
-  { title: "model 3", id: 2 },
-  { title: "model 4", id: 3 },
-  { title: "model 5", id: 4 },
-];
+
 class ModelPerformance extends React.Component {
   constructor(props) {
     super(props);
@@ -28,14 +23,17 @@ class ModelPerformance extends React.Component {
         baseline_on_original: {},
         baseline_on_augmented: {},
         model_options: [],
-        model_stats: {},
-        precision: [],
+        model_types: [],
+        train_accuracy: [], 
+        val_accuracy: [],
+        train_f1: [],
+        val_f1: [],
+        val_precision: [],
+        val_recall: [], 
       },
-
-      value: { title: "model 1", id: 4 },
+      hide: true,
+      value: {},
     };
-    // const [value, setValue] = React.useState(options[0]);
-    // const [inputValue, setInputValue] = React.useState("");
   }
 
   componentWillMount() {
@@ -48,42 +46,14 @@ class ModelPerformance extends React.Component {
   }
 
   render() {
-    // const []
-
+    
+    
     return (
       <div className="content">
         <p style={{ color: "#707070" }}>
-          <h4>Baseline Model on Original Dataset</h4>
+          <h4>Baseline Model Tested on Original Dataset</h4>
         </p>
         <Row>
-          <Col sm="3">
-            <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="4" xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-zoom-split text-danger" />
-                    </div>
-                  </Col>
-                  <Col md="8" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Precision</p>
-                      <CardTitle tag="p">
-                        {this.state.data.baseline_on_original.precision}
-                      </CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-              <CardFooter>
-                <hr />
-                {/* <div className="stats">
-                        <i className="far fa-clock" /> In the last hour
-                      </div> */}
-              </CardFooter>
-            </Card>
-          </Col>
 
           <Col sm="3">
             <Card className="card-stats">
@@ -120,6 +90,64 @@ class ModelPerformance extends React.Component {
                 <Row>
                   <Col md="4" xs="5">
                     <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-sound-wave text-success" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">F1-Score</p>
+                      <CardTitle tag="p">
+                        {this.state.data.baseline_on_original.f1}
+                      </CardTitle>
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <hr />
+                {/* <div className="stats">
+                        <i className="far fa-calendar" /> Last day
+                      </div> */}
+              </CardFooter>
+            </Card>
+          </Col>
+
+          <Col sm="3">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-zoom-split text-danger" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Precision</p>
+                      <CardTitle tag="p">
+                        {this.state.data.baseline_on_original.precision}
+                      </CardTitle>
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <hr />
+                {/* <div className="stats">
+                        <i className="far fa-clock" /> In the last hour
+                      </div> */}
+              </CardFooter>
+            </Card>
+          </Col>
+
+          <Col sm="3">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
                       <i className="nc-icon nc-bulb-63 text-primary" />
                     </div>
                   </Col>
@@ -143,6 +171,42 @@ class ModelPerformance extends React.Component {
             </Card>
           </Col>
 
+        </Row>
+
+        <p style={{ color: "#707070" }}>
+          <h4>Baseline Model Tested on Augmented Dataset</h4>
+        </p>
+        <Row>
+
+          <Col sm="3">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-trophy text-warning" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Accuracy</p>
+                      <CardTitle tag="p">
+                        {this.state.data.baseline_on_augmented.accuracy}
+                      </CardTitle>
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <hr />
+                {/* <div className="stats">
+                        <i className="fas fa-sync-alt" /> Update Now
+                      </div> */}
+              </CardFooter>
+            </Card>
+          </Col>
+
           <Col sm="3">
             <Card className="card-stats">
               <CardBody>
@@ -156,7 +220,7 @@ class ModelPerformance extends React.Component {
                     <div className="numbers">
                       <p className="card-category">F1-Score</p>
                       <CardTitle tag="p">
-                        {this.state.data.baseline_on_original.f1}
+                        {this.state.data.baseline_on_augmented.f1}
                       </CardTitle>
                       <p />
                     </div>
@@ -171,12 +235,7 @@ class ModelPerformance extends React.Component {
               </CardFooter>
             </Card>
           </Col>
-        </Row>
 
-        <p style={{ color: "#707070" }}>
-          <h4>Baseline Model on Augmented Dataset</h4>
-        </p>
-        <Row>
           <Col sm="3">
             <Card className="card-stats">
               <CardBody>
@@ -205,36 +264,6 @@ class ModelPerformance extends React.Component {
               </CardFooter>
             </Card>
           </Col>
-
-          <Col sm="3">
-            <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="4" xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-trophy text-warning" />
-                    </div>
-                  </Col>
-                  <Col md="8" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Accuracy</p>
-                      <CardTitle tag="p">
-                        {this.state.data.baseline_on_augmented.accuracy}
-                      </CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-              <CardFooter>
-                <hr />
-                {/* <div className="stats">
-                        <i className="fas fa-sync-alt" /> Update Now
-                      </div> */}
-              </CardFooter>
-            </Card>
-          </Col>
-
           <Col sm="3">
             <Card className="card-stats">
               <CardBody>
@@ -264,180 +293,339 @@ class ModelPerformance extends React.Component {
             </Card>
           </Col>
 
-          <Col sm="3">
-            <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="4" xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-sound-wave text-success" />
-                    </div>
-                  </Col>
-                  <Col md="8" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">F1-Score</p>
-                      <CardTitle tag="p">
-                        {this.state.data.baseline_on_augmented.f1}
-                      </CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-              <CardFooter>
-                <hr />
-                {/* <div className="stats">
-                        <i className="far fa-calendar" /> Last day
-                      </div> */}
-              </CardFooter>
-            </Card>
-          </Col>
         </Row>
 
-        <br />
         <p style={{ color: "#707070" }}>
-          <h4>Baseline Model on Original Dataset</h4>
+          <h4>Custom Model Statistics</h4>
         </p>
 
         <Autocomplete
-          id="combo-box-demo"
-          options={model_types}
+          id="disable-clearable"
+          options={this.state.data.model_types}
           getOptionLabel={(option) => option.title}
           style={{ width: 300 }}
           value={this.state.value}
           onChange={(event, newValue) => {
             this.setState({
-              value: newValue,
+              value: newValue, hide: false
             });
             console.log("new title", this.state.value.title);
             console.log("new value", this.state.value.id);
+            console.log(this.state.hide);
           }}
           renderInput={(params) => (
-            <TextField {...params} label="Combo box" variant="outlined" />
+            <TextField {...params} label="Choose Model" variant="outlined" />
           )}
+          closeIcon={false}
         />
         <br />
-        {/* <p style = {{color: "#707070"}}><h4>Baseline Model on Augmented Dataset</h4></p> */}
+        
+        { (this.state.hide == false) ? 
+        <div>
+          
+          <Row>
+            <Col md = "6">
+            <Row>
+                    
+                    <Col sm = "6">
+                      <Card className="card-stats">
+                        <CardBody>
+                          <Row>
+                            <Col md="4" xs="5">
+                              <div className="icon-big text-center icon-warning">
+                                <i className="nc-icon nc-trophy text-danger" />
+                              </div>
+                            </Col>
+                            <Col md="8" xs="7">
+                              <div className="numbers">
+                                <p className="card-category">Train Accuracy</p>
+      
+                              
+                                <CardTitle tag="p">
+                                  {this.state.data.train_accuracy[this.state.value.id]}
+                                </CardTitle>
+                              
+                                <p />
+                              </div>
+                            </Col>
+                          </Row>
+                        </CardBody>
+                        <CardFooter>
+                          <hr />
+                          {/* <div className="stats">
+                                  <i className="far fa-clock" /> In the last hour
+                                </div> */}
+                        </CardFooter>
+                      </Card>
+                    </Col>
+      
+                    <Col sm = "6">
+                      <Card className="card-stats">
+                        <CardBody>
+                          <Row>
+                            <Col md="4" xs="5">
+                              <div className="icon-big text-center icon-warning">
+                                <i className="nc-icon nc-trophy text-warning" />
+                              </div>
+                            </Col>
+                            <Col md="8" xs="7">
+                              <div className="numbers">
+                                <p className="card-category">Validation Accuracy</p>
+                                <CardTitle tag="p">
+                                {this.state.data.val_accuracy[this.state.value.id]}
+                                </CardTitle>
+                                <p />
+                              </div>
+                            </Col>
+                          </Row>
+                        </CardBody>
+                        <CardFooter>
+                          <hr />
+                          {/* <div className="stats">
+                                  <i className="fas fa-sync-alt" /> Update Now
+                                </div> */}
+                        </CardFooter>
+                      </Card>
+                    </Col>
+                  </Row>
+              <Row>
+                    
+              <Col sm = "6">
+                <Card className="card-stats">
+                  <CardBody>
+                    <Row>
+                      <Col md="4" xs="5">
+                        <div className="icon-big text-center icon-warning">
+                          <i className="nc-icon nc-sound-wave text-danger" />
+                        </div>
+                      </Col>
+                      <Col md="8" xs="7">
+                        <div className="numbers">
+                          <p className="card-category">Train F1-Score</p>
+
+                        
+                          <CardTitle tag="p">
+                            {this.state.data.train_f1[this.state.value.id]}
+                          </CardTitle>
+                        
+                          <p />
+                        </div>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                  <CardFooter>
+                    <hr />
+                    {/* <div className="stats">
+                            <i className="far fa-clock" /> In the last hour
+                          </div> */}
+                  </CardFooter>
+                </Card>
+              </Col>
+
+              <Col sm = "6">
+                <Card className="card-stats">
+                  <CardBody>
+                    <Row>
+                      <Col md="4" xs="5">
+                        <div className="icon-big text-center icon-warning">
+                          <i className="nc-icon nc-sound-wave text-warning" />
+                        </div>
+                      </Col>
+                      <Col md="8" xs="7">
+                        <div className="numbers">
+                          <p className="card-category">Validation F1-Score</p>
+                          <CardTitle tag="p">
+                          {this.state.data.val_f1[this.state.value.id]}
+                          </CardTitle>
+                          <p />
+                        </div>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                  <CardFooter>
+                    <hr />
+                    {/* <div className="stats">
+                            <i className="fas fa-sync-alt" /> Update Now
+                          </div> */}
+                  </CardFooter>
+                </Card>
+              </Col>
+            </Row>
+           
+            <Row>
+              <Col sm = "6">
+                <Card className="card-stats">
+                  <CardBody>
+                    <Row>
+                      <Col md="4" xs="5">
+                        <div className="icon-big text-center icon-warning">
+                          <i className="nc-icon nc-zoom-split text-success" />
+                        </div>
+                      </Col>
+                      <Col md="8" xs="7">
+                        <div className="numbers">
+                          <p className="card-category">Validation Precision</p>
+                          <CardTitle tag="p">
+                          {this.state.data.val_precision[this.state.value.id]}
+                          </CardTitle>
+                          <p />
+                        </div>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                  <CardFooter>
+                    <hr />
+                    {/* <div className="stats">
+                            <i className="far fa-calendar" /> Last day
+                          </div> */}
+                  </CardFooter>
+                </Card>
+              </Col>
+              <Col sm = "6">
+                <Card className="card-stats">
+                  <CardBody>
+                    <Row>
+                      <Col md="4" xs="5">
+                        <div className="icon-big text-center icon-warning">
+                          <i className="nc-icon nc-bulb-63 text-primary" />
+                        </div>
+                      </Col>
+                      <Col md="8" xs="7">
+                        <div className="numbers">
+                          <p className="card-category">Validation Recall</p>
+                          <CardTitle tag="p">
+                          {this.state.data.val_recall[this.state.value.id]}
+                          </CardTitle>
+                          <p />
+                        </div>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                  <CardFooter>
+                    <hr />
+                    {/* <div className="stats">
+                            <i className="fas fa-sync-alt" /> Update now
+                          </div> */}
+                  </CardFooter>
+                </Card>
+              </Col>
+
+            </Row>
+        </Col>
+        <Col md = "6">
+          <Card className="card-user" >
+                <CardHeader>
+                  <CardTitle>
+                    <p className= "card-category" style = {{textAlign: "center" ,padding: "0 0 2em 0 "}}>
+                      <h4>
+                        Model Architecture
+                      </h4>
+                    </p>
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                <img 
+                    alt="Model Architecture"
+                    // className="avatar border-gray"
+                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/model.png`}
+                    style={{ height: "100%", width: "100%", }}
+                    />
+                {/* <p>
+                  <br />
+                  <br />
+                </p> */}
+                </CardBody>
+
+              <CardFooter>
+                    <hr />
+                    {/* <div className="stats">
+                            <i className="far fa-calendar" /> Last day
+                          </div> */}
+              </CardFooter>
+          
+          </Card>
+        </Col>
+        </Row>
 
         <Row>
-          <Col sm="3">
+          <Col md = "4">
+              <Card className="card-stats">
+                <CardBody>
+                  <img 
+                    alt="Accuracy-Loss Curve"
+                    // className="avatar border-gray"
+                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/loss_acc.png`}
+                    style={{ height: "100%", width: "100%"}}
+                    />
+                </CardBody>
+                          <CardFooter>
+                    <hr />
+                    {/* <div className="stats">
+                            <i className="far fa-calendar" /> Last day
+                          </div> */}
+              </CardFooter>
+              </Card>
+          </Col>
+          <Col md = "4">
             <Card className="card-stats">
               <CardBody>
-                <Row>
-                  <Col md="4" xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-zoom-split text-danger" />
-                    </div>
-                  </Col>
-                  <Col md="8" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Precision</p>
-
-                      <CardTitle tag="p">
-                        {this.state.data.precision[this.state.value.id]}
-                      </CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
+                <img 
+                    alt="Precision-Recall Curve"
+                    // className="avatar border-gray"
+                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/pr.png`}
+                    style={{ height: "100%", width: "100%"}}
+                    />
               </CardBody>
-              <CardFooter>
-                <hr />
-                {/* <div className="stats">
-                        <i className="far fa-clock" /> In the last hour
-                      </div> */}
+                          <CardFooter>
+                    <hr />
+                    {/* <div className="stats">
+                            <i className="far fa-calendar" /> Last day
+                          </div> */}
               </CardFooter>
             </Card>
           </Col>
-
-          <Col sm="3">
+          <Col md = "4" >
             <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="4" xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-trophy text-warning" />
-                    </div>
-                  </Col>
-                  <Col md="8" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Accuracy</p>
-                      <CardTitle tag="p">
-                        {this.state.data.baseline_on_augmented.accuracy}
-                      </CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
+              <CardBody >
+                <img 
+                    alt="F1-Scores"
+                    // className="avatar border-gray"
+                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/f1.png`}
+                    style={{ height: "100%", width: "100%"}}
+                    />
               </CardBody>
-              <CardFooter>
-                <hr />
-                {/* <div className="stats">
-                        <i className="fas fa-sync-alt" /> Update Now
-                      </div> */}
+                          <CardFooter>
+                    <hr />
+                    {/* <div className="stats">
+                            <i className="far fa-calendar" /> Last day
+                          </div> */}
               </CardFooter>
             </Card>
           </Col>
         </Row>
         <Row>
-          <Col sm="3">
+          <Col md = "12" >
             <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="4" xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-bulb-63 text-primary" />
-                    </div>
-                  </Col>
-                  <Col md="8" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Recall</p>
-                      <CardTitle tag="p">
-                        {this.state.data.baseline_on_augmented.recall}
-                      </CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
+              <CardBody >
+                <img 
+                    alt="F1-Scores"
+                    // className="avatar border-gray"
+                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/cm.png`}
+                    style={{ height: "100%", width: "100%"}}
+                    />
               </CardBody>
-              <CardFooter>
-                <hr />
-                {/* <div className="stats">
-                        <i className="fas fa-sync-alt" /> Update now
-                      </div> */}
-              </CardFooter>
-            </Card>
-          </Col>
-
-          <Col sm="3">
-            <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="4" xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-sound-wave text-success" />
-                    </div>
-                  </Col>
-                  <Col md="8" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">F1-Score</p>
-                      <CardTitle tag="p">
-                        {this.state.data.baseline_on_augmented.f1}
-                      </CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-              <CardFooter>
-                <hr />
-                {/* <div className="stats">
-                        <i className="far fa-calendar" /> Last day
-                      </div> */}
+                          <CardFooter>
+                    <hr />
+                    {/* <div className="stats">
+                            <i className="far fa-calendar" /> Last day
+                          </div> */}
               </CardFooter>
             </Card>
           </Col>
         </Row>
+        </div> : null}
+          
+      
       </div>
     );
   }

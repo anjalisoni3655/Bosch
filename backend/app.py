@@ -7,6 +7,7 @@ import json
 import zipfile
 from augmentations import *
 from sample import *
+from modelStats import *
 import shutil 
 from PIL import Image
 
@@ -273,49 +274,7 @@ def view_data_stats():
 def model_stats():
 
     if request.method == 'GET':
-        # stats = get_model_stats()
-        stats = {
-            'baseline_on_original': {
-                'precision': 1, 
-                'accuracy': 2,
-                'recall': 3,
-                'f1': 4
-            },
-
-            'baseline_on_augmented': {
-                'precision': 5, 
-                'accuracy': 6,
-                'recall': 7,
-                'f1': 8
-            },
-
-            'model_options': ['Model 1', 'Model 2', 'Model 3'],
-
-            'precision': [9, 13, 17],
-
-            # 'Model1': {
-            #     'precision': 9, 
-            #     'accuracy': 10,
-            #     'recall': 11,
-            #     'f1': 12
-            # },
-            # 'Model2': {
-            #     'precision': 13, 
-            #     'accuracy': 14,
-            #     'recall': 15,
-            #     'f1': 16
-            # },
-            # 'Model3': {
-            #     'precision': 13, 
-            #     'accuracy': 14,
-            #     'recall': 15,
-            #     'f1': 16
-            # },
-        
-            
-        }
-
-        
+        stats = get_model_stats('static/models/')       
 
     return jsonify(stats)
 
