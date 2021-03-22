@@ -92,6 +92,12 @@ export default function AddData() {
     sample: percent,
   };
 
+  const handlePercent = (event, newValue) => {
+    setPercent(newValue);
+  };
+
+  const [numberImages, setNumberImages] = useState(0);  
+
   const handleSample = () => {
     console.log(samplePercent);
     const res = axios.post("http://localhost:5000/sample", samplePercent).then(
@@ -99,8 +105,13 @@ export default function AddData() {
         console.log("response: ", response);
         if (response.status == 200) {
           console.log("Images");
+
       
           toast.success(response.data + " Images sampled successfully ");
+
+          console.log(response);
+          setNumberImages(response.data);
+
           
         } else {
           toast.error("💀 Error : " + response.data);
@@ -113,11 +124,7 @@ export default function AddData() {
     // window.location.reload();
   };
 
-  const handlePercent = (event, newValue) => {
-    setPercent(newValue);
-  };
 
-  const [numberImages, setNumberImages] = useState(0);
 
   function handleNoOfImages(no_of_images) {
     console.log("images from addData");
