@@ -1,6 +1,10 @@
 import os
 import shutil
 import random
+
+id_label = {0: 'Speed limit (20km/h)', 1: 'Speed limit (30km/h)', 2: 'Speed limit (50km/h)', 3: 'Speed limit (60km/h)', 4: 'Speed limit (70km/h)', 5: 'Speed limit (80km/h)', 6: 'End of speed limit (80km/h)', 7: 'Speed limit (100km/h)', 8: 'Speed limit (120km/h)', 9: 'No passing', 10: 'No passing for vehicles over 3.5 metric tons', 11: 'Right-of-way at the next intersection', 12: 'Priority road', 13: 'Yield', 14: 'Stop', 15: 'No vehicles', 16: 'Vehicles over 3.5 metric tons prohibited', 17: 'No entry', 18: 'General caution', 19: 'Dangerous curve to the left', 20: 'Dangerous curve to the right', 21: 'Double curve', 22: 'Bumpy road', 23: 'Slippery road', 24: 'Road narrows on the right', 25: 'Road work', 26: 'Traffic signals', 27: 'Pedestrians', 28: 'Children crossing', 29: 'Bicycles crossing', 30: 'Beware of ice/snow', 31: 'Wild animals crossing', 32: 'End of all speed and passing limits', 33: 'Turn right ahead', 34: 'Turn left ahead', 35: 'Ahead only', 36: 'Go straight or right', 37: 'Go straight or left', 38: 'Keep right', 39: 'Keep left', 40: 'Roundabout mandatory', 41: 'End of no passing', 42: 'End of no passing by vehicles over 3.5 metric tons'}
+label_id = {v: k for k, v in id_label.items()}
+
 def create_folder(foldername):
     if not os.path.exists(foldername):
         os.makedirs(foldername)
@@ -15,7 +19,25 @@ def getMaxFile(foldername,prefix=''):
     
     return i
 
-def sampleDataStratified(folder_to_extract_from, folder_to_extract_to, percent):
+
+
+
+def create_folder_entry(root,foldername,prefix=""):
+    lis = os.listdir(root)
+    
+    maxn = 0
+    for i in lis:
+        if os.path.isdir(os.path.join(root,i)):
+            first = list(i.split('_'))[1][len(prefix):]
+            
+            if(list(i.split('_'))[0]==foldername):
+                maxn = max(maxn,int(first))
+
+    maxn+=1
+    
+    create_folder(os.path.join(root,foldername+"_"+prefix+str(maxn)))
+    return os.path.join(root,foldername+"_"+str(maxn))
+def sampleDataStratified(folder_to_extract_from, folder_to_extract_to, percent,className):
 
     '''
     Directory structure of the folder where images have to be sampled from
@@ -35,8 +57,9 @@ def sampleDataStratified(folder_to_extract_from, folder_to_extract_to, percent):
     sub_folders = os.listdir(folder_to_extract_from)
     # sub_folders = [os.path.join(folder_to_extract_from, sub_folder) for sub_folder in sub_folders]
 
-    # total number of classes
-    num_classes = len(sub_folders)
+    if(className!="NULL"):
+        sub_folders=[str(label_id[className])]
+        
 
 
     
