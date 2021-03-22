@@ -238,24 +238,16 @@ export default function AddData() {
             </CardBody>
           </Card>
         </Col>
-        <Col md="12">
-          <Card className="card-user" style={{ height: "auto" }}>
-            <CardHeader>
-              <CardTitle tag="h5" style={{ textAlign: "center" }}>
-                Added Data
-              </CardTitle>
-            </CardHeader>
-            <CardBody>
-              {numberImages && (
-                <Augment
-                  url={url}
-                  showDelete={false}
-                  images={numberImages}
-                ></Augment>
-              )}
-            </CardBody>
-          </Card>
-        </Col>
+
+       
+        {numberImages!=0?<Augment
+          url={url}
+          showDelete={false}
+          images={numberImages}
+        ></Augment>:<div></div>
+        }
+          
+        
       </Row>
     </div>
   );
