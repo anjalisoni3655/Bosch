@@ -142,7 +142,6 @@ class User extends React.Component {
                         </FormGroup>
                       </Col>
                     </Row>
-                    }
                     <Row>
                       <div className="update ml-auto mr-auto">
                         <Button

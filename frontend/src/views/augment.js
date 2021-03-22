@@ -23,18 +23,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-
-var IMAGES = [];
-
-for (var i = 0; i < 4; i++) {
-  IMAGES.push({
-    img: "../assets/uploaded/" + i.toString() + ".jpg",
-    title: i.toString(),
-    author: "anjali",
-  });
-}
-// const [number_of_images, setNumber_of_images] = useState(0);
-// const [loading, setLoading] = useState(false);
+import { number_images } from "./Upload";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,8 +34,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
-    width: "200%",
-    height: 450,
+    flexWrap: "nowrap",
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: "translateZ(0)",
   },
@@ -61,15 +49,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Augment(props) {
+  var images_array = [];
   const [currentImage, setImage] = useState(0);
-  const [imageArray, setImageArray] = useState(IMAGES);
+  const [imageArray, setImageArray] = useState(images_array);
   const classes = useStyles();
+
   // currentImageChange(index) {
   //       this.setState({ currentImage: index });
   //   }
   const currentImageChange = (index) => {
     setImage(index);
   };
+  // console.log("Number of images after axios");
+  // console.log(number_images);
+  console.log("Rendering");
+  for (var i = 0; i < props.images; i++) {
+    images_array.push({
+      img: "",
+      title: i.toString(),
+      author: "anjali",
+    });
+  }
   const deleteImage = () => {
     if (
       window.confirm(
@@ -82,50 +82,64 @@ export default function Augment(props) {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  });
-  const fetchData = () => {
-    axios.get(`http://localhost:5000/get-images`).then((res) => {
-      console.log("Number of images after axios");
-      console.log(res);
-    });
-  };
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+  // const fetchData = () => {
+  //   axios.get(`http://localhost:5000/get-images`).then((res) => {
+  //     console.log("Number of images after axios");
+  //     console.log(res.data);
+  //   });
+  // };
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={300} spacing={1} className={classes.gridList}>
-        {imageArray.map((tile, index) => (
-          <GridListTile
-            key={tile.img}
-            cols={tile.featured ? 2 : 1}
-            rows={tile.featured ? 2 : 1}
-          >
-            <img
-              src={require("../assets/uploaded/" + index.toString() + ".jpg")}
-              alt={tile.title}
-            />
-            {props.showDelete && (
-              <GridListTileBar
-                title={tile.title}
-                titlePosition="top"
-                actionIcon={
-                  <IconButton
-                    onChange={currentImageChange}
-                    aria-label={`star ${tile.title}`}
-                    className={classes.icon}
-                    onClick={deleteImage}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
+      {10 && (
+        <GridList
+          cellHeight={200}
+          spacing={1}
+          className={classes.gridList}
+          cols={5}
+        >
+          {imageArray.map((tile, index) => (
+            <GridListTile
+              key={tile.img}
+              // cols={tile.featured ? 2 : 1}
+              // rows={tile.featured ? 2 : 1}
+            >
+              <img
+                src={
+                  props.url +
+                  index.toString() +
+                  ".png" +
+                  `?${new Date().getTime()}`
                 }
-                actionPosition="left"
-                className={classes.titleBar}
+                alt={tile.title}
+                style={{ height: "100%", width: "100%" }}
               />
-            )}
-          </GridListTile>
-        ))}
-      </GridList>
+
+              {props.showDelete && (
+                <GridListTileBar
+                  title={tile.title}
+                  titlePosition="top"
+                  actionIcon={
+                    <IconButton
+                      onChange={currentImageChange}
+                      aria-label={`star ${tile.title}`}
+                      className={classes.icon}
+                      onClick={deleteImage}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  }
+                  actionPosition="left"
+                  className={classes.titleBar}
+                />
+              )}
+            </GridListTile>
+          ))}
+        </GridList>
+      )}
     </div>
   );
 }

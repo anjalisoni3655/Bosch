@@ -1,5 +1,5 @@
 import Upload from "./Upload";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useReducer } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
@@ -41,27 +41,7 @@ const initialValues = {
   prob10: "",
   prob11: "",
 };
-const url = `http://localhost:5000/static/extracted/extracted_1/image/`;
-
-var images_array = [];
-
-for (let i = 1; i <= 5; i++) {
-  images_array.push(url + i.toString() + ".png");
-}
-console.log("images array", images_array);
-
-var IMAGES = [];
-
-for (var i = 0; i < 5; i++) {
-  IMAGES.push({
-    src: images_array[i],
-    thumbnail: images_array[i],
-    thumbnailWidth: 320,
-    thumbnailHeight: 174,
-    isSelected: false,
-    caption: "After Rain (Jeshu John - designerspics.com)",
-  });
-}
+const url = `http://localhost:5000/static/grid/augmented/`;
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -82,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
-
+console.log("hi");
 const marks = [
   { value: 0, label: "0" },
   { value: 1, label: "1" },
@@ -110,7 +90,7 @@ export default function User() {
       [name]: event.target.value,
     });
   };
-  console.log("Rain", rain);
+  
   const [values, setValues] = useState(initialValues);
 
   const handleProb = (e) => {
@@ -183,29 +163,42 @@ export default function User() {
     degrade: [...degrade, values.prob10],
     rain: [rain.age, values.prob11],
   };
+  const [currentImage, setImage] = useState(0);
+  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
+  
   const valueRef = useRef(""); //creating a refernce for TextField Component
 
-  const showText = () => {
-    return console.log("text", valueRef.current.value); //on clicking button accesing current value of TextField and outputing it to console
-  };
   const classes = useStyles();
   const [percent, setPercent] = React.useState(10);
   const [trainPercent, setTrainPercent] = React.useState(90);
+
+  const [numberImages, setnumberImages] = useState(0);
+
+  const handleNumberOfImages = (event, newValue) => {
+    setnumberImages(parseInt(newValue));
+  };
 
   const samplePercent = {
     sample: percent,
   };
   const trainPercentData = {
-    train:trainPercent
-  }
-  console.log("data", data);
+    train: trainPercent,
+  };
+  
   const handleAugment = () => {
     const res = axios.post("http://localhost:5000/augment", data).then(
       (response) => {
         console.log("response: ", response);
-        if (response.data == "OK") {
+        if (response.data != "0") {
           toast.success("🦄 Data Augmented succesfully");
+          //  console.log("images", response.data);
+          setnumberImages(parseInt(response.data));
+          console.log("images", numberImages);
+          // handleNumberOfImages(parseInt(response.data));
+
+          console.log(" images", numberImages);
+          forceUpdate();
         } else {
           toast.error("💀 Error : " + response.data);
         }
@@ -214,44 +207,27 @@ export default function User() {
         console.log("error: ", error);
       }
     );
+   // window.location.reload();
   };
   const sendTrainPercent = () => {
-    const res = axios.post("http://localhost:5000/train-percent", trainPercentData).then(
-      (response) => {
-        console.log("response: ", response);
-        if (response.data == "OK") {
-          toast.success("🦄 Data Split and added succesfully");
-        } else {
-          toast.error("💀 Error : " + response.data);
+    const res = axios
+      .post("http://localhost:5000/train-percent", trainPercentData)
+      .then(
+        (response) => {
+          console.log("response: ", response);
+          if (response.data == "OK") {
+            toast.success("🦄 Data Split and added succesfully");
+          } else {
+            toast.error("💀 Error : " + response.data);
+          }
+        },
+        (error) => {
+          console.log("error: ", error);
         }
-      },
-      (error) => {
-        console.log("error: ", error);
-      }
-    );
+      );
   };
 
-  const handleSample = () => {
-    console.log(samplePercent);
-    const res = axios.post("http://localhost:5000/sample", samplePercent).then(
-      (response) => {
-        console.log("response: ", response);
-        if (response.data == "OK") {
-          toast.success("🦄 Data Sampled succesfully");
-        } else {
-          toast.error("💀 Error : " + response.data);
-        }
-      },
-      (error) => {
-        console.log("error: ", error);
-      }
-    );
-  };
-
-  const handlePercent = (event, newValue) => {
-    setPercent(newValue);
-  };
-  const handleTrainPercent = (event, newValue) =>{
+  const handleTrainPercent = (event, newValue) => {
     setTrainPercent(newValue);
   };
 
@@ -796,15 +772,15 @@ export default function User() {
         </div>
       </Card>
 
-
-      <Augment images={IMAGES} showDelete={true}></Augment>
+      {numberImages && (
+        <Augment url={url} showDelete={true} images={numberImages}></Augment>
+      )}
 
       <br />
-      <Row style={{ justifyContent: "center" }}> 
+      <Row style={{ justifyContent: "center" }}>
         <Typography>Percentage of Train Data</Typography>
       </Row>
       <Row style={{ justifyContent: "center" }}>
-        
         <Slider
           value={trainPercent}
           min={0}
@@ -821,13 +797,10 @@ export default function User() {
           valueLabelDisplay="auto"
           aria-labelledby="non-linear-slider"
         />
-      </Row> 
+      </Row>
       <Row style={{ justifyContent: "center" }}>
-        <Button onClick={sendTrainPercent} >Add to Dataset</Button>
-      </Row>  
-        
-        
-
+        <Button onClick={sendTrainPercent}>Add to Dataset</Button>
+      </Row>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import {Upload, number_images} from "./Upload";
+import { Upload, number_images } from "./Upload";
 import React, { useRef, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -9,6 +9,8 @@ import Select from "@material-ui/core/Select";
 import { ToastContainer, toast } from "react-toastify";
 import InputLabel from "@material-ui/core/InputLabel";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
 import Augment from "./augment";
 //import image_ok from "/home/anjalisoni/Downloads/Bosch/frontend/src/assets/uploaded/1.jpg";
 
@@ -27,39 +29,9 @@ import {
   Row,
   Col,
 } from "reactstrap";
-const url = `http://localhost:5000/static/extracted/extracted_1/image/`;
+const url = `http://localhost:5000/static/grid/extracted/`;
 
-const fetchData = () => {
-  axios.get(`http://localhost:5000/get-images`)
-    .then(res => {
-      console.log('Number of images after axios in adddata')
-      console.log(res)
-    })
-};
-
-
-var images_array = [];
-
-for (let i = 1; i <= 9; i++) {
-  images_array.push(url + i.toString() + ".png");
-}
-console.log("images array", images_array);
-console.log('Number of images after import')
-console.log(number_images)
-
-var IMAGES = [];
-
-for (var i = 0; i < 9; i++) {
-  const image1 = "../assets/uploaded/" + i.toString() + ".jpg";
-  IMAGES.push({
-    src: {image1},
-    thumbnail: { image1 },
-    thumbnailWidth: 320,
-    thumbnailHeight: 174,
-    isSelected: false,
-    caption: "After Rain (Jeshu John - designerspics.com)",
-  });
-}
+//console.log("images array", images_array);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,6 +50,17 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    overflow: "hidden",
+    backgroundColor: theme.palette.background.paper,
+  },
+  // gridList: {
+  //   width: 500,
+  //   height: 450,
+  // },
 }));
 
 const marks = [
@@ -119,53 +102,35 @@ export default function AddData() {
         console.log("error: ", error);
       }
     );
+    // window.location.reload();
   };
 
   const handlePercent = (event, newValue) => {
     setPercent(newValue);
   };
 
-  // const [file,setFile] = React.useState(null);
+  const [numberImages, setNumberImages] = useState(0);
 
-  // const handleFileInside = (event, newValue) => {
-  //   setFile(newValue);
-  // };
-  let file;
-  const target = "/home/tushar/Bosch/frontend/src/assets/uploaded";
-  // async function forExtract (source) {
-  //   try {
-  //     await extract(source, { dir: target })
-  //     console.log('Extraction complete')
-  //   } catch (err) {
-  //     // handle any errors
-  //   }
-  // }
-
-  function handleFile(fileFromUpload) {
-    file = fileFromUpload;
-    // forExtract(file);
-    // handleFileInside(fileFromUpload);
-    // _extractUpdateFile(file);
-    // extract(file, { dir: target });
-    console.log("From Uploads");
-    console.log(file);
+  function handleNoOfImages(no_of_images) {
+    console.log("images from addData");
+    console.log(no_of_images);
+    setNumberImages(no_of_images);
   }
+  var images_array = [];
 
+  for (var i = 0; i < 8; i++) {
+    images_array.push({
+      img:
+        "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png",
+      title: i.toString(),
+      author: "anjali",
+    });
+  }
   const classes_dataset = ["U-turn", "Zebra-Crossing", "No Entry"];
 
-
-  // useEffect(() => {
-  //   fetchData();
-  // },[]);
-
-  
-  
   return (
     <div className="content">
       <ToastContainer />
-      {/* <img
-        src={require("/home/anjalisoni/Downloads/Bosch/frontend/src/assets/uploaded/1.jpg")}
-      /> */}
 
       <Row>
         <Col md="4">
@@ -199,7 +164,7 @@ export default function AddData() {
               <div style={{ paddingBottom: "-100px" }}>
                 <Upload
                   datasetClass={uploadClass}
-                  gridImages={(e) => handleFile(e)}
+                  gridImages={(e) => handleNoOfImages(e)}
                 ></Upload>
               </div>
             </CardBody>
@@ -222,7 +187,7 @@ export default function AddData() {
               >
                 <Upload
                   datasetClass={"NULL"}
-                  gridImages={(e) => handleFile(e)}
+                  gridImages={(e) => handleNoOfImages(e)}
                 ></Upload>
               </div>
             </CardBody>
@@ -264,7 +229,6 @@ export default function AddData() {
                 </div>
                 <Button
                   color="primary"
-                  type="submit"
                   onClick={handleSample}
                   style={{ marginTop: "35px" }}
                 >
@@ -282,7 +246,13 @@ export default function AddData() {
               </CardTitle>
             </CardHeader>
             <CardBody>
-              <Augment images={IMAGES} showDelete={false}></Augment>
+              {numberImages && (
+                <Augment
+                  url={url}
+                  showDelete={false}
+                  images={numberImages}
+                ></Augment>
+              )}
             </CardBody>
           </Card>
         </Col>
