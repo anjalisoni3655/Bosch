@@ -13,7 +13,7 @@ import {
 import axios from "axios";
 
 // export default function ModelPerformance() {
-const precision = [
+const model_types = [
   { title: "model 1", id: 0 },
   { title: "model 2", id: 1 },
   { title: "model 3", id: 2 },
@@ -301,7 +301,7 @@ class ModelPerformance extends React.Component {
 
         <Autocomplete
           id="combo-box-demo"
-          options={precision}
+          options={model_types}
           getOptionLabel={(option) => option.title}
           style={{ width: 300 }}
           value={this.state.value}
