@@ -92,8 +92,10 @@ export default function AddData() {
     const res = axios.post("http://localhost:5000/sample", samplePercent).then(
       (response) => {
         console.log("response: ", response);
-        if (response.data == "OK") {
-          toast.success("🦄 Data Sampled succesfully");
+        if (response.status == 200) {
+          console.log("Images");
+          console.log(res.data);
+          
         } else {
           toast.error("💀 Error : " + response.data);
         }

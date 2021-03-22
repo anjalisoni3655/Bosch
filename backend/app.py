@@ -20,7 +20,7 @@ from dataStats import *
 
 import random
 import shutil
-
+import cv2
 ROOT_FOLDER="static/"
 UPLOAD_FOLDER = ROOT_FOLDER+'uploads/'
 EXTRACTION_FOLDER = ROOT_FOLDER+'extracted/'
@@ -47,6 +47,9 @@ app.config["TEST_FOLDER"] = TEST_FOLDER
 app.config["GRID_FOLDER"] = GRID_FOLDER
 app.config["GRID_AUGMENTED_FOLDER"] = GRID_AUGMENTED_FOLDER
 app.config["GRID_EXTRACTED_FOLDER"] = GRID_EXTRACTED_FOLDER
+
+id_label = {0: 'Speed limit (20km/h)', 1: 'Speed limit (30km/h)', 2: 'Speed limit (50km/h)', 3: 'Speed limit (60km/h)', 4: 'Speed limit (70km/h)', 5: 'Speed limit (80km/h)', 6: 'End of speed limit (80km/h)', 7: 'Speed limit (100km/h)', 8: 'Speed limit (120km/h)', 9: 'No passing', 10: 'No passing for vehicles over 3.5 metric tons', 11: 'Right-of-way at the next intersection', 12: 'Priority road', 13: 'Yield', 14: 'Stop', 15: 'No vehicles', 16: 'Vehicles over 3.5 metric tons prohibited', 17: 'No entry', 18: 'General caution', 19: 'Dangerous curve to the left', 20: 'Dangerous curve to the right', 21: 'Double curve', 22: 'Bumpy road', 23: 'Slippery road', 24: 'Road narrows on the right', 25: 'Road work', 26: 'Traffic signals', 27: 'Pedestrians', 28: 'Children crossing', 29: 'Bicycles crossing', 30: 'Beware of ice/snow', 31: 'Wild animals crossing', 32: 'End of all speed and passing limits', 33: 'Turn right ahead', 34: 'Turn left ahead', 35: 'Ahead only', 36: 'Go straight or right', 37: 'Go straight or left', 38: 'Keep right', 39: 'Keep left', 40: 'Roundabout mandatory', 41: 'End of no passing', 42: 'End of no passing by vehicles over 3.5 metric tons'}
+label_id = {v: k for k, v in id_label.items()}
 
 app.config.update(SECRET_KEY=os.urandom(24))
 CORS(app)
@@ -86,8 +89,10 @@ def copy_rename_recursive(src, dest):
         if(os.path.isdir(os.path.join(src,x))):
             copy_rename_recursive(os.path.join(src,x),dest)
         else:
-            ext = '.' + list(x.split('.'))[1]
-            shutil.copy(os.path.join(src,x),os.path.join(dest,str(currentNo)+ext))
+            
+            i = cv2.imread(os.path.join(src,x))
+            filename = str(currentNo)+".png"
+            cv2.imwrite(os.path.join(dest,filename),i)  
             currentNo+=1
 
 
@@ -114,7 +119,7 @@ def upload_file():
             return "No file part"
 
         file = request.files['file']
-        className = request.args.get('className')
+        className = str(request.args.get('className'))
         print("Url ", request.url)
         print("Class name : ",className)
         # if user does not select file, browser also
@@ -147,7 +152,7 @@ def upload_file():
             currentNo = 0
             copy_rename_recursive(folder_to_augment, app.config["GRID_EXTRACTED_FOLDER"])
             
-            print('Return Statement')
+            
             # print(str(len(os.listdir(app.config["GRID_EXTRACTED_FOLDER"])))) 
             return str(len(os.listdir(app.config["GRID_EXTRACTED_FOLDER"])))
 
@@ -171,7 +176,7 @@ def images_number():
 @app.route('/sample', methods = ['POST'])
 @cross_origin()
 def sampling():
-    global folder_to_augment, augmentedfolder
+    global folder_to_augment, augmentedfolder,currentNo,className
     if request.method == "POST":
 
         data = request.get_json()
@@ -180,11 +185,14 @@ def sampling():
         folder_to_extract_from = app.config['TRAIN_FOLDER']
         sampleData(folder_to_extract_from, folder_to_extract_to, data['sample'])
 
-        augmentedfolder = folder_to_extract_to
         folder_to_augment = folder_to_extract_to
-        print(folder_to_augment)
-
-    return 'OK'
+        shutil.rmtree(app.config["GRID_EXTRACTED_FOLDER"]) 
+        create_folder(app.config["GRID_EXTRACTED_FOLDER"])
+        currentNo = 0
+        copy_rename_recursive(folder_to_augment, app.config["GRID_EXTRACTED_FOLDER"])
+        className="NULL"
+        return str(len(os.listdir(app.config["GRID_EXTRACTED_FOLDER"])))
+    return "0"
 
 
 @app.route('/train-percent', methods = ['POST'])
@@ -225,7 +233,7 @@ def trainPercent():
 @app.route('/augment', methods=[ 'POST','GET'])
 @cross_origin()
 def augmentation():
-    global augmentedfolder, folder_to_augment,className
+    global augmentedfolder, folder_to_augment,className,currentNo
     if request.method == "POST":
         data = request.get_json()
         for key in data:
@@ -236,15 +244,19 @@ def augmentation():
     
         if(folder_to_augment==""):
             print("Augmentation folder not found")
-            return 'Augmentation folder not found'
+            return "0"
         else:
             create_folder(app.config["AUGMENTATION_FOLDER"])
             augmentedfolder = create_folder_entry(app.config["AUGMENTATION_FOLDER"], "augmented")
-    
-            apply_augmentation_recursive(folder_to_augment, augmentedfolder, data,className)
+
+            classId = str(label_id[className]) if className!="NULL" else "NULL"
+            if(classId!="NULL"):
+                create_folder(os.path.join(augmentedfolder,classId))
+            apply_augmentation_recursive(folder_to_augment, augmentedfolder, data,classId)
         print("Augmentation complete")
         shutil.rmtree(app.config["GRID_AUGMENTED_FOLDER"]) 
         create_folder(app.config["GRID_AUGMENTED_FOLDER"])
+        currentNo = 0
         copy_rename_recursive(augmentedfolder, app.config["GRID_AUGMENTED_FOLDER"])
 
         return str(len(os.listdir(app.config["GRID_AUGMENTED_FOLDER"])))
