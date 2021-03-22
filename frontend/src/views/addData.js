@@ -99,7 +99,8 @@ export default function AddData() {
         console.log("response: ", response);
         if (response.status == 200) {
           console.log("Images");
-          console.log(res.data);
+      
+          toast.success(response.data + " Images sampled successfully ");
           
         } else {
           toast.error("💀 Error : " + response.data);

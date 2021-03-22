@@ -183,7 +183,7 @@ def sampling():
         create_folder(app.config["EXTRACTION_FOLDER"])
         folder_to_extract_to = create_folder_entry(app.config['EXTRACTION_FOLDER'], "extracted")
         folder_to_extract_from = app.config['TRAIN_FOLDER']
-        sampleData(folder_to_extract_from, folder_to_extract_to, data['sample'])
+        sampleDataStratified(folder_to_extract_from, folder_to_extract_to, data['sample'])
 
         folder_to_augment = folder_to_extract_to
         shutil.rmtree(app.config["GRID_EXTRACTED_FOLDER"]) 
@@ -198,7 +198,7 @@ def sampling():
 @app.route('/train-percent', methods = ['POST'])
 @cross_origin()
 def trainPercent():
-    global augmented_folder
+    global augmentedfolder
     if request.method == "POST":
 
         data = request.get_json()
@@ -206,26 +206,9 @@ def trainPercent():
         """COMPLETE THIS : ADD to dataset
         """
         if(augmentedfolder==""):
-            return "Did not find images to augment"
-        imgs = os.listdir(augmentedfolder)
-        trainLen = len(imgs) * (data['train']/100)
-        trainImgs = random.sample(imgs, trainLen)
-        valImgs = [x for x in imgs if x not in trainImgs]
-        # Rename images in train folder to match
-        maxnTrain = max(list(map(int, [list(x.split('.'))[0] for x in os.listdir(app.config["TRAIN_FOLDER"])])))
-        maxnVal = max(list(map(int, [list(x.split('.'))[0] for x in os.listdir(app.config["VALIDATION_FOLDER"])])))
-        i = maxnTrain+1
-        for img in trainImgs:
-            ext = '.' + img.split('.')[-1]
-            dest = os.path.join(app.config["TRAIN_FOLDER"], str(i)+ext)
-            i += 1
-            shutil.copy(os.path.join(augmentedfolder,img), dest)
-        i = maxnVal+1
-        for img in valImgs:
-            ext = '.' + img.split('.')[-1]
-            dest = os.path.join(app.config["VALIDATION_FOLDER"], str(i)+ext)
-            i += 1
-            shutil.copy(os.path.join(augmentedfolder,img), dest)
+            augmentedfolder = folder_to_augment
+            return "Did not find augmented images"
+        trainValSplit(augmentedfolder,app.config["TRAIN_FOLDER"],app.config["VALIDATION_FOLDER"],data["train"])
 
 
     return 'OK'
