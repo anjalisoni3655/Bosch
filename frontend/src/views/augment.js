@@ -62,7 +62,7 @@ export default function Augment(props) {
   };
   // console.log("Number of images after axios");
   // console.log(number_images);
-  // console.log("Rendering");
+
   for (var i = 0; i < props.images; i++) {
     images_array.push({
       img: "",
