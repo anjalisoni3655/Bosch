@@ -100,9 +100,9 @@ export default function Augment(props) {
       {props.images != 0 ? (
         <GridList
           cellHeight={200}
-          spacing={1}
+          spacing={0}
           className={classes.gridList}
-          cols={5}
+          cols={8}
         >
           {imageArray.map((tile, index) => (
             <GridListTile
@@ -119,7 +119,7 @@ export default function Augment(props) {
                   `?${new Date().getTime()}`
                 }
                 alt={tile.title}
-                style={{ height: "100%", width: "100%" }}
+                style={{ height: "200px", width: "200px" }}
               />
 
               {props.showDelete && (
