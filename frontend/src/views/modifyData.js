@@ -1,5 +1,5 @@
 import Upload from "./Upload";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useReducer } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
@@ -90,7 +90,7 @@ export default function User() {
       [name]: event.target.value,
     });
   };
-  console.log("Rain", rain);
+  
   const [values, setValues] = useState(initialValues);
 
   const handleProb = (e) => {
@@ -164,6 +164,9 @@ export default function User() {
     rain: [rain.age, values.prob11],
   };
   const [currentImage, setImage] = useState(0);
+  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+
+  
   const valueRef = useRef(""); //creating a refernce for TextField Component
 
   const classes = useStyles();
@@ -182,7 +185,7 @@ export default function User() {
   const trainPercentData = {
     train: trainPercent,
   };
-  console.log("data", data);
+  
   const handleAugment = () => {
     const res = axios.post("http://localhost:5000/augment", data).then(
       (response) => {
@@ -195,6 +198,7 @@ export default function User() {
           // handleNumberOfImages(parseInt(response.data));
 
           console.log(" images", numberImages);
+          forceUpdate();
         } else {
           toast.error("💀 Error : " + response.data);
         }

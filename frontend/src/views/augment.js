@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default React.memo(function Augment(props) {
+export default function Augment(props) {
   var images_array = [];
   const [currentImage, setImage] = useState(0);
   const [imageArray, setImageArray] = useState(images_array);
@@ -62,7 +62,7 @@ export default React.memo(function Augment(props) {
   };
   // console.log("Number of images after axios");
   // console.log(number_images);
-  
+  console.log("Rendering");
   for (var i = 0; i < props.images; i++) {
     images_array.push({
       img: "",
@@ -142,4 +142,4 @@ export default React.memo(function Augment(props) {
       )}
     </div>
   );
-})
+}
