@@ -62,13 +62,16 @@ export default function Augment(props) {
   };
   // console.log("Number of images after axios");
   // console.log(number_images);
-  // console.log("Rendering");
+
   for (var i = 0; i < props.images; i++) {
     images_array.push({
       img: "",
       title: i.toString(),
       author: "anjali",
     });
+  }
+  const togglePopup = () => {
+    
   }
   const deleteImage = () => {
     if (
@@ -94,7 +97,7 @@ export default function Augment(props) {
 
   return (
     <div className={classes.root}>
-      {props.images !=0? (
+      {props.images != 0 ? (
         <GridList
           cellHeight={200}
           spacing={1}
@@ -108,6 +111,7 @@ export default function Augment(props) {
               // rows={tile.featured ? 2 : 1}
             >
               <img
+                onClick={togglePopup}
                 src={
                   props.url +
                   index.toString() +
@@ -139,7 +143,9 @@ export default function Augment(props) {
             </GridListTile>
           ))}
         </GridList>
-      ):<div></div>}
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }
