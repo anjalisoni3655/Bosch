@@ -9,7 +9,7 @@ import Select from "@material-ui/core/Select";
 import { ToastContainer, toast } from "react-toastify";
 import InputLabel from "@material-ui/core/InputLabel";
 import Divider from "@material-ui/core/Divider";
-
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import FormControl from "@material-ui/core/FormControl";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -82,7 +82,7 @@ export default function User() {
     age: "",
     name: "hai",
   });
-
+  const [modelType, setmodelType] = useState("NULL");
   const handleRain = (event) => {
     const name = event.target.name;
     setRain({
@@ -163,14 +163,14 @@ export default function User() {
     degrade: [...degrade, values.prob10],
     rain: [rain.age, values.prob11],
   };
-  const [currentImage, setImage] = useState(0);
+  
 
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
 
-  const valueRef = useRef(""); //creating a refernce for TextField Component
+  
 
   const classes = useStyles();
-  const [percent, setPercent] = React.useState(10);
+  
   const [trainPercent, setTrainPercent] = React.useState(90);
 
   const [numberImages, setnumberImages] = useState(0);
@@ -179,9 +179,7 @@ export default function User() {
     setnumberImages(parseInt(newValue));
   };
 
-  const samplePercent = {
-    sample: percent,
-  };
+  
   const trainPercentData = {
     train: trainPercent,
   };
@@ -191,7 +189,7 @@ export default function User() {
       (response) => {
         console.log("response: ", response);
         if (response.data != "0") {
-          toast.success("🦄 Data Augmented succesfully");
+          toast.success("Data Augmented succesfully");
 
           setnumberImages(parseInt(response.data));
           console.log("images", numberImages);
@@ -224,11 +222,28 @@ export default function User() {
         }
       );
   };
+  const sendTrainRequest = () => {
+    const res = axios
+      .post("http://localhost:5000/train-model", {model:modelType})
+      .then(
+        (response) => {
+          console.log("response: ", response);
+          if (response.data == "OK") {
+            toast.success("Model training initiated successfully");
+          } else {
+            toast.error("Error : " + response.data);
+          }
+        },
+        (error) => {
+          console.log("error: ", error);
+        }
+      );
+  };
 
   const handleTrainPercent = (event, newValue) => {
     setTrainPercent(newValue);
   };
-
+  const model_dataset=["Model1","Model2","Model3"];
   return (
     <div className="content">
       <ToastContainer />
@@ -777,8 +792,14 @@ export default function User() {
       )}
 
       <br />
+      <Row>
+
+      
+      <Col md="6">
+
+      
       <Row style={{ justifyContent: "center" }}>
-        <Typography>Percentage of Train Data</Typography>
+        <Typography>Percentage of Train Split</Typography>
       </Row>
       <Row style={{ justifyContent: "center" }}>
         <Slider
@@ -799,7 +820,37 @@ export default function User() {
         />
       </Row>
       <Row style={{ justifyContent: "center" }}>
-        <Button onClick={sendTrainPercent}>Add to Dataset</Button>
+        <Button color="primary" onClick={sendTrainPercent}>Add to Dataset</Button>
+      </Row>
+      </Col>
+      <Col md="6">
+
+      
+      <Row style={{ justifyContent: "center" }}>
+        <Typography>Retrain model on new data</Typography>
+      </Row>
+        <Row style={{ justifyContent: "center" }}>
+          <div style={{ height: "-20px" }}>
+            <Autocomplete
+              onChange={(event, value) => setmodelType(value)}
+              id="combo-box-demo"
+              options={model_dataset}
+              getOptionLabel={(option) => option}
+              style={{ width: 300, height: -30 }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Select model"
+                  variant="outlined"
+                />
+              )}
+            />
+          </div>
+        </Row>
+      <Row style={{ justifyContent: "center" }}>
+        <Button color="primary" onClick={sendTrainRequest}>Train model</Button>
+      </Row>
+      </Col>
       </Row>
     </div>
   );

@@ -86,16 +86,17 @@ export default function AddData() {
   };
 
   const classes = useStyles();
-  const [percent, setPercent] = React.useState(10);
-
+  const [percent, setPercent] = React.useState(50);
+  
   const samplePercent = {
     sample: percent,
+    className: uploadClass,
   };
 
   const handlePercent = (event, newValue) => {
     setPercent(newValue);
   };
-
+ 
   const [numberImages, setNumberImages] = useState(0);  
 
   const handleSample = () => {
@@ -105,8 +106,13 @@ export default function AddData() {
         console.log("response: ", response);
         if (response.status == 200) {
           console.log("Images");
+
+      
+          toast.success(response.data + " Images sampled successfully ");
+
           console.log(response);
           setNumberImages(response.data);
+
           
         } else {
           toast.error("💀 Error : " + response.data);

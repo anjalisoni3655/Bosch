@@ -47,7 +47,10 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
 }));
-
+function min(x,y){
+  if(x<=y) return x;
+  return y;
+}
 export default function Augment(props) {
   var images_array = [];
   const [currentImage, setImage] = useState(0);

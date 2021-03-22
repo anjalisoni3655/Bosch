@@ -32,8 +32,13 @@ TEST_FOLDER = DATASET_FOLDER+'test/'
 GRID_FOLDER = ROOT_FOLDER+"grid/"
 GRID_AUGMENTED_FOLDER = GRID_FOLDER + "augmented/"
 GRID_EXTRACTED_FOLDER = GRID_FOLDER + "extracted/" 
+MODELS_FOLDER = ROOT_FOLDER+"models/"
+
 
 ALLOWED_EXTENSIONS = {'zip'}
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 app = Flask(__name__)
 app.config['ROOT_FOLDER'] = ROOT_FOLDER
@@ -47,9 +52,13 @@ app.config["TEST_FOLDER"] = TEST_FOLDER
 app.config["GRID_FOLDER"] = GRID_FOLDER
 app.config["GRID_AUGMENTED_FOLDER"] = GRID_AUGMENTED_FOLDER
 app.config["GRID_EXTRACTED_FOLDER"] = GRID_EXTRACTED_FOLDER
+app.config["MODELS_FOLDER"] = MODELS_FOLDER
 
-id_label = {0: 'Speed limit (20km/h)', 1: 'Speed limit (30km/h)', 2: 'Speed limit (50km/h)', 3: 'Speed limit (60km/h)', 4: 'Speed limit (70km/h)', 5: 'Speed limit (80km/h)', 6: 'End of speed limit (80km/h)', 7: 'Speed limit (100km/h)', 8: 'Speed limit (120km/h)', 9: 'No passing', 10: 'No passing for vehicles over 3.5 metric tons', 11: 'Right-of-way at the next intersection', 12: 'Priority road', 13: 'Yield', 14: 'Stop', 15: 'No vehicles', 16: 'Vehicles over 3.5 metric tons prohibited', 17: 'No entry', 18: 'General caution', 19: 'Dangerous curve to the left', 20: 'Dangerous curve to the right', 21: 'Double curve', 22: 'Bumpy road', 23: 'Slippery road', 24: 'Road narrows on the right', 25: 'Road work', 26: 'Traffic signals', 27: 'Pedestrians', 28: 'Children crossing', 29: 'Bicycles crossing', 30: 'Beware of ice/snow', 31: 'Wild animals crossing', 32: 'End of all speed and passing limits', 33: 'Turn right ahead', 34: 'Turn left ahead', 35: 'Ahead only', 36: 'Go straight or right', 37: 'Go straight or left', 38: 'Keep right', 39: 'Keep left', 40: 'Roundabout mandatory', 41: 'End of no passing', 42: 'End of no passing by vehicles over 3.5 metric tons'}
-label_id = {v: k for k, v in id_label.items()}
+
+shutil.rmtree(app.config["UPLOAD_FOLDER"])
+shutil.rmtree(app.config["EXTRACTION_FOLDER"])
+shutil.rmtree(app.config["AUGMENTATION_FOLDER"])  
+
 
 app.config.update(SECRET_KEY=os.urandom(24))
 CORS(app)
@@ -61,27 +70,7 @@ augmentedfolder = ""
 className=""
 currentNo = 0
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
-def create_folder(foldername):
-    if not os.path.exists(foldername):
-        os.makedirs(foldername)
-
-def create_folder_entry(root,foldername):
-    lis = os.listdir(root)
-    
-    maxn = 0
-    for i in lis:
-        if os.path.isdir(os.path.join(root,i)):
-            
-            maxn = max(maxn,int(list(i.split('_'))[1]))
-
-    maxn+=1
-    create_folder(os.path.join(root,foldername+"_"+str(maxn)))
-    return os.path.join(root,foldername+"_"+str(maxn))
 
 def copy_rename_recursive(src, dest):
     global currentNo
@@ -107,6 +96,7 @@ create_folder(app.config["TEST_FOLDER"])
 create_folder(app.config["GRID_FOLDER"])
 create_folder(app.config["GRID_AUGMENTED_FOLDER"])
 create_folder(app.config["GRID_EXTRACTED_FOLDER"])
+create_folder(app.config["MODELS_FOLDER"])
 
 @app.route('/upload', methods=[ 'POST','GET'])
 @cross_origin()
@@ -183,7 +173,7 @@ def sampling():
         create_folder(app.config["EXTRACTION_FOLDER"])
         folder_to_extract_to = create_folder_entry(app.config['EXTRACTION_FOLDER'], "extracted")
         folder_to_extract_from = app.config['TRAIN_FOLDER']
-        sampleData(folder_to_extract_from, folder_to_extract_to, data['sample'])
+        sampleDataStratified(folder_to_extract_from, folder_to_extract_to, data['sample'],data['className'])
 
         folder_to_augment = folder_to_extract_to
         shutil.rmtree(app.config["GRID_EXTRACTED_FOLDER"]) 
@@ -192,40 +182,36 @@ def sampling():
         copy_rename_recursive(folder_to_augment, app.config["GRID_EXTRACTED_FOLDER"])
         className="NULL"
         return str(len(os.listdir(app.config["GRID_EXTRACTED_FOLDER"])))
-    return "0"Images Sampled.
+    return "0 Images sampled"
 
 
 @app.route('/train-percent', methods = ['POST'])
 @cross_origin()
 def trainPercent():
-    global augmented_folder
+    global augmentedfolder
     if request.method == "POST":
 
         data = request.get_json()
-        print(data)
-        """COMPLETE THIS : ADD to dataset
-        """
+        
         if(augmentedfolder==""):
-            return "Did not find images to augment"
-        imgs = os.listdir(augmentedfolder)
-        trainLen = len(imgs) * (data['train']/100)
-        trainImgs = random.sample(imgs, trainLen)
-        valImgs = [x for x in imgs if x not in trainImgs]
-        # Rename images in train folder to match
-        maxnTrain = max(list(map(int, [list(x.split('.'))[0] for x in os.listdir(app.config["TRAIN_FOLDER"])])))
-        maxnVal = max(list(map(int, [list(x.split('.'))[0] for x in os.listdir(app.config["VALIDATION_FOLDER"])])))
-        i = maxnTrain+1
-        for img in trainImgs:
-            ext = '.' + img.split('.')[-1]
-            dest = os.path.join(app.config["TRAIN_FOLDER"], str(i)+ext)
-            i += 1
-            shutil.copy(os.path.join(augmentedfolder,img), dest)
-        i = maxnVal+1
-        for img in valImgs:
-            ext = '.' + img.split('.')[-1]
-            dest = os.path.join(app.config["VALIDATION_FOLDER"], str(i)+ext)
-            i += 1
-            shutil.copy(os.path.join(augmentedfolder,img), dest)
+            if(folder_to_augment==""):
+                return "Images not found"
+            augmentedfolder = folder_to_augment
+            
+        trainValSplit(augmentedfolder,app.config["TRAIN_FOLDER"],app.config["VALIDATION_FOLDER"],data["train"])
+
+
+    return 'OK'
+@app.route('/train-model', methods = ['POST'])
+@cross_origin()
+def trainModel():
+    
+    if request.method == "POST":
+
+        data = request.get_json()
+        
+        model = data['model']
+        create_folder_entry(app.config["MODELS_FOLDER"],model,"v")
 
 
     return 'OK'
