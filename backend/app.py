@@ -77,6 +77,7 @@ def create_folder_entry(root,foldername):
     maxn+=1
     create_folder(os.path.join(root,foldername+"_"+str(maxn)))
     return os.path.join(root,foldername+"_"+str(maxn))
+
 def copy_rename_recursive(src, dest):
     currentNo = 0
     for x in os.listdir(src):
@@ -86,6 +87,8 @@ def copy_rename_recursive(src, dest):
             ext = '.' + list(x.split('.'))[1]
             shutil.copy(os.path.join(src,x),os.path.join(dest,str(currentNo)+ext))
             currentNo+=1
+
+
 create_folder(app.config["ROOT_FOLDER"])
 create_folder(app.config["UPLOAD_FOLDER"])
 create_folder(app.config["EXTRACTION_FOLDER"])
@@ -140,6 +143,10 @@ def upload_file():
             shutil.rmtree(app.config["GRID_EXTRACTED_FOLDER"]) 
             create_folder(app.config["GRID_EXTRACTED_FOLDER"])
             copy_rename_recursive(folder_to_augment, app.config["GRID_EXTRACTED_FOLDER"])
+            
+            print('Return Statement')
+            print(str(len(os.listdir(app.config["GRID_EXTRACTED_FOLDER"])))) 
+            return str(len(os.listdir(app.config["GRID_EXTRACTED_FOLDER"])))
 
 
     return str(len(os.listdir(app.config["GRID_EXTRACTED_FOLDER"])))

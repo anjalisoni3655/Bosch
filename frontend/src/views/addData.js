@@ -103,31 +103,27 @@ export default function AddData() {
         console.log("error: ", error);
       }
     );
-    window.location.reload();
+    // window.location.reload();
   };
 
   const handlePercent = (event, newValue) => {
     setPercent(newValue);
   };
 
-  let file;
+  const [numberImages, setNumberImages] = useState(0);
   
 
-  function handleFile(fileFromUpload) {
-    file = fileFromUpload;
-    // forExtract(file);
-    // handleFileInside(fileFromUpload);
-    // _extractUpdateFile(file);
-    // extract(file, { dir: target });
-    console.log("From Uploads");
-    console.log(file);
+  function handleNoOfImages(no_of_images) {
+    console.log('images from addData');
+    console.log(no_of_images);
+    setNumberImages(no_of_images);
   }
   var images_array = [];
 
   for (var i = 0; i < 8; i++) {
     images_array.push({
       img:
-        "http://localhost:5000/static/grid/extracted/image/" +
+        "http://localhost:5000/static/grid/extracted/" +
         i.toString() +
         ".png",
       title: i.toString(),
@@ -172,7 +168,7 @@ export default function AddData() {
               <div style={{ paddingBottom: "-100px" }}>
                 <Upload
                   datasetClass={uploadClass}
-                  gridImages={(e) => handleFile(e)}
+                  gridImages={(e) => handleNoOfImages(e)}
                 ></Upload>
               </div>
             </CardBody>
@@ -195,7 +191,7 @@ export default function AddData() {
               >
                 <Upload
                   datasetClass={"NULL"}
-                  gridImages={(e) => handleFile(e)}
+                  gridImages={(e) => handleNoOfImages(e)}
                 ></Upload>
               </div>
             </CardBody>
@@ -255,7 +251,7 @@ export default function AddData() {
               </CardTitle>
             </CardHeader>
             <CardBody>
-              <Augment url={url} showDelete={false}></Augment>
+              {numberImages && <Augment url={url} showDelete={false} images={numberImages}></Augment>}
             </CardBody>
           </Card>
         </Col>

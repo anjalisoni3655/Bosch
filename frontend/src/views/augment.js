@@ -60,10 +60,10 @@ export default React.memo(function Augment(props) {
   const currentImageChange = (index) => {
     setImage(index);
   };
-  console.log("Number of images after axios");
-  console.log(number_images);
+  // console.log("Number of images after axios");
+  // console.log(number_images);
   
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < props.images; i++) {
     images_array.push({
       img: "",
       title: i.toString(),
@@ -82,15 +82,15 @@ export default React.memo(function Augment(props) {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-  const fetchData = () => {
-    axios.get(`http://localhost:5000/get-images`).then((res) => {
-      console.log("Number of images after axios");
-      console.log(res.data);
-    });
-  };
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+  // const fetchData = () => {
+  //   axios.get(`http://localhost:5000/get-images`).then((res) => {
+  //     console.log("Number of images after axios");
+  //     console.log(res.data);
+  //   });
+  // };
 
   return (
     <div className={classes.root}>
