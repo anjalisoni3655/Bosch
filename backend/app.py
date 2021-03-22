@@ -192,7 +192,7 @@ def sampling():
         copy_rename_recursive(folder_to_augment, app.config["GRID_EXTRACTED_FOLDER"])
         className="NULL"
         return str(len(os.listdir(app.config["GRID_EXTRACTED_FOLDER"])))
-    return "0"
+    return "0"Images Sampled.
 
 
 @app.route('/train-percent', methods = ['POST'])
