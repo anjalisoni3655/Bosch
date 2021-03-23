@@ -25,134 +25,63 @@ import {
 } from "reactstrap";
 import { number_images } from "./Upload";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-    backgroundColor: theme.palette.background.paper,
-  },
-  gridList: {
-    flexWrap: "nowrap",
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: "translateZ(0)",
-  },
-  titleBar: {
-    background:
-      "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
-      "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
-  },
-  icon: {
-    color: "white",
-  },
-}));
-function min(x, y) {
-  if (x <= y) return x;
-  return y;
-}
-export default function Augment(props) {
-  var images_array = [];
-  const [currentImage, setImage] = useState(0);
-  const [imageArray, setImageArray] = useState(images_array);
-  const classes = useStyles();
+class Augment extends React.Component {
+  constructor(props) {
+    super(props);
 
-  // currentImageChange(index) {
-  //       this.setState({ currentImage: index });
-  //   }
-  const currentImageChange = (index) => {
-    setImage(index);
-  };
-  // console.log("Number of images after axios");
-  // console.log(number_images);
+    this.state = {
+      images: this.props.images,
 
-  for (var i = 0; i < props.images; i++) {
-    images_array.push({
-      img: props.url + i.toString() + ".png" + `?${new Date().getTime()}`,
-      title: i.toString(),
-      author: "anjali",
-    });
+      currentImage: 0,
+    };
+
+    this.onCurrentImageChange = this.onCurrentImageChange.bind(this);
+    this.deleteImage = this.deleteImage.bind(this);
   }
-  const openPopup = () => {
-    let url =
-      props.url + currentImage.toString() + ".png" + `?${new Date().getTime()}`;
-    window.open(
-      url,
-      "_blank",
-      "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=500,width=400,height=400"
-    );
-    return false;
-  };
-  const deleteImage = () => {
+
+  onCurrentImageChange(index) {
+    this.setState({ currentImage: index });
+  }
+
+  deleteImage() {
     if (
       window.confirm(
-        `Are you sure you want to delete image number ${currentImage}?`
+        `Are you sure you want to delete image number ${this.state.currentImage}?`
       )
     ) {
-      var images = imageArray.slice();
-      images.splice(currentImage, 1);
-      setImageArray(images);
+      var images = this.state.images.slice();
+      images.splice(this.state.currentImage, 1);
+      this.setState({
+        images: images,
+      });
     }
-  };
+  }
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-  // const fetchData = () => {
-  //   axios.get(`http://localhost:5000/get-images`).then((res) => {
-  //     console.log("Number of images after axios");
-  //     console.log(res.data);
-  //   });
-  // };
-
-  return (
-    <div className={classes.root}>
-      {props.images != 0 ? (
-        <GridList
-          cellHeight={200}
-          spacing={0}
-          className={classes.gridList}
-          cols={8}
-        >
-          {imageArray.map((tile, index) => (
-            <GridListTile
-              key={tile.img}
-              cols={tile.featured ? 2 : 1.5}
-              rows={tile.featured ? 2 : 1}
-            >
-              <img
-                src={tile.img}
-                onClick={openPopup}
-                onChange={currentImageChange}
-                alt={tile.title}
-                style={{ height: "100%" , width: "100%" }}
-              />
-
-              {props.showDelete && (
-                <GridListTileBar
-                  title={tile.title}
-                  titlePosition="top"
-                  actionIcon={
-                    <IconButton
-                      onChange={currentImageChange}
-                      aria-label={`star ${tile.title}`}
-                      className={classes.icon}
-                      onClick={deleteImage}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  }
-                  actionPosition="left"
-                  className={classes.titleBar}
-                />
-              )}
-            </GridListTile>
-          ))}
-        </GridList>
-      ) : (
-        <div></div>
-      )}
-    </div>
-  );
+  render() {
+    return (
+      <div
+        style={{
+          display: "block",
+          minHeight: "1px",
+          width: "100%",
+          border: "1px solid #ddd",
+          overflow: "auto",
+        }}
+      >
+       
+        <Gallery
+          images={this.state.images}
+          enableLightbox={true}
+          enableImageSelection={false}
+          currentImageWillChange={this.onCurrentImageChange}
+          customControls={[
+            <button key="deleteImage" onClick={this.deleteImage}>
+              Delete Image
+            </button>,
+          ]}
+        />
+      </div>
+    );
+  }
 }
+export default Augment;

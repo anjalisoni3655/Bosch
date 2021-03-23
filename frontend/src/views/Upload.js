@@ -6,6 +6,26 @@ import Row from "react-bootstrap/Row";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { withStyles } from "@material-ui/core/styles";
+
+const useStyles = (theme) => ({
+  root: {
+    backgroundColor: "red",
+  },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: "relative",
+  },
+  buttonProgress: {
+   // color: green[500],
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    marginTop: -12,
+    marginLeft: -12,
+  },
+});
 let number_images = 0;
 class Upload extends React.Component {
   constructor(props) {
@@ -14,6 +34,7 @@ class Upload extends React.Component {
     this.handleUploadImage = this.handleUploadImage.bind(this);
     this.state = {
       number: 0,
+      loading:false,
     };
   }
 
@@ -27,11 +48,15 @@ class Upload extends React.Component {
     data.append("file", this.uploadInput.files[0]);
 
     const className = this.props.datasetClass;
+    this.setState({
+      loading: true,
+    });
 
     const res = await axios.post(
       `http://localhost:5000/upload?className=${className}`,
       data
     );
+     
     console.log(res.data);
     if (res.status == 200) {
       console.log("Images");
@@ -39,7 +64,11 @@ class Upload extends React.Component {
       this.setState({ number: parseInt(res.data) });
       number_images = this.state.number;
       this.props.gridImages(this.state.number);
+     
       toast.success("🦄 Data uploaded succesfully");
+       this.setState({
+         loading: false,
+       });
       // window.location.reload(false);
     } else {
       toast.error("💀 Error : " + res.data);
@@ -48,28 +77,45 @@ class Upload extends React.Component {
   }
 
   render() {
+     const { classes } = this.props;
     return (
       <div>
         <form>
-         
-            <Col>
-              <Row style={{ justifyContent: "center" }}>
-                <input
-                  ref={(ref) => {
-                    this.uploadInput = ref;
+          <Col>
+            <Row style={{ justifyContent: "center" }}>
+              <input
+                ref={(ref) => {
+                  this.uploadInput = ref;
                 }}
-                style={{marginLeft:"100px"}}
-                  type="file"
-                  id="file"
-                  accept=".zip"
-                />
-              </Row>
+                style={{ marginLeft: "100px" }}
+                type="file"
+                id="file"
+                accept=".zip"
+              />
+            </Row>
 
-              <Row style={{ justifyContent: "center" }}>
-                <Button onClick={this.handleUploadImage}>Upload</Button>
-              </Row>
-            </Col>
-         
+            <Row style={{ justifyContent: "center" }}>
+              <div
+                className={classes.wrapper}
+              >
+                <Button
+                 // variant="contained"
+                 // color="primary"
+                  //className={buttonClassname}
+                  disabled={this.state.loading}
+                  onClick={this.handleUploadImage}
+                >
+Upload
+                </Button>
+                {this.state.loading && (
+                  <CircularProgress
+                    size={24}
+                   className={classes.buttonProgress}
+                  />
+                )}
+              </div>
+            </Row>
+          </Col>
         </form>
         <ToastContainer />
       </div>
@@ -77,5 +123,5 @@ class Upload extends React.Component {
   }
 }
 
-export { number_images, Upload };
+export default withStyles(useStyles)(Upload);
 // export default Upload;

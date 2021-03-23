@@ -1,4 +1,4 @@
-import { Upload, number_images } from "./Upload";
+
 import React, { useRef, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -13,6 +13,7 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import Augment from "./augment";
 import Checkbox from "@material-ui/core/Checkbox";
+import Upload from "./Upload";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import FormControl from "@material-ui/core/FormControl";
@@ -132,14 +133,16 @@ export default function AddData() {
     console.log(no_of_images);
     setNumberImages(no_of_images);
   }
-  var images_array = [];
+  var Images = [];
 
-  for (var i = 0; i < 8; i++) {
-    images_array.push({
-      img:
+  for (var i = 0; i < numberImages; i++) {
+    Images.push({
+      src:
         "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png",
-      title: i.toString(),
-      author: "anjali",
+      thumbnail:
+        "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png",
+      thumbnailWidth: 257,
+      thumbnailHeight: 320,
     });
   }
   const classes_dataset = ['Speed limit (20km/h)', 'Speed limit (30km/h)', 'Speed limit (50km/h)', 'Speed limit (60km/h)', 'Speed limit (70km/h)', 'Speed limit (80km/h)', 'End of speed limit (80km/h)', 'Speed limit (100km/h)', 'Speed limit (120km/h)', 'No passing', 'No passing for vehicles over 3.5 metric tons', 'Right-of-way at the next intersection', 'Priority road', 'Yield', 'Stop', 'No vehicles', 'Vehicles over 3.5 metric tons prohibited', 'No entry', 'General caution', 'Dangerous curve to the left', 'Dangerous curve to the right', 'Double curve', 'Bumpy road', 'Slippery road', 'Road narrows on the right', 'Road work', 'Traffic signals', 'Pedestrians', 'Children crossing', 'Bicycles crossing', 'Beware of ice/snow', 'Wild animals crossing', 'End of all speed and passing limits', 'Turn right ahead', 'Turn left ahead', 'Ahead only', 'Go straight or right', 'Go straight or left', 'Keep right', 'Keep left', 'Roundabout mandatory', 'End of no passing', 'End of no passing by vehicles over 3.5 metric tons'];
@@ -200,6 +203,7 @@ export default function AddData() {
                 </Col>
 
                 <div className={classes.button}>
+                  
                   <Upload
                     datasetClass={uploadClass}
                     gridImages={(e) => handleNoOfImages(e)}
@@ -300,7 +304,7 @@ export default function AddData() {
         </Col>
 
         {numberImages != 0 ? (
-          <Augment url={url} showDelete={false} images={numberImages}></Augment>
+          <Augment showDelete={false} images={Images}></Augment>
         ) : (
           <div></div>
         )}
