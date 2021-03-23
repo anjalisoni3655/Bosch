@@ -47,8 +47,8 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
 }));
-function min(x,y){
-  if(x<=y) return x;
+function min(x, y) {
+  if (x <= y) return x;
   return y;
 }
 export default function Augment(props) {
@@ -68,14 +68,17 @@ export default function Augment(props) {
 
   for (var i = 0; i < props.images; i++) {
     images_array.push({
-      img: "",
+      img: props.url + i.toString() + ".png" + `?${new Date().getTime()}`,
       title: i.toString(),
       author: "anjali",
     });
   }
-  const togglePopup = () => {
-    
-  }
+  const openPopup = () => {
+    let url =
+      props.url + currentImage.toString() + ".png" + `?${new Date().getTime()}`;
+    window.open(url, "newName", "width=300, height=250");
+    return false;
+  };
   const deleteImage = () => {
     if (
       window.confirm(
@@ -110,19 +113,15 @@ export default function Augment(props) {
           {imageArray.map((tile, index) => (
             <GridListTile
               key={tile.img}
-              // cols={tile.featured ? 2 : 1}
-              // rows={tile.featured ? 2 : 1}
+              cols={tile.featured ? 2 : 1}
+              rows={tile.featured ? 2 : 1}
             >
               <img
-                onClick={togglePopup}
-                src={
-                  props.url +
-                  index.toString() +
-                  ".png" +
-                  `?${new Date().getTime()}`
-                }
+                src={tile.img}
+                onClick={openPopup}
+                onChange={currentImageChange}
                 alt={tile.title}
-                style={{ height: "200px", width: "200px" }}
+                // style={{ height: "200px", width: "200px" }}
               />
 
               {props.showDelete && (
