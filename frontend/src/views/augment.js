@@ -126,7 +126,7 @@ export default function Augment(props) {
                 onClick={openPopup}
                 onChange={currentImageChange}
                 alt={tile.title}
-                style={{ height: "200px", width: "200px" }}
+                style={{ height: "100%" , width: "100%" }}
               />
 
               {props.showDelete && (
