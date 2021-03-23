@@ -114,7 +114,7 @@ export default function User() {
   const [fog, setFog] = useState([0.1, 0.4]);
   const [shadow, setShadow] = useState([1, 3]);
   const [snow, setSnow] = useState([0.1, 0.4]);
-  const [sunflare, setSunflare] = useState([3,5]);
+  const [sunflare, setSunflare] = useState([3, 5]);
   const [shear, setShear] = useState([-10, 10]);
   const [blur, setBlur] = useState([10, 20]);
   const [degrade, setDegrade] = useState([5, 10]);
@@ -163,14 +163,11 @@ export default function User() {
     degrade: [...degrade, values.prob10],
     rain: [rain.age, values.prob11],
   };
-  
 
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
 
-  
-
   const classes = useStyles();
-  
+
   const [trainPercent, setTrainPercent] = React.useState(90);
 
   const [numberImages, setnumberImages] = useState(0);
@@ -179,7 +176,6 @@ export default function User() {
     setnumberImages(parseInt(newValue));
   };
 
-  
   const trainPercentData = {
     train: trainPercent,
   };
@@ -205,6 +201,18 @@ export default function User() {
     );
     // window.location.reload();
   };
+  var Images = [];
+
+  for (var i = 0; i < numberImages; i++) {
+    Images.push({
+      src:
+        "http://localhost:5000/static/grid/augmented/" + i.toString() + ".png",
+      thumbnail:
+        "http://localhost:5000/static/grid/augmented/" + i.toString() + ".png",
+      thumbnailWidth: 257,
+      thumbnailHeight: 320,
+    });
+  }
   const sendTrainPercent = () => {
     const res = axios
       .post("http://localhost:5000/train-percent", trainPercentData)
@@ -224,7 +232,7 @@ export default function User() {
   };
   const sendTrainRequest = () => {
     const res = axios
-      .post("http://localhost:5000/train-model", {model:modelType})
+      .post("http://localhost:5000/train-model", { model: modelType })
       .then(
         (response) => {
           console.log("response: ", response);
@@ -243,7 +251,13 @@ export default function User() {
   const handleTrainPercent = (event, newValue) => {
     setTrainPercent(newValue);
   };
-  const model_dataset=["Baseline", "BaselineAugmented", "InceptionV3", "MobileNetV2", "MobileNetV3"];
+  const model_dataset = [
+    "Baseline",
+    "BaselineAugmented",
+    "InceptionV3",
+    "MobileNetV2",
+    "MobileNetV3",
+  ];
   // const model_dataset= ['inception']
   return (
     <div className="content">
@@ -787,71 +801,69 @@ export default function User() {
       </Card>
 
       {numberImages != 0 ? (
-        <Augment url={url} showDelete={true} images={numberImages}></Augment>
+        <Augment showDelete={true} images={Images}></Augment>
       ) : (
         <div></div>
       )}
 
       <br />
       <Row>
-
-      
-      <Col md="6">
-
-      
-      <Row style={{ justifyContent: "center" }}>
-        <Typography>Percentage of Train Split</Typography>
-      </Row>
-      <Row style={{ justifyContent: "center" }}>
-        <Slider
-          value={trainPercent}
-          min={0}
-          step={5}
-          max={100}
-          style={{ width: "150px" }}
-          marks={[
-            { value: 0, label: "0" },
-            { value: 100, label: "100" },
-          ]}
-          getAriaValueText={valueLabelFormat}
-          valueLabelFormat={valueLabelFormat}
-          onChange={handleTrainPercent}
-          valueLabelDisplay="auto"
-          aria-labelledby="non-linear-slider"
-        />
-      </Row>
-      <Row style={{ justifyContent: "center" }}>
-        <Button color="primary" onClick={sendTrainPercent}>Add to Dataset</Button>
-      </Row>
-      </Col>
-      <Col md="6">
-
-      
-      <Row style={{ justifyContent: "center" }}>
-        <Typography>Retrain model on new data</Typography>
-      </Row>
-        <Row style={{ justifyContent: "center" }}>
-          <div style={{ height: "-20px" }}>
-            <Autocomplete
-              onChange={(event, value) => setmodelType(value)}
-              id="combo-box-demo"
-              options={model_dataset}
-              getOptionLabel={(option) => option}
-              style={{ width: 300, height: -30 }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Select model"
-                  variant="outlined"
-                />
-              )}
+        <Col md="6">
+          <Row style={{ justifyContent: "center" }}>
+            <Typography>Percentage of Train Split</Typography>
+          </Row>
+          <Row style={{ justifyContent: "center" }}>
+            <Slider
+              value={trainPercent}
+              min={0}
+              step={5}
+              max={100}
+              style={{ width: "150px" }}
+              marks={[
+                { value: 0, label: "0" },
+                { value: 100, label: "100" },
+              ]}
+              getAriaValueText={valueLabelFormat}
+              valueLabelFormat={valueLabelFormat}
+              onChange={handleTrainPercent}
+              valueLabelDisplay="auto"
+              aria-labelledby="non-linear-slider"
             />
-          </div>
-        </Row>
-      <Row style={{ justifyContent: "center" }}>
-        <Button color="primary" onClick={sendTrainRequest}>Train model</Button>
-      </Row>
-      </Col>
+          </Row>
+          <Row style={{ justifyContent: "center" }}>
+            <Button color="primary" onClick={sendTrainPercent}>
+              Add to Dataset
+            </Button>
+          </Row>
+        </Col>
+        <Col md="6">
+          <Row style={{ justifyContent: "center" }}>
+            <Typography>Retrain model on new data</Typography>
+          </Row>
+          <Row style={{ justifyContent: "center" }}>
+            <div style={{ height: "-20px" }}>
+              <Autocomplete
+                onChange={(event, value) => setmodelType(value)}
+                id="combo-box-demo"
+                options={model_dataset}
+                getOptionLabel={(option) => option}
+                style={{ width: 300, height: -30 }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Select model"
+                    variant="outlined"
+                  />
+                )}
+              />
+            </div>
+          </Row>
+          <Row style={{ justifyContent: "center" }}>
+            <Button color="primary" onClick={sendTrainRequest}>
+              Train model
+            </Button>
+          </Row>
+        </Col>
       </Row>
     </div>
   );

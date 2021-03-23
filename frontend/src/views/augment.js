@@ -68,18 +68,26 @@ class Augment extends React.Component {
           overflow: "auto",
         }}
       >
-       
-        <Gallery
-          images={this.state.images}
-          enableLightbox={true}
-          enableImageSelection={false}
-          currentImageWillChange={this.onCurrentImageChange}
-          customControls={[
-            <button key="deleteImage" onClick={this.deleteImage}>
-              Delete Image
-            </button>,
-          ]}
-        />
+        {this.props.showDelete ? (
+          <Gallery
+            images={this.state.images}
+            enableLightbox={true}
+            enableImageSelection={false}
+            currentImageWillChange={this.onCurrentImageChange}
+            customControls={[
+              <button key="deleteImage" onClick={this.deleteImage}>
+                Delete Image
+              </button>,
+            ]}
+          />
+        ) : (
+          <Gallery
+            images={this.state.images}
+            enableLightbox={true}
+            enableImageSelection={false}
+            currentImageWillChange={this.onCurrentImageChange}
+          />
+        )}
       </div>
     );
   }
