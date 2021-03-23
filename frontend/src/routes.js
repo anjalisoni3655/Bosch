@@ -5,7 +5,7 @@ import Icons from "views/Icons.js";
 import Maps from "views/Map.js";
 import modifyData from "views/modifyData.js";
 import AddData from "views/addData.js";
-
+import CustomizedDialogs from "views/Dialog.js";
 import UpgradeToPro from "views/Upgrade.js";
 import ModelPerformance from "views/ModelPeformance";
 
@@ -34,12 +34,12 @@ var routes = [
     icon: "nc-icon nc-caps-small",
     component: ModelPerformance,
   },
-  // {
-  //   path: "/model-summary",
-  //   name: "Model Summary",
-  //   icon: "nc-icon nc-caps-small",
-  //   component: ModelPerformance,
-  // },
+  {
+    path: "/model-summary",
+    name: "Model Summary",
+    icon: "nc-icon nc-caps-small",
+    component: CustomizedDialogs,
+  },
   // {
   //   path: "/model-analysis",
   //   name: "Model Analysis",
