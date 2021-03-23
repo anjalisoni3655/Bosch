@@ -5,6 +5,12 @@ import numpy as np
 def get_model_stats(folder):
 
     model_options = os.listdir(folder)
+    temp = []
+    for model_option in model_options:
+        if os.path.isfile(os.path.join(os.path.join(folder, model_option), 'log.csv')):
+            temp.append(model_option)
+    
+    model_options = temp
     model_options.sort()
 
     model_types = []
