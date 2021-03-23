@@ -275,7 +275,7 @@ def view_data_stats():
 def model_stats():
 
     if request.method == 'GET':
-        stats = get_model_stats('static/models/')       
+        stats = get_model_stats(app.config["MODELS_FOLDER"])       
 
     return jsonify(stats)
 
