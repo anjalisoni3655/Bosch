@@ -198,7 +198,6 @@ def trainPercent():
             if(folder_to_augment==""):
                 return "Images not found"
             augmentedfolder = folder_to_augment
-            
         trainValSplit(augmentedfolder,app.config["TRAIN_FOLDER"],app.config["VALIDATION_FOLDER"],data["train"])
 
 

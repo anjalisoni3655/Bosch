@@ -9,15 +9,7 @@ def create_folder(foldername):
     if not os.path.exists(foldername):
         os.makedirs(foldername)
 def getMaxFile(foldername,prefix=''):
-    i =0
-    if(prefix==''):
-        for x in os.listdir(foldername):
-            i=max(i,int(list(list(x.split('.'))[0])[0]))
-    else:
-        for x in os.listdir(foldername):
-            i=max(i,int(list(list(x.split('.'))[0].split(prefix))[0]))
-    
-    return i
+    return len(os.listdir(foldername))-1
 
 
 
