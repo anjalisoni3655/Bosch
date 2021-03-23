@@ -28,7 +28,8 @@ def create_folder_entry(root,foldername,prefix=""):
     maxn+=1
     
     create_folder(os.path.join(root,foldername+"_"+prefix+str(maxn)))
-    return os.path.join(root,foldername+"_"+str(maxn))
+    return os.path.join(root,foldername+"_"+prefix+str(maxn))
+
 def sampleDataStratified(folder_to_extract_from, folder_to_extract_to, percent,className):
 
     '''

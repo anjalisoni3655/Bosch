@@ -1,10 +1,12 @@
 import os
 import pandas as pd
+import numpy as np 
 
 def get_model_stats(folder):
 
     model_options = os.listdir(folder)
     model_options.sort()
+
     model_types = []
     for i, model in enumerate(model_options):
         model_types.append({'title': model, 'id':i})
@@ -19,14 +21,27 @@ def get_model_stats(folder):
     val_f1 = []
 
     for model in model_options:
-        df = pd.read_csv(os.path.join(os.path.join(folder, model), 'log.csv'))
-    
-        train_accuracy.append(str(round((df['accuracy'].values[-1])*100, 2))+'%')
-        val_accuracy.append(str(round(df['val_accuracy'].values[-1]*100, 2))+'%')
-        train_f1.append(round(df['f1_m'].values[-1], 3))
-        val_f1.append(round(df['val_f1_m'].values[-1],3))
-        val_precision.append(round(df['val_precision_m'].values[-1], 3))
-        val_recall.append(round(df['val_recall_m'].values[-1], 3))
+        
+        if os.path.isfile(os.path.join(os.path.join(folder, model), 'log.csv')):
+            print(model, '-log.csv found')
+            df = pd.read_csv(os.path.join(os.path.join(folder, model), 'log.csv'))
+            
+            train_accuracy.append(str(round((df['accuracy'].values[-1])*100, 2))+'%')
+            train_f1.append(round(df['f1_m'].values[-1], 6))
+            val_accuracy.append(str(round(df['val_accuracy'].values[-1]*100, 6))+'%')
+            val_f1.append(round(df['val_f1_m'].values[-1],6))
+            val_precision.append(round(df['val_precision_m'].values[-1], 6))
+            val_recall.append(round(df['val_recall_m'].values[-1], 6))
+            
+        else:
+
+            train_accuracy.append('NAN')
+            train_f1.append('NAN')
+            val_accuracy.append('NAN')
+            val_f1.append('NAN')
+            val_precision.append('NAN')
+            val_recall.append('NAN')
+        
 
 
     
@@ -58,4 +73,4 @@ def get_model_stats(folder):
     return stats
 
 
-get_model_stats('static/models')
+# get_model_stats('static/models')

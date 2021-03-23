@@ -8,6 +8,8 @@ import zipfile
 from augmentations import *
 from sample import *
 from modelStats import *
+from train import *
+
 import shutil 
 from PIL import Image
 
@@ -209,9 +211,18 @@ def trainModel():
     if request.method == "POST":
 
         data = request.get_json()
+        model_type = data['model']
         
-        model = data['model']
-        create_folder_entry(app.config["MODELS_FOLDER"],model,"v")
+        output_folder = create_folder_entry(app.config["MODELS_FOLDER"],model_type,"v")
+        
+        model_loc = os.path.join(app.config["MODELS_FOLDER"], model_type+'_v1')
+        weights_loc = os.path.join(model_loc, 'weights.h5')
+        json_loc = os.path.join(model_loc, 'model.json')
+
+        shutil.copy(weights_loc, output_folder)
+        shutil.copy(json_loc, output_folder)
+
+        train_model(app.config['TRAIN_FOLDER'], app.config["VALIDATION_FOLDER"], output_folder, model_type)
 
 
     return 'OK'
