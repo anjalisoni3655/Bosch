@@ -34,23 +34,23 @@ var routes = [
     icon: "nc-icon nc-caps-small",
     component: ModelPerformance,
   },
-  {
-    path: "/model-summary",
-    name: "Model Summary",
-    icon: "nc-icon nc-caps-small",
-    component: ModelPerformance,
-  },
-  {
-    path: "/model-analysis",
-    name: "Model Analysis",
-    icon: "nc-icon nc-caps-small",
-    component: Icons,
-  },
-  {
-    path: "/know-more",
-    name: "Know More",
-    icon: "nc-icon nc-caps-small",
-    component: Icons,
-  },
+  // {
+  //   path: "/model-summary",
+  //   name: "Model Summary",
+  //   icon: "nc-icon nc-caps-small",
+  //   component: ModelPerformance,
+  // },
+  // {
+  //   path: "/model-analysis",
+  //   name: "Model Analysis",
+  //   icon: "nc-icon nc-caps-small",
+  //   component: Icons,
+  // },
+  // {
+  //   path: "/know-more",
+  //   name: "Know More",
+  //   icon: "nc-icon nc-caps-small",
+  //   component: Icons,
+  // },
 ];
 export default routes;

@@ -110,14 +110,14 @@ export default function User() {
   }
   const [brightness, setBrightness] = useState([-0.2, 0.2]);
   const [contrast, setContrast] = useState([-0.2, 0.2]);
-  const [noise, setNoise] = useState([10, 30]);
+  const [noise, setNoise] = useState([10, 20]);
   const [fog, setFog] = useState([0.1, 0.4]);
   const [shadow, setShadow] = useState([1, 3]);
   const [snow, setSnow] = useState([0.1, 0.4]);
-  const [sunflare, setSunflare] = useState([3, 10]);
+  const [sunflare, setSunflare] = useState([3,5]);
   const [shear, setShear] = useState([-10, 10]);
-  const [blur, setBlur] = useState([10, 30]);
-  const [degrade, setDegrade] = useState([5, 20]);
+  const [blur, setBlur] = useState([10, 20]);
+  const [degrade, setDegrade] = useState([5, 10]);
 
   const handleBrightness = (event, newValue) => {
     setBrightness(newValue);
@@ -243,7 +243,8 @@ export default function User() {
   const handleTrainPercent = (event, newValue) => {
     setTrainPercent(newValue);
   };
-  const model_dataset=["Model1","Model2","Model3"];
+  const model_dataset=["Baseline", "BaselineAugmented", "InceptionV3", "MobileNetV2", "MobileNetV3"];
+  // const model_dataset= ['inception']
   return (
     <div className="content">
       <ToastContainer />
@@ -267,14 +268,14 @@ export default function User() {
                           <Slider
                             value={brightness}
                             // defaultValue={[0, 1]}
-                            min={-1}
-                            max={1}
+                            min={-0.5}
+                            max={0.5}
                             step={0.1}
                             onChange={handleBrightness}
                             valueLabelDisplay="auto"
                             marks={[
-                              { value: -1, label: "-1" },
-                              { value: 1, label: "1" },
+                              { value: -0.5, label: "-0.5" },
+                              { value: 0.5, label: "0.5" },
                               { value: 0, label: "0" },
                             ]}
                             aria-labelledby="range-slider"
@@ -314,14 +315,14 @@ export default function User() {
                           <Slider
                             value={contrast}
                             // defaultValue={[0, 1]}
-                            min={-1}
-                            max={1}
+                            min={-0.5}
+                            max={0.5}
                             step={0.1}
                             onChange={handleContrast}
                             valueLabelDisplay="auto"
                             marks={[
-                              { value: -1, label: "-1" },
-                              { value: 1, label: "1" },
+                              { value: -0.5, label: "-0.5" },
+                              { value: 0.5, label: "0.5" },
                               { value: 0, label: "0" },
                             ]}
                             aria-labelledby="range-slider"
@@ -361,14 +362,14 @@ export default function User() {
                             value={noise}
                             // defaultValue={[0, 1]}
                             min={0}
-                            max={50}
+                            max={30}
                             step={1}
                             onChange={handleNoise}
                             valueLabelDisplay="auto"
                             marks={[
-                              { value: 50, label: "50" },
+                              { value: 30, label: "30" },
                               { value: 0, label: "0" },
-                              { value: 25, label: "25" },
+                              { value: 15, label: "15" },
                             ]}
                             aria-labelledby="range-slider"
                             getAriaValueText={valuetext}
