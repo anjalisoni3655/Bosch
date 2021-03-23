@@ -82,18 +82,21 @@ class Dashboard extends React.Component {
         // title: "Classes",
         // titleFontSize: 20,
         interval: 1,
-        interlacedColor: "#F0F8FF",
+        interlacedColor: "#F0FBFF",
         labelAngle: -90,
-        labelFontSize: 12
+        labelFontSize: 14
+        
 				// gridColor: "#FFFFFF"
 			},
 			axisY: {
-        title: "Number of Images",
+        
+        minimum: 0,
+        title: "Number of Images\n\n",
         titleFontSize: 15,
-        gridThickness: 1,
+        // gridThickness: 1,
         // gridColor: "lightblue",
 				lineThickness: 1,
-        tickLength: 10 ,
+        
         labelFontSize: 12
 
 			},
@@ -242,6 +245,7 @@ class Dashboard extends React.Component {
                       <div className="numbers">
                         <p className="card-category">Largest Class</p>
                         <CardTitle tag="p">{this.state.allData.cardData.max_class}</CardTitle>
+                        <br />
                         <p />
                       </div>
                     </Col>

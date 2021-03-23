@@ -7,6 +7,7 @@ import json
 import zipfile
 from augmentations import *
 from sample import *
+from modelStats import *
 import shutil 
 from PIL import Image
 
@@ -266,6 +267,17 @@ def view_data_stats():
         dataOG, dataAUG = getGraphStats(folder)
         data = {'cardData': stats, 'dataOG': dataOG, 'dataAUG': dataAUG}
     return jsonify(data)
+
+
+
+@app.route('/model-performance', methods = ['POST', 'GET'])
+@cross_origin()
+def model_stats():
+
+    if request.method == 'GET':
+        stats = get_model_stats('static/models/')       
+
+    return jsonify(stats)
 
 
 if __name__ == "__main__":
