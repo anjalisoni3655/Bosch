@@ -27,6 +27,7 @@ import { number_images } from "./Upload";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    width: "100%",
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-around",
@@ -125,7 +126,7 @@ export default function Augment(props) {
                 onClick={openPopup}
                 onChange={currentImageChange}
                 alt={tile.title}
-                // style={{ height: "200px", width: "200px" }}
+                style={{ height: "200px", width: "200px" }}
               />
 
               {props.showDelete && (
