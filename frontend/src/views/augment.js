@@ -76,7 +76,11 @@ export default function Augment(props) {
   const openPopup = () => {
     let url =
       props.url + currentImage.toString() + ".png" + `?${new Date().getTime()}`;
-    window.open(url, "newName", "width=300, height=250");
+    window.open(
+      url,
+      "_blank",
+      "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=500,width=400,height=400"
+    );
     return false;
   };
   const deleteImage = () => {
@@ -113,7 +117,7 @@ export default function Augment(props) {
           {imageArray.map((tile, index) => (
             <GridListTile
               key={tile.img}
-              cols={tile.featured ? 2 : 1}
+              cols={tile.featured ? 2 : 1.5}
               rows={tile.featured ? 2 : 1}
             >
               <img
