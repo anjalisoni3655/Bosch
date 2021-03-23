@@ -30,6 +30,8 @@ class ModelPerformance extends React.Component {
         val_f1: [],
         val_precision: [],
         val_recall: [], 
+        train_precision: [], 
+        train_recall: []
       },
       hide: true,
       value: {},
@@ -323,197 +325,250 @@ class ModelPerformance extends React.Component {
         { (this.state.hide == false) ? 
         <div>
           
+          
+            
+           <Row>
+           <Col sm="3">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-trophy text-warning" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Train Accuracy</p>
+                      <CardTitle tag="p">
+                        {this.state.data.train_accuracy[this.state.value.id]}
+                      </CardTitle>
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <hr />
+                {/* <div className="stats">
+                        <i className="fas fa-sync-alt" /> Update Now
+                      </div> */}
+              </CardFooter>
+            </Card>
+          </Col>
+
+          <Col sm="3">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-sound-wave text-success" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Train F1-Score</p>
+                      <CardTitle tag="p">
+                      {this.state.data.train_f1[this.state.value.id]}
+                      </CardTitle>
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <hr />
+                {/* <div className="stats">
+                        <i className="far fa-calendar" /> Last day
+                      </div> */}
+              </CardFooter>
+            </Card>
+          </Col>
+
+          <Col sm="3">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-zoom-split text-danger" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Train Precision</p>
+                      <CardTitle tag="p">
+                      {this.state.data.train_precision[this.state.value.id]}
+                      </CardTitle>
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <hr />
+                {/* <div className="stats">
+                        <i className="far fa-clock" /> In the last hour
+                      </div> */}
+              </CardFooter>
+            </Card>
+          </Col>
+          <Col sm="3">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-bulb-63 text-primary" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Train Recall</p>
+                      <CardTitle tag="p">
+                      {this.state.data.train_recall[this.state.value.id]}
+                      </CardTitle>
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <hr />
+                {/* <div className="stats">
+                        <i className="fas fa-sync-alt" /> Update now
+                      </div> */}
+              </CardFooter>
+            </Card>
+          </Col>
+      
+                    
+          </Row>
+                  
           <Row>
-            <Col md = "6">
-            <Row>
-                    
-                    <Col sm = "6">
-                      <Card className="card-stats">
-                        <CardBody>
-                          <Row>
-                            <Col md="4" xs="5">
-                              <div className="icon-big text-center icon-warning">
-                                <i className="nc-icon nc-trophy text-danger" />
-                              </div>
-                            </Col>
-                            <Col md="8" xs="7">
-                              <div className="numbers">
-                                <p className="card-category">Train Accuracy</p>
+           <Col sm="3">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-trophy text-warning" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Validation Accuracy</p>
+                      <CardTitle tag="p">
+                        {this.state.data.val_accuracy[this.state.value.id]}
+                      </CardTitle>
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <hr />
+                {/* <div className="stats">
+                        <i className="fas fa-sync-alt" /> Update Now
+                      </div> */}
+              </CardFooter>
+            </Card>
+          </Col>
+
+          <Col sm="3">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-sound-wave text-success" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Validation F1-Score</p>
+                      <CardTitle tag="p">
+                      {this.state.data.val_f1[this.state.value.id]}
+                      </CardTitle>
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <hr />
+                {/* <div className="stats">
+                        <i className="far fa-calendar" /> Last day
+                      </div> */}
+              </CardFooter>
+            </Card>
+          </Col>
+
+          <Col sm="3">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-zoom-split text-danger" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Validation Precision</p>
+                      <CardTitle tag="p">
+                      {this.state.data.val_precision[this.state.value.id]}
+                      </CardTitle>
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <hr />
+                {/* <div className="stats">
+                        <i className="far fa-clock" /> In the last hour
+                      </div> */}
+              </CardFooter>
+            </Card>
+          </Col>
+          <Col sm="3">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-bulb-63 text-primary" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Validation Recall</p>
+                      <CardTitle tag="p">
+                      {this.state.data.val_recall[this.state.value.id]}
+                      </CardTitle>
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <hr />
+                {/* <div className="stats">
+                        <i className="fas fa-sync-alt" /> Update now
+                      </div> */}
+              </CardFooter>
+            </Card>
+          </Col>
       
-                              
-                                <CardTitle tag="p">
-                                  {this.state.data.train_accuracy[this.state.value.id]}
-                                </CardTitle>
-                              
-                                <p />
-                              </div>
-                            </Col>
-                          </Row>
-                        </CardBody>
-                        <CardFooter>
-                          <hr />
-                          {/* <div className="stats">
-                                  <i className="far fa-clock" /> In the last hour
-                                </div> */}
-                        </CardFooter>
-                      </Card>
-                    </Col>
-      
-                    <Col sm = "6">
-                      <Card className="card-stats">
-                        <CardBody>
-                          <Row>
-                            <Col md="4" xs="5">
-                              <div className="icon-big text-center icon-warning">
-                                <i className="nc-icon nc-trophy text-warning" />
-                              </div>
-                            </Col>
-                            <Col md="8" xs="7">
-                              <div className="numbers">
-                                <p className="card-category">Validation Accuracy</p>
-                                <CardTitle tag="p">
-                                {this.state.data.val_accuracy[this.state.value.id]}
-                                </CardTitle>
-                                <p />
-                              </div>
-                            </Col>
-                          </Row>
-                        </CardBody>
-                        <CardFooter>
-                          <hr />
-                          {/* <div className="stats">
-                                  <i className="fas fa-sync-alt" /> Update Now
-                                </div> */}
-                        </CardFooter>
-                      </Card>
-                    </Col>
-                  </Row>
-              <Row>
                     
-              <Col sm = "6">
-                <Card className="card-stats">
-                  <CardBody>
-                    <Row>
-                      <Col md="4" xs="5">
-                        <div className="icon-big text-center icon-warning">
-                          <i className="nc-icon nc-sound-wave text-danger" />
-                        </div>
-                      </Col>
-                      <Col md="8" xs="7">
-                        <div className="numbers">
-                          <p className="card-category">Train F1-Score</p>
-
-                        
-                          <CardTitle tag="p">
-                            {this.state.data.train_f1[this.state.value.id]}
-                          </CardTitle>
-                        
-                          <p />
-                        </div>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                  <CardFooter>
-                    <hr />
-                    {/* <div className="stats">
-                            <i className="far fa-clock" /> In the last hour
-                          </div> */}
-                  </CardFooter>
-                </Card>
-              </Col>
-
-              <Col sm = "6">
-                <Card className="card-stats">
-                  <CardBody>
-                    <Row>
-                      <Col md="4" xs="5">
-                        <div className="icon-big text-center icon-warning">
-                          <i className="nc-icon nc-sound-wave text-warning" />
-                        </div>
-                      </Col>
-                      <Col md="8" xs="7">
-                        <div className="numbers">
-                          <p className="card-category">Validation F1-Score</p>
-                          <CardTitle tag="p">
-                          {this.state.data.val_f1[this.state.value.id]}
-                          </CardTitle>
-                          <p />
-                        </div>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                  <CardFooter>
-                    <hr />
-                    {/* <div className="stats">
-                            <i className="fas fa-sync-alt" /> Update Now
-                          </div> */}
-                  </CardFooter>
-                </Card>
-              </Col>
-            </Row>
-           
-            <Row>
-              <Col sm = "6">
-                <Card className="card-stats">
-                  <CardBody>
-                    <Row>
-                      <Col md="4" xs="5">
-                        <div className="icon-big text-center icon-warning">
-                          <i className="nc-icon nc-zoom-split text-success" />
-                        </div>
-                      </Col>
-                      <Col md="8" xs="7">
-                        <div className="numbers">
-                          <p className="card-category">Validation Precision</p>
-                          <CardTitle tag="p">
-                          {this.state.data.val_precision[this.state.value.id]}
-                          </CardTitle>
-                          <p />
-                        </div>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                  <CardFooter>
-                    <hr />
-                    {/* <div className="stats">
-                            <i className="far fa-calendar" /> Last day
-                          </div> */}
-                  </CardFooter>
-                </Card>
-              </Col>
-              <Col sm = "6">
-                <Card className="card-stats">
-                  <CardBody>
-                    <Row>
-                      <Col md="4" xs="5">
-                        <div className="icon-big text-center icon-warning">
-                          <i className="nc-icon nc-bulb-63 text-primary" />
-                        </div>
-                      </Col>
-                      <Col md="8" xs="7">
-                        <div className="numbers">
-                          <p className="card-category">Validation Recall</p>
-                          <CardTitle tag="p">
-                          {this.state.data.val_recall[this.state.value.id]}
-                          </CardTitle>
-                          <p />
-                        </div>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                  <CardFooter>
-                    <hr />
-                    {/* <div className="stats">
-                            <i className="fas fa-sync-alt" /> Update now
-                          </div> */}
-                  </CardFooter>
-                </Card>
-              </Col>
-
-            </Row>
-        </Col>
-        <Col md = "6">
-          <Card className="card-user" >
+          </Row>
+                  
+             
+        <Row>
+        <Col md = "12">
+          <Card className="card-stats" justifyContent="center" >
                 <CardHeader>
                   <CardTitle>
                     <p className= "card-category" style = {{textAlign: "center" ,padding: "0 0 2em 0 "}}>
@@ -523,17 +578,18 @@ class ModelPerformance extends React.Component {
                     </p>
                   </CardTitle>
                 </CardHeader>
-                <CardBody>
+                <CardBody style = {{textAlign: "center", height: "100%", width: "100%"}}>
                 <img 
                     alt="Model Architecture"
                     // className="avatar border-gray"
-                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/model.png`}
-                    style={{ height: "100%", width: "100%", }}
+                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/model.svg`}
+                    // style = {{height: "80%", width: "80%"}}
+                    
                     />
-                {/* <p>
+                <p>
                   <br />
                   <br />
-                </p> */}
+                </p>
                 </CardBody>
 
               <CardFooter>
@@ -550,12 +606,21 @@ class ModelPerformance extends React.Component {
         <Row>
           <Col md = "4">
               <Card className="card-stats">
+              <CardHeader>
+                  <CardTitle>
+                    <p className= "card-category" style = {{textAlign: "center"}}>
+                      <h4>
+                        Loss-Accuracy Curve
+                      </h4>
+                    </p>
+                  </CardTitle>
+                </CardHeader>
                 <CardBody>
                   <img 
                     alt="Accuracy-Loss Curve"
                     // className="avatar border-gray"
-                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/loss_acc.png`}
-                    style={{ height: "100%", width: "100%"}}
+                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/loss_acc.gif`}
+                    style={{ height: "120%", width: "120%"}}
                     />
                 </CardBody>
                           <CardFooter>
@@ -568,12 +633,21 @@ class ModelPerformance extends React.Component {
           </Col>
           <Col md = "4">
             <Card className="card-stats">
+            <CardHeader>
+                  <CardTitle>
+                    <p className= "card-category" style = {{textAlign: "center" }}>
+                    <h4>
+                      Precision-Recall Curve
+                      </h4>
+                    </p>
+                  </CardTitle>
+                </CardHeader>
               <CardBody>
                 <img 
                     alt="Precision-Recall Curve"
                     // className="avatar border-gray"
-                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/pr.png`}
-                    style={{ height: "100%", width: "100%"}}
+                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/pr.gif`}
+                    style={{ height: "120%", width: "120%"}}
                     />
               </CardBody>
                           <CardFooter>
@@ -586,12 +660,21 @@ class ModelPerformance extends React.Component {
           </Col>
           <Col md = "4" >
             <Card className="card-stats">
+            <CardHeader>
+                  <CardTitle>
+                    <p className= "card-category" style = {{textAlign: "center" }}>
+                    <h4>
+                      F1 Curve
+                      </h4>
+                    </p>
+                  </CardTitle>
+                </CardHeader>
               <CardBody >
                 <img 
                     alt="F1-Scores"
                     // className="avatar border-gray"
-                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/f1.png`}
-                    style={{ height: "100%", width: "100%"}}
+                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/f1.gif`}
+                    style={{ height: "120%", width: "120%"}}
                     />
               </CardBody>
                           <CardFooter>
@@ -603,7 +686,7 @@ class ModelPerformance extends React.Component {
             </Card>
           </Col>
         </Row>
-        <Row>
+        {/* <Row>
           <Col md = "12" >
             <Card className="card-stats">
               <CardBody >
@@ -616,13 +699,13 @@ class ModelPerformance extends React.Component {
               </CardBody>
                           <CardFooter>
                     <hr />
-                    {/* <div className="stats">
+                    <div className="stats">
                             <i className="far fa-calendar" /> Last day
-                          </div> */}
+                          </div>
               </CardFooter>
             </Card>
           </Col>
-        </Row>
+        </Row> */}
         </div> : null}
           
       

@@ -9,6 +9,7 @@ from augmentations import *
 from sample import *
 from modelStats import *
 from train import *
+from animate import *
 
 import shutil 
 from PIL import Image
@@ -58,9 +59,9 @@ app.config["GRID_EXTRACTED_FOLDER"] = GRID_EXTRACTED_FOLDER
 app.config["MODELS_FOLDER"] = MODELS_FOLDER
 
 
-shutil.rmtree(app.config["UPLOAD_FOLDER"])
-shutil.rmtree(app.config["EXTRACTION_FOLDER"])
-shutil.rmtree(app.config["AUGMENTATION_FOLDER"])  
+delete_folder(app.config["UPLOAD_FOLDER"])
+delete_folder(app.config["EXTRACTION_FOLDER"])
+delete_folder(app.config["AUGMENTATION_FOLDER"])  
 
 
 app.config.update(SECRET_KEY=os.urandom(24))
@@ -140,7 +141,7 @@ def upload_file():
             with zipfile.ZipFile(os.path.join(uploaded_folder, filename), 'r') as zip_ref:
                 zip_ref.extractall(folder_to_augment)
             print("Unzipped to "+folder_to_augment)
-            shutil.rmtree(app.config["GRID_EXTRACTED_FOLDER"]) 
+            delete_folder(app.config["GRID_EXTRACTED_FOLDER"]) 
             create_folder(app.config["GRID_EXTRACTED_FOLDER"])
             currentNo = 0
             copy_rename_recursive(folder_to_augment, app.config["GRID_EXTRACTED_FOLDER"])
@@ -179,7 +180,7 @@ def sampling():
         sampleDataStratified(folder_to_extract_from, folder_to_extract_to, data['sample'],data['className'])
 
         folder_to_augment = folder_to_extract_to
-        shutil.rmtree(app.config["GRID_EXTRACTED_FOLDER"]) 
+        delete_folder(app.config["GRID_EXTRACTED_FOLDER"]) 
         create_folder(app.config["GRID_EXTRACTED_FOLDER"])
         currentNo = 0
         copy_rename_recursive(folder_to_augment, app.config["GRID_EXTRACTED_FOLDER"])
@@ -218,12 +219,14 @@ def trainModel():
         model_loc = os.path.join(app.config["MODELS_FOLDER"], model_type+'_v1')
         weights_loc = os.path.join(model_loc, 'weights.h5')
         json_loc = os.path.join(model_loc, 'model.json')
+        img_loc = os.path.join(model_loc, 'model.svg')
 
         shutil.copy(weights_loc, output_folder)
         shutil.copy(json_loc, output_folder)
+        shutil.copy(img_loc, output_folder)
 
         train_model(app.config['TRAIN_FOLDER'], app.config["VALIDATION_FOLDER"], output_folder, model_type)
-
+        PLOT(output_folder)
 
     return 'OK'
 
@@ -251,7 +254,7 @@ def augmentation():
                 create_folder(os.path.join(augmentedfolder,classId))
             apply_augmentation_recursive(folder_to_augment, augmentedfolder, data,classId)
         print("Augmentation complete")
-        shutil.rmtree(app.config["GRID_AUGMENTED_FOLDER"]) 
+        delete_folder(app.config["GRID_AUGMENTED_FOLDER"]) 
         create_folder(app.config["GRID_AUGMENTED_FOLDER"])
         currentNo = 0
         copy_rename_recursive(augmentedfolder, app.config["GRID_AUGMENTED_FOLDER"])
@@ -270,11 +273,12 @@ def static_dir(path):
 @cross_origin()
 def view_data_stats():
     if request.method == 'GET':
-        folder = app.config['TRAIN_FOLDER']
+        folder1 = app.config['TRAIN_FOLDER']
+        folder2 = app.config['VALIDATION_FOLDER']
         # print(folder)
-        stats = getCardStats(folder)
+        stats = getCardStats(folder1, folder2)
         # print(stats)
-        dataOG, dataAUG = getGraphStats(folder)
+        dataOG, dataAUG = getGraphStats(folder1, folder2)
         data = {'cardData': stats, 'dataOG': dataOG, 'dataAUG': dataAUG}
     return jsonify(data)
 
