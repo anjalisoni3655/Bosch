@@ -100,6 +100,7 @@ class Augment extends React.Component {
             enableLightbox={true}
             enableImageSelection={false}
             currentImageWillChange={this.onCurrentImageChange}
+            onClickImage = {this.changeImageSize}
           />
         )}
       </div>

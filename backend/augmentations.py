@@ -102,7 +102,7 @@ def apply_augmentation(folder,outfolder,parameters):
 
     for i, img in enumerate(out_imgs):
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-    
+        img = cv2.resize(img, (600,600))
         cv2.imwrite(os.path.join(outfolder,imgnames[i]), img)
 def isOnlyFiles(folder):
     lis = os.listdir(folder)

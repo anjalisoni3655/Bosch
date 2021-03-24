@@ -83,8 +83,8 @@ function getImages(numberImages) {
         "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
       thumbnail:
         "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
-      thumbnailWidth: 257,
-      thumbnailHeight: 320,
+      thumbnailWidth: 200,
+      thumbnailHeight: 200,
     });
   }
   console.log("Get : ", numberImages);
