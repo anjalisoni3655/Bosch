@@ -89,6 +89,7 @@ export default function User() {
     age: "",
     name: "hai",
   });
+  const [selectedFile, setFile] = useState(null);
   const [modelType, setmodelType] = useState("NULL");
   const handleRain = (event) => {
     const name = event.target.name;
@@ -128,6 +129,9 @@ export default function User() {
 
   const handleBrightness = (event, newValue) => {
     setBrightness(newValue);
+  };
+  const fileChange = (event, newValue) => {
+    setFile(event.target.files[0]);
   };
   const handleContrast = (event, newValue) => {
     setContrast(newValue);
@@ -239,10 +243,19 @@ export default function User() {
       );
   };
   const sendTrainRequest = () => {
+    const formData = new FormData();
+
+    // Update the formData object
+    formData.append("myFile", selectedFile, selectedFile.name);
+
+    // Details of the uploaded file
+    console.log(selectedFile);
+
     const res = axios
       .post("http://localhost:5000/train-model", {
         model: modelType,
         epochs: epochs,
+        file: formData,
       })
       .then(
         (response) => {
@@ -924,6 +937,7 @@ export default function User() {
                     type="file"
                     accept=".json"
                     style={{ marginLeft: "100px" }}
+                    onChange={fileChange}
                   ></input>
                 </Row>
 
