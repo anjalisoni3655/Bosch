@@ -256,7 +256,10 @@ class ExplainableAI extends React.Component {
                         <Col md="12">
                         <Card style = {{height: "100%"}}>
                             <CardHeader>
-                            <CardTitle tag="h5"></CardTitle>
+                            <CardTitle tag="h5">
+                                IOU Sensitivity
+                            </CardTitle>
+                            
                             </CardHeader>
                             <CardBody>
                                 <CanvasJSChart options = {{

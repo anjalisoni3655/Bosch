@@ -293,7 +293,7 @@ class Dashboard extends React.Component {
                 <CardHeader>
                   <CardTitle tag="h5">Class Distribution</CardTitle>
                 </CardHeader>
-                <CardBody>
+                <CardBody style = {{flexWrap: "wrap"}}>
                     <CanvasJSChart options = {options}/>
                </CardBody>
                 <CardFooter>

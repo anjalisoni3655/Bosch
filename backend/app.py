@@ -230,8 +230,8 @@ def trainModel():
         if(os.path.exists(img_loc)):
             shutil.copy(img_loc, output_folder)
 
-        # train_model(app.config['TRAIN_FOLDER'], app.config["VALIDATION_FOLDER"], output_folder, model_type)
-        # PLOT(output_folder)   
+        train_model(app.config['TRAIN_FOLDER'], app.config["VALIDATION_FOLDER"], output_folder, model_type)
+        PLOT(output_folder)   
         return "training complete"
     return 'Request malformed',201
 
