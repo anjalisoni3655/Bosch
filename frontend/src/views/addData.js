@@ -135,7 +135,7 @@ export default function AddData() {
   }
   var Images = [];
 
-  for (var i = 0; i < numberImages; i++) {
+  for (var i = 0; i < 200; i++) {
     Images.push({
       src:
         "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png",

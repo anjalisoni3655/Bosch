@@ -215,7 +215,7 @@ export default function User() {
   };
   var Images = [];
 
-  for (var i = 0; i < numberImages; i++) {
+  for (var i = 0; i < 200; i++) {
     Images.push({
       src:
         "http://localhost:5000/static/grid/augmented/" + i.toString() + ".png",
@@ -246,7 +246,7 @@ export default function User() {
     const formData = new FormData();
 
     // Update the formData object
-    formData.append("myFile", selectedFile, selectedFile.name);
+    formData.append("myFile", selectedFile);
 
     // Details of the uploaded file
     console.log(selectedFile);
