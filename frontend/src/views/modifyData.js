@@ -1005,7 +1005,7 @@ export default function User() {
                     onClick={sendTrainRequest}
                     //  value={this.props.title}
                   >
-                    Apply
+                    Train
                   </Button>
                   {loading3&& (
                     <CircularProgress
