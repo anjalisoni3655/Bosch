@@ -8,6 +8,11 @@ label_id = {v: k for k, v in id_label.items()}
 def create_folder(foldername):
     if not os.path.exists(foldername):
         os.makedirs(foldername)
+
+def delete_folder(foldername):
+    if not os.path.exists(foldername):
+        shutil.rmtree(foldername)
+
 def getMaxFile(foldername,prefix=''):
     return len(os.listdir(foldername))-1
 

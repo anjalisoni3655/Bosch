@@ -64,14 +64,14 @@ def get_model(model_folder, model_type):
 
     json_file = open(model_dict[model_type]['json_file'], 'r')
     loaded_model_json = json_file.read()
+    
     json_file.close()
     loaded_model = model_from_json(loaded_model_json)
     # load weights into new model
     loaded_model.load_weights(model_dict[model_type]['h5_file'])
-    print("Loaded model from disk")
+    print("\nLoaded model from disk\n")
     if model_type not in ['baseline', 'baselineaugmented']:
         for layers in loaded_model.layers[:-5]:
-            print(layers)
             layers.trainable = False
     return loaded_model, model_dict[model_type]['image_size']
 
@@ -135,50 +135,11 @@ def train_model(TRAIN_FOLDER, VALID_FOLDER, MODEL_FOLDER, model_type, EPOCHS = 1
                       'classification_report': cr,
                       'confusion_matrix': cm}
 
-    epochs = list(range(1, EPOCHS+1))
-    plt.style.use('fivethirtyeight')
-    plt.plot(epochs, training_stats['train_loss'], label='Train loss')
-    plt.plot(epochs, training_stats['valid_loss'], label='Val loss')
-    plt.plot(epochs, training_stats['train_accuracy'], label='Train accuracy')
-    plt.plot(epochs, training_stats['valid_accuracy'], label='Val accuracy')
-    plt.title('Accuracy-Loss Curve')
-    plt.xlabel('Epochs')
-    plt.ylabel('Accuracy/Loss')
-    plt.legend()
-    plt.ylim(0, 1)
-    loss_acc_filename = os.path.join(MODEL_FOLDER, "loss_acc.png")
-    plt.savefig(loss_acc_filename, bbox_inches='tight')
-    plt.clf()
-
-    plt.plot(epochs, training_stats['train_f1'], label='Train F1')
-    plt.plot(epochs, training_stats['valid_f1'], label='Val F1')
-    plt.title('F1 Curve')
-    plt.xlabel('Epochs')
-    plt.ylabel('F1 Score')
-    plt.legend()
-    f1_filename = os.path.join(MODEL_FOLDER, "f1.png")
-    plt.savefig(f1_filename, bbox_inches='tight')
-    plt.clf()
-
-    plt.plot(epochs, training_stats['train_precision'], label='Train Precision')
-    plt.plot(epochs, training_stats['valid_precision'], label='Val Precision')
-    plt.plot(epochs, training_stats['train_recall'], label='Train Recall')
-    plt.plot(epochs, training_stats['valid_recall'], label='Val Recall')
-    plt.title('Precision-Recall Curve')
-    plt.xlabel('Epochs')
-    plt.ylabel('Precision/Recall')
-    plt.legend()
-    precision_recall_filename = os.path.join(MODEL_FOLDER, "pr.png")
-    plt.savefig(precision_recall_filename, bbox_inches='tight')
-    plt.clf()
 
     plt.figure(figsize=(50, 50))
-    sns.heatmap(training_stats['confusion_matrix'], annot=True, cmap='coolwarm', linewidths=2, linecolor='black')
+    sns.heatmap(cm, annot=True, cmap='coolwarm', linewidths=2, linecolor='black')
     cm_filename = os.path.join(MODEL_FOLDER, "cm.png")
     plt.savefig(cm_filename, bbox_inches='tight')
 
-    return training_stats
 
-
-# if __name__ == '__main__':
-#     train_stats = train_model("Images", "Images", "Output", "best_models", "baseline", 5)
+# get_model('static/models/Baseline_v1', 'baseline')
