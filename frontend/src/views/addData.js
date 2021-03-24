@@ -72,7 +72,24 @@ function valueLabelFormat(value) {
 }
 
 let start = 1;
+var Images = [];
+function getImages(numberImages) {
+  Images=[]
 
+  for (var i = 0; i < numberImages; i++) {
+    var x = new Date().getTime().toLocaleString();
+    Images.push({
+      src:
+        "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
+      thumbnail:
+        "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
+      thumbnailWidth: 257,
+      thumbnailHeight: 320,
+    });
+  }
+  console.log("Get : ", numberImages);
+
+}
 export default function AddData() {
   const [uploadClass, setuploadClass] = useState("NULL");
   const [checked, setChecked] = React.useState(false);
@@ -85,7 +102,7 @@ export default function AddData() {
   const handleCheckB = (event) => {
     setCheckedB(event.target.checked);
   };
-
+  
   const classes = useStyles();
   const [percent, setPercent] = React.useState(50);
   
@@ -99,7 +116,6 @@ export default function AddData() {
   };
  
   const [numberImages, setNumberImages] = useState(0);  
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
   const handleSample = () => {
     console.log(samplePercent);
     const res = axios.post("http://localhost:5000/sample", samplePercent).then(
@@ -114,7 +130,7 @@ export default function AddData() {
           console.log(response);
           var images_number = Math.min(200,parseInt(response.data))
           setNumberImages(images_number);          
-
+          
           
         } else {
           toast.error("💀 Error : " + response.data);
@@ -124,7 +140,9 @@ export default function AddData() {
         console.log("error: ", error);
       }
     );
-    forceUpdate();
+    
+    
+    console.log("Force updated")
     // window.location.reload();
   };
 
@@ -135,18 +153,8 @@ export default function AddData() {
     console.log(no_of_images);
     setNumberImages(no_of_images);
   }
-  var Images = [];
-
-  for (var i = 0; i < numberImages; i++) {
-    Images.push({
-      src:
-        "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png",
-      thumbnail:
-        "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png",
-      thumbnailWidth: 257,
-      thumbnailHeight: 320,
-    });
-  }
+  getImages(numberImages);
+  
   const classes_dataset = ['Speed limit (20km/h)', 'Speed limit (30km/h)', 'Speed limit (50km/h)', 'Speed limit (60km/h)', 'Speed limit (70km/h)', 'Speed limit (80km/h)', 'End of speed limit (80km/h)', 'Speed limit (100km/h)', 'Speed limit (120km/h)', 'No passing', 'No passing for vehicles over 3.5 metric tons', 'Right-of-way at the next intersection', 'Priority road', 'Yield', 'Stop', 'No vehicles', 'Vehicles over 3.5 metric tons prohibited', 'No entry', 'General caution', 'Dangerous curve to the left', 'Dangerous curve to the right', 'Double curve', 'Bumpy road', 'Slippery road', 'Road narrows on the right', 'Road work', 'Traffic signals', 'Pedestrians', 'Children crossing', 'Bicycles crossing', 'Beware of ice/snow', 'Wild animals crossing', 'End of all speed and passing limits', 'Turn right ahead', 'Turn left ahead', 'Ahead only', 'Go straight or right', 'Go straight or left', 'Keep right', 'Keep left', 'Roundabout mandatory', 'End of no passing', 'End of no passing by vehicles over 3.5 metric tons'];
 
 

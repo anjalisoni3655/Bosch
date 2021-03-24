@@ -37,7 +37,20 @@ class Augment extends React.Component {
 
     this.onCurrentImageChange = this.onCurrentImageChange.bind(this);
     this.deleteImage = this.deleteImage.bind(this);
+    console.log(this.state.images);
   }
+
+  componentDidUpdate(prevProps) {
+    
+    if (prevProps.images !== this.props.images) {
+      this.setState({
+        images: this.props.images
+      });
+      
+    }
+    console.log("PROPS CHANGED");
+  }
+ 
 
   onCurrentImageChange(index) {
     this.setState({ currentImage: index });
@@ -58,6 +71,7 @@ class Augment extends React.Component {
   }
 
   render() {
+    console.log("RENDERING : ",this.state.images);
     return (
       <div
         style={{
