@@ -1,5 +1,5 @@
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useReducer } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
@@ -99,7 +99,7 @@ export default function AddData() {
   };
  
   const [numberImages, setNumberImages] = useState(0);  
-
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
   const handleSample = () => {
     console.log(samplePercent);
     const res = axios.post("http://localhost:5000/sample", samplePercent).then(
@@ -123,6 +123,7 @@ export default function AddData() {
         console.log("error: ", error);
       }
     );
+    forceUpdate();
     // window.location.reload();
   };
 
@@ -136,6 +137,7 @@ export default function AddData() {
   var Images = [];
 
   for (var i = 0; i < 200; i++) {
+    console.log("i : ",i)
     Images.push({
       src:
         "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png",

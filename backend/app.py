@@ -62,7 +62,8 @@ app.config["MODELS_FOLDER"] = MODELS_FOLDER
 delete_folder(app.config["UPLOAD_FOLDER"])
 delete_folder(app.config["EXTRACTION_FOLDER"])
 delete_folder(app.config["AUGMENTATION_FOLDER"])  
-
+delete_folder(app.config["GRID_AUGMENTED_FOLDER"])
+delete_folder(app.config["GRID_EXTRACTED_FOLDER"])
 
 app.config.update(SECRET_KEY=os.urandom(24))
 CORS(app)
