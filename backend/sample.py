@@ -10,7 +10,7 @@ def create_folder(foldername):
         os.makedirs(foldername)
 
 def delete_folder(foldername):
-    if not os.path.exists(foldername):
+    if os.path.exists(foldername):
         shutil.rmtree(foldername)
 
 def getMaxFile(foldername,prefix=''):
