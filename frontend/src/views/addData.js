@@ -112,7 +112,8 @@ export default function AddData() {
           toast.success(response.data + " Images sampled successfully ");
 
           console.log(response);
-          setNumberImages(response.data);
+          var images_number = Math.min(200,parseInt(response.data))
+          setNumberImages(images_number);          
 
           
         } else {
@@ -136,8 +137,7 @@ export default function AddData() {
   }
   var Images = [];
 
-  for (var i = 0; i < 200; i++) {
-    console.log("i : ",i)
+  for (var i = 0; i < numberImages; i++) {
     Images.push({
       src:
         "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png",

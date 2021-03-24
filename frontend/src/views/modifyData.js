@@ -199,7 +199,8 @@ export default function User() {
         if (response.data != "0") {
           toast.success("Data Augmented succesfully");
 
-          setnumberImages(parseInt(response.data));
+          var images_number = Math.min(200,parseInt(response.data))
+          setnumberImages(images_number);
           console.log("images", numberImages);
 
           forceUpdate();
@@ -215,7 +216,8 @@ export default function User() {
   };
   var Images = [];
 
-  for (var i = 0; i < 200; i++) {
+
+  for (var i = 0; i < numberImages; i++) {
     Images.push({
       src:
         "http://localhost:5000/static/grid/augmented/" + i.toString() + ".png",
