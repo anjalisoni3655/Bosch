@@ -28,6 +28,8 @@ import {
   Col,
 } from "reactstrap";
 import Augment from "./augment";
+import { LinearProgress } from "@material-ui/core";
+import LinearWithValueLabel from "./linearProgress";
 
 const initialValues = {
   prob1: "",
@@ -116,6 +118,10 @@ export default function User() {
   };
 
   const [values, setValues] = useState(initialValues);
+  const [uploadProgress, updateUploadProgress] = useState(0);
+
+const [uploadStatus, setUploadStatus] = useState(false);
+const [uploading, setUploading] = useState(false);
 
   const handleProb = (e) => {
     const { name, value } = e.target;
@@ -246,15 +252,29 @@ export default function User() {
     });
   }
   const sendTrainPercent = () => {
+    const config = {
+      onUploadProgress: function(progressEvent) {
+        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        console.log("percent",percentCompleted)
+      }
+    }
     setLoading2(true);
     const res = axios
-      .post("http://localhost:5000/train-percent", trainPercentData)
+      .post("http://localhost:5000/train-percent", trainPercentData, config
+    //   onUploadProgress(ev){
+    //     const progress = ev.loaded / ev.total * 100;
+    //     updateUploadProgress(Math.round(progress));
+    // },
+    
+    )
       .then(
         (response) => {
           console.log("response: ", response);
           if (response.data == "OK") {
             toast.success("🦄 Data Split and added succesfully");
             setLoading2(false);
+            setUploadStatus(true);
+            setUploading(false);
           } else {
             toast.error("💀 Error : " + response.data);
           }
@@ -265,6 +285,12 @@ export default function User() {
       );
   };
   const sendTrainRequest = () => {
+    const config = {
+      onUploadProgress: function(progressEvent) {
+        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        console.log("percent",percentCompleted)
+      }
+    }
     setLoading3(true);
     const formData = new FormData();
 
@@ -279,6 +305,7 @@ export default function User() {
         model: modelType,
         epochs: epochs,
         file: formData,
+       config
       })
       .then(
         (response) => {
@@ -286,6 +313,8 @@ export default function User() {
           if (response.data == "OK") {
             toast.success("Model training initiated successfully");
             setLoading3(false);
+            setUploadStatus(true);
+            setUploading(false);
           } else {
             toast.error("Error : " + response.data);
           }
@@ -916,10 +945,11 @@ export default function User() {
                     Apply
                   </Button>
                   {loading2 && (
-                    <CircularProgress
-                      size={24}
-                      className={classes.buttonProgress}
-                    />
+                     <CircularProgress
+                       size={24}
+                       className={classes.buttonProgress}
+                     />
+                    
                   )}
                 </div>
                 </div>
@@ -1008,10 +1038,12 @@ export default function User() {
                     Train
                   </Button>
                   {loading3&& (
-                    <CircularProgress
-                      size={24}
-                      className={classes.buttonProgress}
-                    />
+                    <LinearWithValueLabel progress={uploadProgress}></LinearWithValueLabel>
+                    // <LinearProgress></LinearProgress>
+                    // <CircularProgress
+                    //   size={24}
+                    //   className={classes.buttonProgress}
+                    // />
                   )}
                 </div>
                 </div>
