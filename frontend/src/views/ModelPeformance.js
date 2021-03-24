@@ -302,23 +302,23 @@ class ModelPerformance extends React.Component {
         </p>
 
         <Autocomplete
-          id="disable-clearable"
+          id="debug"
           options={this.state.data.model_types}
           getOptionLabel={(option) => option.title}
           style={{ width: 300 }}
           value={this.state.value}
           onChange={(event, newValue) => {
+            if (newValue){
             this.setState({
               value: newValue, hide: false
-            });
-            console.log("new title", this.state.value.title);
-            console.log("new value", this.state.value.id);
-            console.log(this.state.hide);
+            })};
+            // console.log("new title", this.state.value.title);
+            // console.log("new value", this.state.value.id);
+            // console.log(this.state.hide);
           }}
           renderInput={(params) => (
             <TextField {...params} label="Choose Model" variant="outlined" />
           )}
-          closeIcon={false}
         />
         <br />
         
@@ -582,6 +582,7 @@ class ModelPerformance extends React.Component {
                 <img 
                     alt="Model Architecture"
                     // className="avatar border-gray"
+                    key = {Date.now()}
                     src={`http://localhost:5000/static/models/` + this.state.value.title + `/model.svg`}
                     // style = {{height: "80%", width: "80%"}}
                     
@@ -619,6 +620,7 @@ class ModelPerformance extends React.Component {
                   <img 
                     alt="Accuracy-Loss Curve"
                     // className="avatar border-gray"
+                    key = {Date.now()}
                     src={`http://localhost:5000/static/models/` + this.state.value.title + `/loss_acc.gif`}
                     style={{ height: "120%", width: "120%"}}
                     />
@@ -646,6 +648,7 @@ class ModelPerformance extends React.Component {
                 <img 
                     alt="Precision-Recall Curve"
                     // className="avatar border-gray"
+                    key = {Date.now()}
                     src={`http://localhost:5000/static/models/` + this.state.value.title + `/pr.gif`}
                     style={{ height: "120%", width: "120%"}}
                     />
@@ -673,6 +676,7 @@ class ModelPerformance extends React.Component {
                 <img 
                     alt="F1-Scores"
                     // className="avatar border-gray"
+                    key = {Date.now()}
                     src={`http://localhost:5000/static/models/` + this.state.value.title + `/f1.gif`}
                     style={{ height: "120%", width: "120%"}}
                     />
