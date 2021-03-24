@@ -8,6 +8,7 @@ import AddData from "views/addData.js";
 import CustomizedDialogs from "views/Dialog.js";
 import UpgradeToPro from "views/Upgrade.js";
 import ModelPerformance from "views/ModelPeformance";
+import Example from "views/graph3d";
 
 var routes = [
   {
@@ -40,6 +41,12 @@ var routes = [
     icon: "nc-icon nc-caps-small",
     component: CustomizedDialogs,
   },
+  {
+    path: "/3d-plot",
+    name: "React 3D plot",
+    icon: "nc-icon nc-caps-small",
+    component: Example,
+  },  
   // {
   //   path: "/model-analysis",
   //   name: "Model Analysis",
