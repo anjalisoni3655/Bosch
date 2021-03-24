@@ -34,7 +34,8 @@ class Upload extends React.Component {
     this.handleUploadImage = this.handleUploadImage.bind(this);
     this.state = {
       number: 0,
-      loading:false,
+      loading: false,
+   //   success:false,
     };
   }
 
