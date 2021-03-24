@@ -83,7 +83,25 @@ function valueLabelFormat(value) {
 }
 
 let start = 1;
+var Images = [];
+function getImages(numberImages) {
+  Images = []
 
+  for (var i = 0; i < numberImages; i++) {
+    var x = new Date().getTime().toLocaleString();
+    Images.push({
+      src:
+        "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
+      thumbnail:
+        "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
+      thumbnailWidth: 200,
+      thumbnailHeight: 200,
+      id: i,
+    });
+  }
+  console.log("Get : ", numberImages);
+
+}
 export default function User() {
   const [rain, setRain] = React.useState({
     age: "",
@@ -214,19 +232,7 @@ export default function User() {
     );
     // window.location.reload();
   };
-  var Images = [];
-
-
-  for (var i = 0; i < numberImages; i++) {
-    Images.push({
-      src:
-        "http://localhost:5000/static/grid/augmented/" + i.toString() + ".png",
-      thumbnail:
-        "http://localhost:5000/static/grid/augmented/" + i.toString() + ".png",
-      thumbnailWidth: 257,
-      thumbnailHeight: 320,
-    });
-  }
+  getImages(numberImages)
   const sendTrainPercent = () => {
     const res = axios
       .post("http://localhost:5000/train-percent", trainPercentData)
@@ -234,7 +240,7 @@ export default function User() {
         (response) => {
           console.log("response: ", response);
           if (response.data == "OK") {
-            toast.success("🦄 Data Split and added succesfully");
+            toast.success("Data Split and added succesfully");
           } else {
             toast.error("💀 Error : " + response.data);
           }

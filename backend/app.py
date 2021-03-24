@@ -112,7 +112,7 @@ def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
-            return "No file part"
+            return "No file part",201
 
         file = request.files['file']
         className = str(request.args.get('className'))
@@ -123,11 +123,11 @@ def upload_file():
         
         if file.filename == '':
             
-            return "No file selected"
+            return "No file selected",201
 
         elif not allowed_file(file.filename):
             print("Unsupported file extension, Please upload .zip")
-            return "Unsupported file extension, Please use .zip"
+            return "Unsupported file extension, Please use .zip",201
         
         elif file and allowed_file(file.filename):
             
@@ -153,7 +153,7 @@ def upload_file():
             return str(len(os.listdir(app.config["GRID_EXTRACTED_FOLDER"])))
 
 
-    return str(len(os.listdir(app.config["GRID_EXTRACTED_FOLDER"])))
+    return "Malformed query",201
 
 
 
@@ -188,7 +188,7 @@ def sampling():
         copy_rename_recursive(folder_to_augment, app.config["GRID_EXTRACTED_FOLDER"])
         className="NULL"
         return str(len(os.listdir(app.config["GRID_EXTRACTED_FOLDER"])))
-    return "0 Images sampled"
+    return "request malformed",201
 
 
 @app.route('/train-percent', methods = ['POST'])
@@ -205,8 +205,8 @@ def trainPercent():
             augmentedfolder = folder_to_augment
         trainValSplit(augmentedfolder,app.config["TRAIN_FOLDER"],app.config["VALIDATION_FOLDER"],data["train"])
 
-
-    return 'OK'
+        return str(len(os.listdir(augmentedfolder)))
+    return 'Request malformed',201
 @app.route('/train-model', methods = ['POST'])
 @cross_origin()
 def trainModel():
@@ -229,8 +229,8 @@ def trainModel():
 
         train_model(app.config['TRAIN_FOLDER'], app.config["VALIDATION_FOLDER"], output_folder, model_type)
         PLOT(output_folder)
-
-    return 'OK'
+        return "training complete"
+    return 'Request malformed',201
 
 @app.route('/augment', methods=[ 'POST','GET'])
 @cross_origin()
@@ -246,7 +246,7 @@ def augmentation():
     
         if(folder_to_augment==""):
             print("Augmentation folder not found")
-            return "0"
+            return "Augmentation folder not found",201
         else:
             create_folder(app.config["AUGMENTATION_FOLDER"])
             augmentedfolder = create_folder_entry(app.config["AUGMENTATION_FOLDER"], "augmented")
@@ -260,16 +260,28 @@ def augmentation():
         create_folder(app.config["GRID_AUGMENTED_FOLDER"])
         currentNo = 0
         copy_rename_recursive(augmentedfolder, app.config["GRID_AUGMENTED_FOLDER"])
-
         return str(len(os.listdir(app.config["GRID_AUGMENTED_FOLDER"])))
         
 
-    return 'OK'
+    return 'Request malformed',201
 
 @app.route("/static/<path:path>" , methods=['GET'])
 @cross_origin()
 def static_dir(path):
     return send_from_directory("static", path)    
+
+
+@app.route("/delete-file", methods=["POST"])
+@cross_origin()
+def delete_file():
+    if request.method == 'POST':
+       
+        fileid = str(request.args.get('fileid'))
+        
+        print("File Id : ",fileid)
+        os.remove(os.path.join(app.config["GRID_AUGMENTED_FOLDER"],str(fileid)+".png"))
+    return "File deleted succesfully"
+
 
 @app.route('/view-data-stats', methods = ['POST', 'GET'])
 @cross_origin()

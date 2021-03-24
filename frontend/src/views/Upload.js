@@ -57,7 +57,7 @@ class Upload extends React.Component {
       data
     );
      
-    console.log(res.data);
+    console.log("Response ",res.data);
     if (res.status == 200) {
       console.log("Images");
       console.log(res.data);
@@ -65,13 +65,16 @@ class Upload extends React.Component {
       number_images = this.state.number;
       this.props.gridImages(this.state.number);
      
-      toast.success("🦄 Data uploaded succesfully");
+      toast.success("Data uploaded succesfully");
        this.setState({
          loading: false,
        });
       // window.location.reload(false);
     } else {
       toast.error("💀 Error : " + res.data);
+      this.setState({
+        loading: false,
+      });
     }
     // window.location.reload();
   }

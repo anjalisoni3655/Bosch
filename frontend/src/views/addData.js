@@ -85,6 +85,7 @@ function getImages(numberImages) {
         "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
       thumbnailWidth: 200,
       thumbnailHeight: 200,
+      id:i,
     });
   }
   console.log("Get : ", numberImages);
@@ -100,6 +101,7 @@ export default function AddData() {
   const [checkedB, setCheckedB] = React.useState(false);
 
   const handleCheckB = (event) => {
+    setuploadClass("NULL");
     setCheckedB(event.target.checked);
   };
   
@@ -125,7 +127,7 @@ export default function AddData() {
           console.log("Images");
 
       
-          toast.success(response.data + " Images sampled successfully ");
+          toast.success(response.data + " images sampled successfully ");
 
           console.log(response);
           var images_number = Math.min(200,parseInt(response.data))
@@ -133,7 +135,7 @@ export default function AddData() {
           
           
         } else {
-          toast.error("💀 Error : " + response.data);
+          toast.error("Error : " + response.data);
         }
       },
       (error) => {
