@@ -11,6 +11,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Divider from "@material-ui/core/Divider";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import FormControl from "@material-ui/core/FormControl";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -68,6 +69,18 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: "relative",
+  },
+  buttonProgress: {
+   // color: green[500],
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    marginTop: -12,
+    marginLeft: -12,
+  },
 }));
 
 const marks = [
@@ -90,6 +103,9 @@ export default function User() {
     name: "hai",
   });
   const [selectedFile, setFile] = useState(null);
+  const [loading,setLoading]=useState(false);
+  const [loading2,setLoading2]=useState(false);
+  const [loading3,setLoading3]=useState(false);
   const [modelType, setmodelType] = useState("NULL");
   const handleRain = (event) => {
     const name = event.target.name;
@@ -193,6 +209,7 @@ export default function User() {
   };
 
   const handleAugment = () => {
+    setLoading(true);
     const res = axios.post("http://localhost:5000/augment", data).then(
       (response) => {
         console.log("response: ", response);
@@ -204,6 +221,7 @@ export default function User() {
           console.log("images", numberImages);
 
           forceUpdate();
+          setLoading(false);
         } else {
           toast.error("💀 Error : " + response.data);
         }
@@ -228,6 +246,7 @@ export default function User() {
     });
   }
   const sendTrainPercent = () => {
+    setLoading2(true);
     const res = axios
       .post("http://localhost:5000/train-percent", trainPercentData)
       .then(
@@ -235,6 +254,7 @@ export default function User() {
           console.log("response: ", response);
           if (response.data == "OK") {
             toast.success("🦄 Data Split and added succesfully");
+            setLoading2(false);
           } else {
             toast.error("💀 Error : " + response.data);
           }
@@ -245,6 +265,7 @@ export default function User() {
       );
   };
   const sendTrainRequest = () => {
+    setLoading3(true);
     const formData = new FormData();
 
     // Update the formData object
@@ -264,6 +285,7 @@ export default function User() {
           console.log("response: ", response);
           if (response.data == "OK") {
             toast.success("Model training initiated successfully");
+            setLoading3(false);
           } else {
             toast.error("Error : " + response.data);
           }
@@ -820,9 +842,24 @@ export default function User() {
           className="update ml-auto mr-auto"
           style={{ justifyContent: "center" }}
         >
-          <Button color="primary" onClick={handleAugment}>
-            Apply
-          </Button>
+          <div className={classes.wrapper}>
+                  <Button
+                    // variant="contained"
+                    color="primary"
+                    //className={buttonClassname}
+                    disabled={loading}
+                    onClick={handleAugment}
+                    //  value={this.props.title}
+                  >
+                    Apply
+                  </Button>
+                  {loading && (
+                    <CircularProgress
+                      size={24}
+                      className={classes.buttonProgress}
+                    />
+                  )}
+                </div>
         </div>
       </Card>
 
@@ -867,9 +904,24 @@ export default function User() {
                 </Col>
 
                 <div className={classes.button}>
-                  <Button color="primary" onClick={sendTrainPercent}>
-                    Add to Dataset
+                <div className={classes.wrapper}>
+                  <Button
+                    // variant="contained"
+                    color="primary"
+                    //className={buttonClassname}
+                    disabled={loading2}
+                    onClick={sendTrainPercent}
+                    //  value={this.props.title}
+                  >
+                    Apply
                   </Button>
+                  {loading2 && (
+                    <CircularProgress
+                      size={24}
+                      className={classes.buttonProgress}
+                    />
+                  )}
+                </div>
                 </div>
               </div>
             </CardBody>
@@ -944,9 +996,24 @@ export default function User() {
                 </Row>
 
                 <div className={classes.button}>
-                  <Button color="primary" onClick={sendTrainRequest}>
-                    Train model
+                <div className={classes.wrapper}>
+                  <Button
+                    // variant="contained"
+                    color="primary"
+                    //className={buttonClassname}
+                    disabled={loading3}
+                    onClick={sendTrainRequest}
+                    //  value={this.props.title}
+                  >
+                    Train
                   </Button>
+                  {loading3&& (
+                    <CircularProgress
+                      size={24}
+                      className={classes.buttonProgress}
+                    />
+                  )}
+                </div>
                 </div>
               </div>
             </CardBody>

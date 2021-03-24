@@ -50,6 +50,12 @@ var routes = [
     name: "React 3D plot",
     icon: "nc-icon nc-caps-small",
     component: Example,
+  },
+  {
+    path: "/progress",
+    name: "plot",
+    icon: "nc-icon nc-caps-small",
+    component: Notifications,
   },  
   // {
   //   path: "/model-analysis",

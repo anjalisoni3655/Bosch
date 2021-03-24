@@ -31,7 +31,7 @@ class Augment extends React.Component {
 
     this.state = {
       images: this.props.images,
-
+    
       currentImage: 0,
     };
 
