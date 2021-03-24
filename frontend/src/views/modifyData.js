@@ -920,12 +920,11 @@ export default function User() {
                   </p>
                 </Row>
                 <Row style={{ justifyContent: "center" }}>
-                  <div className={classes.button}>
-                    <input type="file" accept=".json"></input>
-                    <Button color="primary" onClick={sendTrainRequest}>
-                      Upload
-                    </Button>
-                  </div>
+                  <input
+                    type="file"
+                    accept=".json"
+                    style={{ marginLeft: "100px" }}
+                  ></input>
                 </Row>
 
                 <div className={classes.button}>
