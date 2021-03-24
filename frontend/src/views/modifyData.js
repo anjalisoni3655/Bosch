@@ -258,26 +258,15 @@ const [uploading, setUploading] = useState(false);
   };
   getImages(numberImages)
   const sendTrainPercent = () => {
-    const config = {
-      onUploadProgress: function(progressEvent) {
-        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-        console.log("percent",percentCompleted)
-      }
-    }
+   
     setLoading2(true);
     const res = axios
-      .post("http://localhost:5000/train-percent", trainPercentData, config
-    //   onUploadProgress(ev){
-    //     const progress = ev.loaded / ev.total * 100;
-    //     updateUploadProgress(Math.round(progress));
-    // },
-    
-    )
+      .post("http://localhost:5000/train-percent", trainPercentData)
       .then(
         (response) => {
           console.log("response: ", response);
-          if (response.data == "OK") {
-            toast.success("🦄 Data Split and added succesfully");
+          if (response.status == 200) {
+            toast.success("Data Split and "+response.data+" images added succesfully");
             setLoading2(false);
             setUploadStatus(true);
             setUploading(false);

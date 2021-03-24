@@ -216,19 +216,22 @@ def trainModel():
         data = request.get_json()
         model_type = data['model']
         epochs=data['epochs']
+        print(data)
         output_folder = create_folder_entry(app.config["MODELS_FOLDER"],model_type,"v")
         
         model_loc = os.path.join(app.config["MODELS_FOLDER"], model_type+'_v1')
         weights_loc = os.path.join(model_loc, 'weights.h5')
         json_loc = os.path.join(model_loc, 'model.json')
         img_loc = os.path.join(model_loc, 'model.svg')
+        if(os.path.exists(weights_loc)):
+            shutil.copy(weights_loc, output_folder)
+        if(os.path.exists(json_loc)):
+            shutil.copy(json_loc, output_folder)
+        if(os.path.exists(img_loc)):
+            shutil.copy(img_loc, output_folder)
 
-        shutil.copy(weights_loc, output_folder)
-        shutil.copy(json_loc, output_folder)
-        shutil.copy(img_loc, output_folder)
-
-        train_model(app.config['TRAIN_FOLDER'], app.config["VALIDATION_FOLDER"], output_folder, model_type)
-        PLOT(output_folder)
+        # train_model(app.config['TRAIN_FOLDER'], app.config["VALIDATION_FOLDER"], output_folder, model_type)
+        # PLOT(output_folder)   
         return "training complete"
     return 'Request malformed',201
 
@@ -277,7 +280,7 @@ def delete_file():
     if request.method == 'POST':
        
         fileid = str(request.args.get('fileid'))
-        
+        print(request.files)
         print("File Id : ",fileid)
         os.remove(os.path.join(app.config["GRID_AUGMENTED_FOLDER"],str(fileid)+".png"))
     return "File deleted succesfully"

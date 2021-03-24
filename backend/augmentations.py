@@ -85,8 +85,7 @@ def augmentImgs(imgs, parameters):
 
 
 def apply_augmentation(folder,outfolder,parameters):
-    print(folder)
-    print(outfolder)
+   
     imgs = []
     imgnames = []
     if not os.path.exists(outfolder):
@@ -131,12 +130,12 @@ def apply_augmentation_recursive(folder,outfolder,parameters,classId="NULL"):
             apply_augmentation(os.path.join(folder,lis[0]),os.path.join(outfolder,classId),parameters)
     else:
         lis=os.listdir(folder)
-        print(lis)
+        
         
         if(len(lis)==1 and isOnlyFolders(os.path.join(folder,lis[0]))):
             apply_augmentation_recursive(os.path.join(folder,lis[0]),outfolder,parameters,classId)
         elif(isOnlyFolders(folder)):
-            print(lis[0])
+            
             if int(lis[0]) in id_label:
                 labels=0
             elif lis[0] in label_id:
