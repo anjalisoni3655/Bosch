@@ -213,7 +213,7 @@ def trainModel():
 
         data = request.get_json()
         model_type = data['model']
-        
+        epochs=data['epochs']
         output_folder = create_folder_entry(app.config["MODELS_FOLDER"],model_type,"v")
         
         model_loc = os.path.join(app.config["MODELS_FOLDER"], model_type+'_v1')

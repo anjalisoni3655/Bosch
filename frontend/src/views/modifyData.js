@@ -169,6 +169,7 @@ export default function User() {
   const classes = useStyles();
 
   const [trainPercent, setTrainPercent] = React.useState(90);
+  const [epochs, setEpochs] = React.useState(0);
 
   const [numberImages, setnumberImages] = useState(0);
 
@@ -232,7 +233,7 @@ export default function User() {
   };
   const sendTrainRequest = () => {
     const res = axios
-      .post("http://localhost:5000/train-model", { model: modelType })
+      .post("http://localhost:5000/train-model", { model: modelType, epochs:epochs})
       .then(
         (response) => {
           console.log("response: ", response);
@@ -840,23 +841,52 @@ export default function User() {
           <Row style={{ justifyContent: "center" }}>
             <Typography>Retrain model on new data</Typography>
           </Row>
-          <Row style={{ justifyContent: "center" }}>
-            <div style={{ height: "-20px" }}>
-              <Autocomplete
-                onChange={(event, value) => setmodelType(value)}
-                id="combo-box-demo"
-                options={model_dataset}
-                getOptionLabel={(option) => option}
-                style={{ width: 300, height: -30 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Select model"
-                    variant="outlined"
+          <Row>
+
+          
+            <Col md="6">
+              <Row style={{ justifyContent: "center" }}>
+                <div style={{ height: "-20px" }}>
+                  <Autocomplete
+                    onChange={(event, value) => setmodelType(value)}
+                    id="combo-box-demo"
+                    options={model_dataset}
+                    getOptionLabel={(option) => option}
+                    style={{ width: 300, height: -30 }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Select model"
+                        variant="outlined"
+                      />
+                    )}
                   />
-                )}
-              />
-            </div>
+                </div>
+              </Row>
+            </Col>
+            <Col md="6">
+              <Row style={{ justifyContent: "center" }}>
+                <Typography>Epochs</Typography>
+              </Row>
+              <Row style={{ justifyContent: "center" }}>
+                <Slider
+                  value={epochs}
+                  min={0}
+                  step={1}
+                  max={100}
+                  style={{ width: "150px" }}
+                  marks={[
+                    { value: 0, label: "0" },
+                    { value: 100, label: "100" },
+                  ]}
+                  getAriaValueText={valuetext}
+                  valueLabelFormat={valuetext}
+                  onChange={(event, value) => setEpochs(value)}
+                  valueLabelDisplay="auto"
+                  aria-labelledby="non-linear-slider"
+                />
+              </Row>
+            </Col>
           </Row>
           <Row style={{ justifyContent: "center" }}>
             <Button color="primary" onClick={sendTrainRequest}>
