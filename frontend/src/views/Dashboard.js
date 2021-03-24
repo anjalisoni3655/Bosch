@@ -54,7 +54,7 @@ class Dashboard extends React.Component {
   // }
 
   componentWillMount(){
-    axios.get(`http://172.16.101.244:5000view-data-stats`).then(res => {
+    axios.get(`http://localhost:3000/view-data-stats`).then(res => {
       console.log(res.data);
       this.setState({allData: res.data});
       // console.log(this.state.allData.cardData.total_images)
