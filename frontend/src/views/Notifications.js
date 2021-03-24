@@ -32,6 +32,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import LinearProgress from "./linearProgress";
 
 class Notifications extends React.Component {
   state = {
@@ -81,6 +82,7 @@ class Notifications extends React.Component {
     return (
       <>
         <div className="content">
+          <LinearProgress></LinearProgress>
           <NotificationAlert ref={this.notificationAlert} />
           <Row>
             <Col md="12">
