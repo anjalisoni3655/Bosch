@@ -38,7 +38,7 @@ def get_plot_loss_acc(folder, df):
         ln3.set_data([], [])
         ln4.set_data([], [])
         ax.set_xlim(0, len(df))
-        ax.set_ylim(0, 2)
+        ax.set_ylim(0, 1)
 
         return ln1, ln2, ln3, ln4
     
@@ -87,7 +87,7 @@ def get_plot_pr(folder, df):
         ln3.set_data([], [])
         ln4.set_data([], [])
         ax.set_xlim(0, len(df))
-        ax.set_ylim(0, 2)
+        ax.set_ylim(0, 1)
 
         return ln1, ln2, ln3, ln4
     
@@ -132,7 +132,7 @@ def get_plot_f1(folder, df):
         ln2.set_data([], [])
 
         ax.set_xlim(0, len(df))
-        ax.set_ylim(0, 2)
+        ax.set_ylim(0, 1)
 
         return ln1, ln2
     
