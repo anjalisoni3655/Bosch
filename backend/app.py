@@ -10,6 +10,7 @@ from sample import *
 from modelStats import *
 from train import *
 from animate import *
+from postEval import *
 
 import shutil 
 from PIL import Image
@@ -292,6 +293,39 @@ def model_stats():
         stats = get_model_stats(app.config["MODELS_FOLDER"])       
 
     return jsonify(stats)
+
+@app.route('/post-evaluation', methods = ['POST', 'GET'])
+@cross_origin()
+def post_eval():
+
+    if request.method == "POST":
+
+        data = request.get_json()
+        model_type = data['newValue']['title']
+        model_loc = os.path.join(app.config['MODELS_FOLDER'], model_type)
+        cmData = get_cmdata(model_loc)
+        data = {
+            "cmData": cmData,
+            "model_behavior1": "Model is Overfitting with the current config",
+            "dataset_changes": "Increase Data Set Size",
+            "network_changes": "Deepen the network",
+            "suggestions": "Model Parameters: [lr = 0.01]",
+        }
+
+        return jsonify(data)
+
+    elif request.method == 'GET':
+        print(app.config["MODELS_FOLDER"])
+        model_types = get_model_types(app.config["MODELS_FOLDER"])
+
+        data = {
+            "model_types": model_types,
+        }
+
+        return jsonify(data)
+
+    return 'OK'
+
 
 
 if __name__ == "__main__":
