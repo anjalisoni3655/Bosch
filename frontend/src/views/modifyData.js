@@ -47,6 +47,13 @@ const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: "200%",
   },
+  card2: {
+    maxWidth: "70%",
+  },
+  card3: {
+    width: "200%",
+    //  width:"1000px",
+  },
   root: {
     width: 300,
   },
@@ -233,7 +240,10 @@ export default function User() {
   };
   const sendTrainRequest = () => {
     const res = axios
-      .post("http://localhost:5000/train-model", { model: modelType, epochs:epochs})
+      .post("http://localhost:5000/train-model", {
+        model: modelType,
+        epochs: epochs,
+      })
       .then(
         (response) => {
           console.log("response: ", response);
@@ -810,89 +820,122 @@ export default function User() {
       <br />
       <Row>
         <Col md="6">
-          <Row style={{ justifyContent: "center" }}>
-            <Typography>Percentage of Train Split</Typography>
-          </Row>
-          <Row style={{ justifyContent: "center" }}>
-            <Slider
-              value={trainPercent}
-              min={0}
-              step={5}
-              max={100}
-              style={{ width: "150px" }}
-              marks={[
-                { value: 0, label: "0" },
-                { value: 100, label: "100" },
-              ]}
-              getAriaValueText={valueLabelFormat}
-              valueLabelFormat={valueLabelFormat}
-              onChange={handleTrainPercent}
-              valueLabelDisplay="auto"
-              aria-labelledby="non-linear-slider"
-            />
-          </Row>
-          <Row style={{ justifyContent: "center" }}>
-            <Button color="primary" onClick={sendTrainPercent}>
-              Add to Dataset
-            </Button>
-          </Row>
+          <Card className="card-user" style={{ height: "50vh" }}>
+            <CardHeader>
+              <CardTitle tag="h5" style={{ textAlign: "center" }}>
+                Percentage of Train Split
+              </CardTitle>
+            </CardHeader>
+            <CardBody>
+              <div className="description text-center">
+                <Col>
+                  <Row style={{ justifyContent: "center" }}>
+                    <Slider
+                      value={trainPercent}
+                      min={0}
+                      step={5}
+                      max={100}
+                      style={{ width: "150px" }}
+                      marks={[
+                        { value: 0, label: "0" },
+                        { value: 100, label: "100" },
+                      ]}
+                      getAriaValueText={valueLabelFormat}
+                      valueLabelFormat={valueLabelFormat}
+                      onChange={handleTrainPercent}
+                      valueLabelDisplay="auto"
+                      aria-labelledby="non-linear-slider"
+                    />
+                  </Row>
+
+                  <Row style={{ justifyContent: "center" }}></Row>
+                </Col>
+
+                <div className={classes.button}>
+                  <Button color="primary" onClick={sendTrainPercent}>
+                    Add to Dataset
+                  </Button>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
         </Col>
         <Col md="6">
-          <Row style={{ justifyContent: "center" }}>
-            <Typography>Retrain model on new data</Typography>
-          </Row>
-          <Row>
+          <Card className="card-user" style={{ height: "50vh" }}>
+            <CardHeader>
+              <CardTitle tag="h5" style={{ textAlign: "center" }}>
+                Retrain model on new data
+              </CardTitle>
+            </CardHeader>
+            <CardBody>
+              <div className="description text-center">
+                <Row style={{ justifyContent: "center" }}>
+                  <Col>
+                    <Autocomplete
+                      onChange={(event, value) => setmodelType(value)}
+                      id="combo-box-demo"
+                      options={model_dataset}
+                      getOptionLabel={(option) => option}
+                      // style={{ width: 300, height: -30 }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Select model"
+                          variant="outlined"
+                        />
+                      )}
+                    />
+                  </Col>
 
-          
-            <Col md="6">
-              <Row style={{ justifyContent: "center" }}>
-                <div style={{ height: "-20px" }}>
-                  <Autocomplete
-                    onChange={(event, value) => setmodelType(value)}
-                    id="combo-box-demo"
-                    options={model_dataset}
-                    getOptionLabel={(option) => option}
-                    style={{ width: 300, height: -30 }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Select model"
-                        variant="outlined"
+                  <Col>
+                    <Col>
+                      <Typography>Epochs</Typography>
+                    </Col>
+                    <Col>
+                      <Slider
+                        value={epochs}
+                        min={0}
+                        step={1}
+                        max={100}
+                        style={{ width: "150px" }}
+                        marks={[
+                          { value: 0, label: "0" },
+                          { value: 100, label: "100" },
+                        ]}
+                        getAriaValueText={valuetext}
+                        valueLabelFormat={valuetext}
+                        onChange={(event, value) => setEpochs(value)}
+                        valueLabelDisplay="auto"
+                        aria-labelledby="non-linear-slider"
                       />
-                    )}
-                  />
+                    </Col>
+                  </Col>
+                </Row>
+                <Row style={{ justifyContent: "center" }}>
+                  <Typography>OR</Typography>
+                </Row>
+                <Row style={{ justifyContent: "center" }}>
+                  <p style={{ textAlign: "center" }}>
+                    <b style={{ fontWeight: "700" }}>Upload Model JSON File</b>
+                  </p>
+                </Row>
+                <Row style={{ justifyContent: "center" }}>
+                  <div className={classes.button}>
+                    <input type="file" accept=".json"></input>
+                    <Button color="primary" onClick={sendTrainRequest}>
+                      Upload
+                    </Button>
+                  </div>
+                </Row>
+
+                <div className={classes.button}>
+                  <Button color="primary" onClick={sendTrainRequest}>
+                    Train model
+                  </Button>
                 </div>
-              </Row>
-            </Col>
-            <Col md="6">
-              <Row style={{ justifyContent: "center" }}>
-                <Typography>Epochs</Typography>
-              </Row>
-              <Row style={{ justifyContent: "center" }}>
-                <Slider
-                  value={epochs}
-                  min={0}
-                  step={1}
-                  max={100}
-                  style={{ width: "150px" }}
-                  marks={[
-                    { value: 0, label: "0" },
-                    { value: 100, label: "100" },
-                  ]}
-                  getAriaValueText={valuetext}
-                  valueLabelFormat={valuetext}
-                  onChange={(event, value) => setEpochs(value)}
-                  valueLabelDisplay="auto"
-                  aria-labelledby="non-linear-slider"
-                />
-              </Row>
-            </Col>
-          </Row>
-          <Row style={{ justifyContent: "center" }}>
-            <Button color="primary" onClick={sendTrainRequest}>
-              Train model
-            </Button>
-          </Row>
+              </div>
+            </CardBody>
+          </Card>
         </Col>
       </Row>
     </div>

@@ -104,6 +104,7 @@ class Upload extends React.Component {
                   //className={buttonClassname}
                   disabled={this.state.loading}
                   onClick={this.handleUploadImage}
+                  value={this.props.title}
                 >
 Upload
                 </Button>
