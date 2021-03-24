@@ -327,7 +327,31 @@ def post_eval():
 
     return 'OK'
 
+@app.route('/explainable-ai', methods = ['POST', 'GET'])
+@cross_origin()
+def get_ai_stats():
 
+    if request.method == 'GET':
+        model_types = get_model_types(app.config["MODELS_FOLDER"])
+
+        data = {
+            "model_types": model_types,
+        }
+
+        return jsonify(data)    
+
+    elif request.method == "POST":
+        # data = request.json()
+
+        folder1 = app.config['TRAIN_FOLDER']
+        folder2 = app.config['VALIDATION_FOLDER']
+        
+        dataOG, dataAUG = getGraphStats(folder1, folder2)
+        data = {'plotdata': dataOG}
+        
+        return jsonify(data)
+
+    return "OK"
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(24)

@@ -4,6 +4,7 @@ import pandas as pd
 
 def get_model_types(folder):
     models = os.listdir(folder)
+    models.sort()
     temp = []
     i = 0
     for model in models:
