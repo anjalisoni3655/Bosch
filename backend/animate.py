@@ -171,7 +171,7 @@ def PLOT(folder):
         print(folder, "-has no log.csv")
 
 
-
+# PLOT('static/models/Baseline_v1')
 # base_folder = 'static/models/'
 # for folder in os.listdir(base_folder):
 #     folder = os.path.join(base_folder, folder)
