@@ -19,16 +19,13 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   CardTitle,
   FormGroup,
   Form,
-  Input,
   Row,
   Col,
 } from "reactstrap";
 import Augment from "./augment";
-import { LinearProgress } from "@material-ui/core";
 import LinearWithValueLabel from "./linearProgress";
 
 const initialValues = {
@@ -44,7 +41,7 @@ const initialValues = {
   prob10: "",
   prob11: "",
 };
-const url = `http://localhost:5000/static/grid/augmented/`;
+// const url = `http://localhost:5000/static/grid/augmented/`;
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -84,11 +81,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: -12,
   },
 }));
-
-const marks = [
-  { value: 0, label: "0" },
-  { value: 1, label: "1" },
-];
 
 function valuetext(value) {
   return `${value}`;
@@ -219,10 +211,10 @@ export default function User() {
 
   const handleAugment = () => {
     setLoading(true);
-    const res = axios.post("http://localhost:5000/augment", data).then(
+    axios.post("http://localhost:5000/augment", data).then(
       (response) => {
         console.log("response: ", response);
-        if (response.data != "0") {
+        if (response.data !== "0") {
           toast.success("Data Augmented succesfully");
 
           var images_number = Math.min(200, parseInt(response.data));
@@ -279,12 +271,12 @@ export default function User() {
   getImages(numberImages);
   const sendTrainPercent = () => {
     setLoading2(true);
-    const res = axios
+    axios
       .post("http://localhost:5000/train-percent", trainPercentData)
       .then(
         (response) => {
           console.log("response: ", response);
-          if (response.status == 200) {
+          if (response.status === 200) {
             toast.success(
               "Data Split and " + response.data + " images added succesfully"
             );
@@ -330,7 +322,7 @@ export default function User() {
       .then(
         (response) => {
           console.log("response: ", response);
-          if (response.data == "OK") {
+          if (response.data === "OK") {
             toast.success("Model training initiated successfully");
             setLoading3(false);
             setUploadStatus(true);
@@ -708,14 +700,14 @@ export default function User() {
                             value={sunflare}
                             // defaultValue={[0, 1]}
                             min={0}
-                            max={20}
+                            max={10}
                             step={1}
                             onChange={handleSunflare}
                             valueLabelDisplay="auto"
                             marks={[
-                              { value: 20, label: "20" },
-                              { value: 0, label: "0" },
                               { value: 10, label: "10" },
+                              { value: 0, label: "0" },
+                              { value: 5, label: "5" },
                             ]}
                             aria-labelledby="range-slider"
                             getAriaValueText={valuetext}
@@ -909,7 +901,7 @@ export default function User() {
         </div>
       </Card>
 
-      {numberImages != 0 ? (
+      {numberImages !== 0 ? (
         <Augment showDelete={true} images={Images}></Augment>
       ) : (
         <div></div>

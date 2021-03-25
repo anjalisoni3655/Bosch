@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import Toast from "react-bootstrap/Toast";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import axios from "axios";
@@ -59,7 +58,7 @@ class Upload extends React.Component {
     );
      
     console.log("Response ",res.data);
-    if (res.status == 200) {
+    if (res.status === 200) {
       console.log("Images");
       console.log(res.data);
       this.setState({ number: parseInt(res.data) });
