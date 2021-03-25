@@ -35,6 +35,45 @@ This repo contains:</h4>
 
 -------
 
+### Prerequisites
+
+1.  [Git](https://git-scm.com/downloads).
+2.  [Node & npm](https://nodejs.org/en/download/) _(version 12 or greater)_.
+3.  A fork of the repo.
+4. Python3 environment to install flask
+
+### Directory Structure
+
+The following is a high-level overview of relevant files and folders.
+
+```
+backend/
+├── backend/
+│   ├── template/
+│   └── app.py
+
+└── frontend/
+    ├── public/
+    │   ├── index.html
+    │   └── ...
+    ├── images/
+    │   └── logo.png
+    ├── src/
+    │   ├── assets/
+    │   │   ├── css
+    │   │   └── fonts...
+    │   ├── components/
+    │   │   ├── Sidebar 
+    │   │   └── Navbars
+    │   └── views/
+ 
+         ├── routes.js
+         ├── showcase.json
+       ├── package.json
+       └── .gitignore
+       
+```
+
 ## Installation
 
 ### Clone
