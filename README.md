@@ -67,8 +67,8 @@ backend/
     │   └── views/
  
          ├── routes.js
-         ├── showcase.json
-       ├── package.json
+         ├── package.json
+       ├── local_vm.sh
        └── .gitignore
        
 ```
@@ -83,7 +83,7 @@ backend/
 
 In order to install all packages follow the steps below:
 
-1. Download the static folder from this drive: https://drive.google.com/file/d/1TyuIoMO42CHHvQVlOpw6Ynco39rQbc6t/view?usp=sharing
+1. Download the static folder from this drive: https://drive.google.com/file/d/149fh2lq7fT35RQVP5rmTgUfcYPorE9kX/view
 2. Put it in the `backend/`
  3. Move to backend folder
  4. For installing virtual environment - `python3 -m pip install --user virtualenv`
