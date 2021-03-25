@@ -1,5 +1,5 @@
 import Upload from "./Upload";
-import React, { useRef,useEffect, useState, useReducer } from "react";
+import React, { useRef, useEffect, useState, useReducer } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
@@ -12,6 +12,7 @@ import Divider from "@material-ui/core/Divider";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import FormControl from "@material-ui/core/FormControl";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -91,24 +92,24 @@ function valueLabelFormat(value) {
 function expformat(value) {
   const [coefficient, exponent] = value
     .toExponential()
-    .split('e')
+    .split("e")
     .map((item) => Number(item));
   return `${Math.round(coefficient)}e^${exponent}`;
 }
 let start = 1;
-var Images=[];
+var Images = [];
 export default function User() {
   const [rain, setRain] = React.useState({
     age: "",
     name: "hai",
   });
-  const optimizer_dataset=["Adam","RMSprop","SGD"]
+  const optimizer_dataset = ["Adam", "RMSprop", "SGD"];
   const [selectedFile, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [loading3, setLoading3] = useState(false);
   const [modelType, setmodelType] = useState("NULL");
-  const [optimizer,setOptimizer] = useState(optimizer_dataset[0])
+  const [optimizer, setOptimizer] = useState(optimizer_dataset[0]);
   const handleRain = (event) => {
     const name = event.target.name;
     setRain({
@@ -197,8 +198,6 @@ export default function User() {
     rain: [rain.age, values.prob11],
   };
 
-  
-
   const classes = useStyles();
 
   const [trainPercent, setTrainPercent] = React.useState(90);
@@ -230,7 +229,6 @@ export default function User() {
           setnumberImages(images_number);
           console.log("images", numberImages);
 
-          
           setLoading(false);
           handleChanged(1);
         } else {
@@ -244,18 +242,17 @@ export default function User() {
     // window.location.reload();
   };
   useEffect(() => {
-    console.log("Effect called : ", datasetChanged)
+    console.log("Effect called : ", datasetChanged);
     if (datasetChanged) {
-      getImages(numberImages)
+      getImages(numberImages);
     } else {
-      getImages(numberImages)
+      getImages(numberImages);
     }
   }, [datasetChanged]);
   function getImages(numberImages) {
-    
     if (datasetChanged == 1) {
       Images = [];
-      console.log("Regetting images") 
+      console.log("Regetting images");
       for (var i = 0; i < numberImages; i++) {
         var x = new Date().getTime().toLocaleString();
         Images.push({
@@ -266,7 +263,11 @@ export default function User() {
             "?" +
             x,
           thumbnail:
-            "http://localhost:5000/static/grid/augmented/" + i.toString() + ".png" + "?" + x,
+            "http://localhost:5000/static/grid/augmented/" +
+            i.toString() +
+            ".png" +
+            "?" +
+            x,
           thumbnailWidth: 200,
           thumbnailHeight: 200,
           id: i,
@@ -275,31 +276,28 @@ export default function User() {
       console.log("Get : ", numberImages);
       handleChanged(0);
     }
-
   }
   getImages(numberImages);
   const sendTrainPercent = () => {
     setLoading2(true);
-    axios
-      .post("http://localhost:5000/train-percent", trainPercentData)
-      .then(
-        (response) => {
-          console.log("response: ", response);
-          if (response.status === 200) {
-            toast.success(
-              "Data Split and " + response.data + " images added succesfully"
-            );
-            setLoading2(false);
-            setUploadStatus(true);
-            setUploading(false);
-          } else {
-            toast.error("💀 Error : " + response.data);
-          }
-        },
-        (error) => {
-          console.log("error: ", error);
+    axios.post("http://localhost:5000/train-percent", trainPercentData).then(
+      (response) => {
+        console.log("response: ", response);
+        if (response.status === 200) {
+          toast.success(
+            "Data Split and " + response.data + " images added succesfully"
+          );
+          setLoading2(false);
+          setUploadStatus(true);
+          setUploading(false);
+        } else {
+          toast.error("💀 Error : " + response.data);
         }
-      );
+      },
+      (error) => {
+        console.log("error: ", error);
+      }
+    );
   };
   const sendTrainRequest = () => {
     const config = {
@@ -326,8 +324,8 @@ export default function User() {
         model: modelType,
         epochs: epochs,
         file: formData,
-        lr:lr,
-        optimizer:optimizer,
+        lr: lr,
+        optimizer: optimizer,
         config,
       })
       .then(
@@ -379,23 +377,25 @@ export default function User() {
                       <Row>
                         <Col md="8">
                           <label>Brightness</label>
-                          <Slider
-                            value={brightness}
-                            // defaultValue={[0, 1]}
-                            min={-0.5}
-                            max={0.5}
-                            step={0.1}
-                            onChange={handleBrightness}
-                            valueLabelDisplay="auto"
-                            marks={[
-                              { value: -0.5, label: "-0.5" },
-                              { value: 0.5, label: "0.5" },
-                              { value: 0, label: "0" },
-                            ]}
-                            aria-labelledby="range-slider"
-                            getAriaValueText={valuetext}
-                            name="brightness"
-                          />
+                          <Tooltip title="add brightness">
+                            <Slider
+                              value={brightness}
+                              // defaultValue={[0, 1]}
+                              min={-0.5}
+                              max={0.5}
+                              step={0.1}
+                              onChange={handleBrightness}
+                              valueLabelDisplay="auto"
+                              marks={[
+                                { value: -0.5, label: "-0.5" },
+                                { value: 0.5, label: "0.5" },
+                                { value: 0, label: "0" },
+                              ]}
+                              aria-labelledby="range-slider"
+                              getAriaValueText={valuetext}
+                              name="brightness"
+                            />
+                          </Tooltip>
                         </Col>
                         <Col md="4" className={classes.text}>
                           <label>Probabilty</label>
@@ -426,23 +426,25 @@ export default function User() {
                       <Row>
                         <Col md="8">
                           <label>Contrast</label>
-                          <Slider
-                            value={contrast}
-                            // defaultValue={[0, 1]}
-                            min={-0.5}
-                            max={0.5}
-                            step={0.1}
-                            onChange={handleContrast}
-                            valueLabelDisplay="auto"
-                            marks={[
-                              { value: -0.5, label: "-0.5" },
-                              { value: 0.5, label: "0.5" },
-                              { value: 0, label: "0" },
-                            ]}
-                            aria-labelledby="range-slider"
-                            getAriaValueText={valuetext}
-                            name="contrast"
-                          />
+                          <Tooltip title="add contrast">
+                            <Slider
+                              value={contrast}
+                              // defaultValue={[0, 1]}
+                              min={-0.5}
+                              max={0.5}
+                              step={0.1}
+                              onChange={handleContrast}
+                              valueLabelDisplay="auto"
+                              marks={[
+                                { value: -0.5, label: "-0.5" },
+                                { value: 0.5, label: "0.5" },
+                                { value: 0, label: "0" },
+                              ]}
+                              aria-labelledby="range-slider"
+                              getAriaValueText={valuetext}
+                              name="contrast"
+                            />
+                          </Tooltip>
                         </Col>
                         <Col md="4" className={classes.text}>
                           <label>Probabilty</label>
@@ -1001,12 +1003,14 @@ export default function User() {
                         />
                       )}
                     />
-                    <Row style={{ padding:"35px", justifyContent: "center" }}>
+                    <Row style={{ padding: "35px", justifyContent: "center" }}>
                       <Typography>OR</Typography>
                     </Row>
                     <Row style={{ justifyContent: "center" }}>
                       <p style={{ textAlign: "center" }}>
-                        <b style={{ fontWeight: "700" }}>Upload Model JSON File</b>
+                        <b style={{ fontWeight: "700" }}>
+                          Upload Model JSON File
+                        </b>
                       </p>
                     </Row>
                     <Row style={{ justifyContent: "center" }}>
@@ -1050,7 +1054,6 @@ export default function User() {
                         min={0.0001}
                         step={0.001}
                         max={0.1}
-                        
                         style={{ width: "150px" }}
                         marks={[
                           { value: 0.0001, label: "0.0001" },
@@ -1068,9 +1071,9 @@ export default function User() {
                         options={optimizer_dataset}
                         getOptionLabel={(option) => option}
                         style={{ width: 200, height: -50 }}
-                        defaultValue = {optimizer_dataset[0]}
+                        defaultValue={optimizer_dataset[0]}
                         renderInput={(params) => (
-                          <TextField 
+                          <TextField
                             {...params}
                             label="Select optimizer"
                             variant="outlined"
@@ -1078,10 +1081,8 @@ export default function User() {
                         )}
                       />
                     </Col>
-
                   </Col>
                 </Row>
-                
 
                 <div className={classes.button}>
                   <div className={classes.wrapper}>
