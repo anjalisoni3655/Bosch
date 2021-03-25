@@ -80,6 +80,7 @@ class Augment extends React.Component {
             images={this.state.images}
             enableLightbox={true}
             enableImageSelection={false}
+            backdropClosesModal={true}
             currentImageWillChange={this.onCurrentImageChange}
             customControls={[
               
@@ -95,6 +96,7 @@ class Augment extends React.Component {
             images={this.state.images}
             enableLightbox={true}
             enableImageSelection={false}
+            backdropClosesModal={true}
             currentImageWillChange={this.onCurrentImageChange}
           />
         )}

@@ -11,7 +11,7 @@ from modelStats import *
 from train import *
 from animate import *
 from postEval import *
-
+from threading import Thread
 import shutil 
 from PIL import Image
 
@@ -245,10 +245,13 @@ def trainModel():
             shutil.copy(json_loc, output_folder)
         if(os.path.exists(img_loc)):
             shutil.copy(img_loc, output_folder)
-
-        final_training_call(app.config['TRAIN_FOLDER'], app.config["VALIDATION_FOLDER"], output_folder, model_type.lower(),epochs,lr, optimizer)
-
-        return "training complete"
+        model_type_lower = model_type.lower()
+        thread = Thread(target=final_training_call, kwargs={'TRAIN_FOLDER':app.config['TRAIN_FOLDER'] ,'VALID_FOLDER' : app.config["VALIDATION_FOLDER"], 'OUTPUT_FOLDER':output_folder, 'model_type':model_type_lower,'EPOCHS':epochs,'learning_rate':lr,'optimizer':optimizer})
+        thread.start()
+        # final_training_call(app.config['TRAIN_FOLDER'], app.config["VALIDATION_FOLDER"], output_folder, model_type.lower(),epochs,lr, optimizer)
+        time_estimate = str(estimate_time(model_type,epochs))
+        print("ESTIMATED TIME : ",time_estimate)
+        return time_estimate
     return 'Request malformed',201
 
 @app.route('/augment', methods=[ 'POST','GET'])
