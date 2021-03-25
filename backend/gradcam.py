@@ -37,7 +37,7 @@ torchmodel.roi_heads.box_predictor = FastRCNNPredictor(in_features, 2)
 torchmodel.to(device)
 
 ########### SET PATH FOR OBJECT DETECTION MODEL INPUT ################
-torchmodel.load_state_dict(torch.load('fasterrcnn_augtrained.pth', map_location=device))
+torchmodel.load_state_dict(torch.load('models/FasterRCNN_v1/fasterrcnn_augtrained.pth', map_location=device))
 ######################################################################
 
 torchmodel.eval()
