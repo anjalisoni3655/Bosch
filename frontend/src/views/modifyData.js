@@ -1062,22 +1062,25 @@ export default function User() {
                         valueLabelDisplay="auto"
                         aria-labelledby="non-linear-slider"
                       />
-                      <Autocomplete
+                     
+                    </Col>
+                    <Col style={{ padding:"10px", justifyContent: "right" }}>
+                      <Autocomplete 
                         onChange={(event, value) => setOptimizer(value)}
                         id="combo-box-demo"
                         options={optimizer_dataset}
                         getOptionLabel={(option) => option}
                         style={{ width: 200, height: -50 }}
-                        defaultValue = {optimizer_dataset[0]}
+                        defaultValue={optimizer_dataset[0]}
                         renderInput={(params) => (
-                          <TextField 
+                          <TextField
                             {...params}
                             label="Select optimizer"
                             variant="outlined"
                           />
                         )}
                       />
-                    </Col>
+                      </Col>
 
                   </Col>
                 </Row>

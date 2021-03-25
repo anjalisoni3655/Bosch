@@ -268,7 +268,7 @@ export default function AddData() {
                             min={0}
                             step={0.1}
                             max={5}
-                            style={{ width: "300px" }}
+                            style={{ width: "200px" }}
                             marks={[
                               { value: 0, label: "0%" },
                               { value: 5, label: "5%" },
