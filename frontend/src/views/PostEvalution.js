@@ -27,6 +27,9 @@ import {
   Col,
 } from "reactstrap";
 import { CardMedia } from "@material-ui/core";
+import CanvasJSReact from "./canvasjs.react";
+var CanvasJS = CanvasJSReact.CanvasJS;
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class PostEvaluation extends React.Component{
   constructor(props){
@@ -40,6 +43,7 @@ class PostEvaluation extends React.Component{
 
       data2: {
         cmData: [],
+        tsneData: [],
         model_behavior1: "",
         dataset_changes: "",
         network_changes: "",
@@ -67,12 +71,67 @@ class PostEvaluation extends React.Component{
     const columns: ColDef[] = [
       { field: 'pred', headerName: 'Predicted Class', width: 250 },
       { field: 'act', headerName: 'Actual Class', width: 250},
-      { field: 'num', headerName: 'Number of Mis-Classifications', width:261},
+      { field: 'num', headerName: 'Number of Misclassifications', width:250},
 
     ];
     
     const rows = this.state.data2.cmData
     
+    const options = {
+      animationEnabled: true,
+      height: "600",
+      theme: "light2",
+      // height: 800,
+      axisX: {
+        title: "Dimension 1",
+        titleFontSize: 15,
+        rot: 0,
+        interval: 1,
+        interlacedColor: "#F0FBFF",
+        labelAngle: -90,
+        labelFontSize: 14,
+
+        // gridColor: "#FFFFFF"
+      },
+      axisY: {
+        minimum: 0,
+        title: "Dimension 2\n\n",
+        titleFontSize: 15,
+        // gridThickness: 1,
+        // gridColor: "lightblue",
+        lineThickness: 1,
+
+        labelFontSize: 12,
+      },
+
+      zoomEnabled: true,
+      zoomType: "xy",
+
+      toolTip: {
+        shared: true,
+        
+      },
+      legend: {
+        // cursor: "pointer",
+        itemclick: this.toggleDataSeries,
+        fontSize: 15,
+      },
+      dataPointWidth: 20,
+      data: [
+        {
+          type: "scatter",
+          toolTipContent: "{name}<br/>Dimension 1: {x}<br/>Dimension 2: {y}",
+          showInLegend: false,
+          // indexLabel: "{y}",
+          // yValueFormatString: "#,##0",
+
+          dataPoints: this.state.data2.tsneData,
+        },
+        
+      ],
+    };
+    
+
     return (
       <div className="content" >
         <div style = {{justifyContent: "center", textAlign: "center", alignItems: "center"}}>
@@ -121,7 +180,7 @@ class PostEvaluation extends React.Component{
                   </CardTitle>
                   <CardBody>
                     <Row>
-                      <Col md="4" xs="5">
+                      <Col md="5" xs="5">
                         <img style = {{cursor: "zoom-in"}}  src={`http://localhost:5000/static/models/` + this.state.model_type.title + `/cm.png`}
                           onClick = {(event) => {
                             this.setState({opencm: true})
@@ -165,7 +224,7 @@ class PostEvaluation extends React.Component{
                   </CardTitle>
                   <CardBody>
                     <Row>
-                      <Col md="4" xs="5">
+                      <Col md="5" xs="5">
                       <img style = {{cursor: "zoom-in"}} src={`http://localhost:5000/static/models/` + this.state.model_type.title + `/loss_acc.gif`}
                           onClick = {(event) => {
                             this.setState({openla: true})
@@ -176,7 +235,43 @@ class PostEvaluation extends React.Component{
                           }} > </Lightbox>: null}
                       
                       </Col>
-                      <Col md="8" xs="7">
+                      <Col md="5" xs="7">
+                        {this.state.data2.model_behavior1}
+                        <br/>
+                        {this.state.data2.dataset_changes}
+                        <br/>
+                        {this.state.data2.network_changes}
+                      </Col>
+                    </Row>
+                  </CardBody>
+                  <CardFooter>
+                    {/* <hr />
+                    <div className="stats">
+                            <i className="fas fa-sync-alt" /> Update Now
+                          </div> */}
+                  </CardFooter>
+                </Card>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg="12">
+                <Card className="card-user">
+                  <CardTitle className = "card-category" style = {{textAlign: "center"}}>
+                    <h4>
+                      TSNE Plot
+                    </h4>
+                  </CardTitle>
+                  <CardBody>
+                    <Row>
+                      <Col md="5" xs="5">
+                      
+                          <CanvasJSChart options={options} />
+                      
+                      </Col>
+                      <Col md = "1">
+                      </Col>
+
+                      <Col md="6" xs="7">
                         
                       </Col>
                     </Row>
@@ -228,102 +323,3 @@ class PostEvaluation extends React.Component{
 }
         
 export default PostEvaluation;
-
-// const styles = (theme) => ({
-//   root: {
-//     margin: 0,
-//     padding: theme.spacing(2),
-//   },
-//   closeButton: {
-//     position: "absolute",
-//     right: theme.spacing(1),
-//     top: theme.spacing(1),
-//     color: theme.palette.grey[500],
-//   },
-// });
-
-// const DialogTitle = withStyles(styles)((props) => {
-//   const { children, classes, onClose, ...other } = props;
-//   return (
-//     <MuiDialogTitle disableTypography className={classes.root} {...other}>
-//       <Typography variant="h6">{children}</Typography>
-//       {onClose ? (
-//         <IconButton
-//           aria-label="close"
-//           className={classes.closeButton}
-//           onClick={onClose}
-//         >
-//           <CloseIcon />
-//         </IconButton>
-//       ) : null}
-//     </MuiDialogTitle>
-//   );
-// });
-
-// const DialogContent = withStyles((theme) => ({
-//   root: {
-//     padding: theme.spacing(2),
-//   },
-// }))(MuiDialogContent);
-
-// const DialogActions = withStyles((theme) => ({
-//   root: {
-//     margin: 0,
-//     padding: theme.spacing(1),
-//   },
-// }))(MuiDialogActions);
-
-// export default function CustomDialog() {
-//   const [open, setOpen] = React.useState(false);
-
-//   const handleClickOpen = () => {
-//     setOpen(true);
-//   };
-//   const handleClose = () => {
-//     setOpen(false);
-//   };
-
-//   return (
-//     <div className="content">
-//       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-//         Open dialog
-//       </Button>
-//       <GroupedSelect></GroupedSelect>
-//       <Dialog
-//         onClose={handleClose}
-//         aria-labelledby="customized-dialog-title"
-//         open={open}
-//       >
-//         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-//           Modal title
-//         </DialogTitle>
-//         <DialogContent dividers>
-//           <img
-//             src="https://png.pngtree.com/png-clipart/20191120/original/pngtree-pink-watercolor-brushes-png-image_5054156.jpg"
-//             alt="some image"
-//           ></img>
-//           <Typography gutterBottom>
-//             Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-//             dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-//             ac consectetur ac, vestibulum at eros.
-//           </Typography>
-//           <Typography gutterBottom>
-//             Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-//             Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-//             auctor.
-//           </Typography>
-//           <Typography gutterBottom>
-//             Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-//             cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-//             dui. Donec ullamcorper nulla non metus auctor fringilla.
-//           </Typography>
-//         </DialogContent>
-//         <DialogActions>
-//           <Button autoFocus onClick={handleClose} color="primary">
-//             Save changes
-//           </Button>
-//         </DialogActions>
-//       </Dialog>
-//     </div>
-//   );
-// }

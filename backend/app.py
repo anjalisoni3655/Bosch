@@ -320,11 +320,14 @@ def post_eval():
         model_type = data['newValue']['title']
         model_loc = os.path.join(app.config['MODELS_FOLDER'], model_type)
         cmData = get_cmdata(model_loc)
+        tsne = [{"x": 1, "y": 2, "name":"hello", "color": "#3CB371"}, {"x": 3, "y": 1, "name":"hello", "color": "#2F4F4F"}, {"x": 1, "y": 4, "name":"hello", "color": "#008080"}, {"x": 4, "y": 7, "name":"hello", "color": "#90EE90"}]
+        model_behavior1, dataset_changes, netwok_changes = acc_loss(model_loc)
         data = {
             "cmData": cmData,
-            "model_behavior1": "Model is Overfitting with the current config",
-            "dataset_changes": "Increase Data Set Size",
-            "network_changes": "Deepen the network",
+            'tsneData': tsne,
+            "model_behavior1": model_behavior1,
+            "dataset_changes": dataset_changes,
+            "network_changes": netwok_changes,
             "suggestions": "Model Parameters: [lr = 0.01]",
         }
 
@@ -359,11 +362,12 @@ def get_ai_stats():
         data = request.get_json()
         print(data)
 
-        
+
         folder1 = app.config['TRAIN_FOLDER']
         folder2 = app.config['VALIDATION_FOLDER']
         
         dataOG, dataAUG = getGraphStats(folder1, folder2)
+        
         data = {'plotdata': dataOG}
         
         return jsonify(data)
