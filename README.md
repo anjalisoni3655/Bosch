@@ -1,10 +1,9 @@
 ### German Traffic Sign Recognition Website
 <h1 align="left">
   <br>
-    <img src="https://ibb.co/4RcH5Lj" align="right" height=400px title="German Traffic Sign" alt="german">
+    <img src="/images/logo.jpeg" align="right" height=400px >
   <br>
   German Traffic Sign
-  <br>
 </h1>
 
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
@@ -19,7 +18,7 @@ This repo contains:</h4>
 <br><br>
 ## Our Web Application
 <p align="center">
-<img src="url" >
+<img src="/images/Demo.gif" >
 </p>
 
 
