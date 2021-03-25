@@ -356,8 +356,10 @@ def get_ai_stats():
         return jsonify(data)    
 
     elif request.method == "POST":
-        # data = request.json()
+        data = request.get_json()
+        print(data)
 
+        
         folder1 = app.config['TRAIN_FOLDER']
         folder2 = app.config['VALIDATION_FOLDER']
         
