@@ -183,7 +183,7 @@ def Iou_dataframe_generator(json_path, weights_path, last_conv, df_path,output_f
     wron = df[df['predictions'] != df['labels']].index
     wrong_filenames = list(df.loc[wron, 'filenames'])
     wrong_pathlist = [os.path.join(Dirpath, x) for x in wrong_filenames]
-    misc_dict,cisc_dict =  checkmisc(json_path,weights_path,last_conv,wrong_pathlist,[],'OUTPUT/', fulliou=True)
+    misc_dict,cisc_dict =  checkmisc(json_path,weights_path,last_conv,wrong_pathlist,[],output_folder=output_folder, fulliou=True)
     
     df_aay = pd.DataFrame()
     df_aay['filenames'] = list(df.loc[wron, 'filenames'])
@@ -256,7 +256,7 @@ def Save_top4(json_path, weights_path, last_conv, df_path, output_folder, Dirpat
     for i in (range(len(df))):
         name = df.loc[i, 'filenames']
         path = os.path.join(Dirpath, name)
-        iou, _ = gradcam(json_path,weights_path,last_conv,path,'OUTPUT/')
+        iou, _ = gradcam(json_path,weights_path,last_conv,path,output_folder)
         df.loc[i, 'iou'] = iou
 
     dfcisc = df[df['predictions'] == df['labels']]
