@@ -695,14 +695,14 @@ export default function User() {
                             value={sunflare}
                             // defaultValue={[0, 1]}
                             min={0}
-                            max={20}
+                            max={10}
                             step={1}
                             onChange={handleSunflare}
                             valueLabelDisplay="auto"
                             marks={[
-                              { value: 20, label: "20" },
-                              { value: 0, label: "0" },
                               { value: 10, label: "10" },
+                              { value: 0, label: "0" },
+                              { value: 5, label: "5" },
                             ]}
                             aria-labelledby="range-slider"
                             getAriaValueText={valuetext}
