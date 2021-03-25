@@ -85,9 +85,10 @@ def copy_rename_recursive(src, dest):
             copy_rename_recursive(os.path.join(src,x),dest)
         else:
             
-            i = cv2.imread(os.path.join(src,x))
+            # i = cv2.imread(os.path.join(src,x))
             filename = str(currentNo)+".png"
-            cv2.imwrite(os.path.join(dest,filename),i)  
+            # cv2.imwrite(os.path.join(dest,filename),i)  
+            shutil.copy(os.path.join(src,x),os.path.join(dest,filename))
             currentNo+=1
 
 
