@@ -51,7 +51,7 @@ class ExplainableAI extends React.Component {
           openex: false,
           isVisible: false,
           slide: 0,
-          iou:0.1,
+          iou:0,
         
     };
 
