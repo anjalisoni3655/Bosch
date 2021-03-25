@@ -205,7 +205,7 @@ def trainPercent():
             augmentedfolder = folder_to_augment
         trainValSplit(augmentedfolder,app.config["TRAIN_FOLDER"],app.config["VALIDATION_FOLDER"],data["train"])
 
-        return str(len(os.listdir(augmentedfolder)))
+        return str(len(os.listdir(app.config["GRID_AUGMENTED_FOLDER"])))
     return 'Request malformed',201
 @app.route('/train-model', methods = ['POST'])
 @cross_origin()

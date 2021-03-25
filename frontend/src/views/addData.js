@@ -92,7 +92,7 @@ export default function AddData() {
   };
 
   const classes = useStyles();
-  const [percent, setPercent] = React.useState(50);
+  const [percent, setPercent] = React.useState(1);
   const [datasetChanged, setChanged]= React.useState(1);
   const samplePercent = {
     sample: percent,
@@ -266,8 +266,8 @@ export default function AddData() {
                           <Slider
                             value={percent}
                             min={0}
-                            step={5}
-                            max={100}
+                            step={0.5}
+                            max={10}
                             style={{ width: "150px" }}
                             marks={[
                               { value: 0, label: "0" },
