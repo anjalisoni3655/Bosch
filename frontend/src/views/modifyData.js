@@ -1,5 +1,6 @@
 import Upload from "./Upload";
 import React, { useRef, useEffect, useState, useReducer } from "react";
+import Countdown from 'react-countdown';
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
@@ -107,7 +108,7 @@ export default function User() {
   const [selectedFile, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
-  const [loading3, setLoading3] = useState(false);
+  
   const [modelType, setmodelType] = useState("NULL");
   const [optimizer, setOptimizer] = useState(optimizer_dataset[0]);
   const handleRain = (event) => {
@@ -119,10 +120,8 @@ export default function User() {
   };
 
   const [values, setValues] = useState(initialValues);
-  const [uploadProgress, updateUploadProgress] = useState(0);
 
-  const [uploadStatus, setUploadStatus] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [training, setTraining] = useState(false);
 
   const handleProb = (e) => {
     const { name, value } = e.target;
@@ -206,6 +205,7 @@ export default function User() {
 
   const [numberImages, setnumberImages] = useState(0);
   const [datasetChanged, setChanged] = React.useState(1);
+  const[estimatedTrainingTime,setEstimate] = React.useState(10000);
   const handleChanged = (newValue) => {
     setChanged(newValue);
   };
@@ -216,7 +216,12 @@ export default function User() {
   const trainPercentData = {
     train: trainPercent,
   };
-
+  const trainingComplete = () => {
+    
+      toast.success("Model training completed!");
+      toast.warn("Model saved as : Model_v2")
+    setTraining(false);
+  };
   const handleAugment = () => {
     setLoading(true);
     axios.post("http://localhost:5000/augment", data).then(
@@ -288,8 +293,8 @@ export default function User() {
             "Data Split and " + response.data + " images added succesfully"
           );
           setLoading2(false);
-          setUploadStatus(true);
-          setUploading(false);
+          
+          setTraining(false);
         } else {
           toast.error("💀 Error : " + response.data);
         }
@@ -300,17 +305,9 @@ export default function User() {
     );
   };
   const sendTrainRequest = () => {
-    const config = {
-      onUploadProgress: function (progressEvent) {
-        var percentCompleted = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-        updateUploadProgress(percentCompleted);
-        console.log("percent", percentCompleted);
-      },
-    };
-    setLoading3(true);
-    setUploading(true);
+    
+    
+    setTraining(true);
     const formData = new FormData();
 
     // Update the formData object
@@ -326,16 +323,17 @@ export default function User() {
         file: formData,
         lr: lr,
         optimizer: optimizer,
-        config,
+        
       })
       .then(
         (response) => {
           console.log("response: ", response);
-          if (response.data === "OK") {
+          if (response.status === 200) {
             toast.success("Model training initiated successfully");
-            setLoading3(false);
-            setUploadStatus(true);
-            setUploading(false);
+            toast.warn("Estimated completion time : " +parseInt(res.data)/60000 +" minutes")
+            
+            setEstimate(parseInt(res.data));
+            
           } else {
             toast.error("Error : " + response.data);
           }
@@ -1094,22 +1092,25 @@ export default function User() {
                       // variant="contained"
                       color="primary"
                       //className={buttonClassname}
-                      disabled={loading3}
+                      disabled={training}
                       onClick={sendTrainRequest}
                       //  value={this.props.title}
                     >
                       Train
                     </Button>
-                    {uploading ? (
-                      <LinearWithValueLabel
-                        progress={uploadProgress}
-                      ></LinearWithValueLabel>
-                    ) : // <LinearProgress></LinearProgress>
-                    // <CircularProgress
-                    //   size={24}
-                    //   className={classes.buttonProgress}
-                    // />
+                    {training ? (
+                              
+                    <Typography>
+                        Train time remaining :  
+                      <br/>
+                      <Countdown date={Date.now() + estimatedTrainingTime} onComplete={trainingComplete} />
+
+                      
+                    </Typography>
+                    ) : 
                     null}
+
+                    
                   </div>
                 </div>
               </div>
