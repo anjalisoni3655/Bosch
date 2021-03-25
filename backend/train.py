@@ -179,6 +179,7 @@ def train_model(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, l
     return training_stats
 
 def estimate_time(model_type, EPOCHS):
+    model_type=model_type.lower()
     if model_type == 'mobilenetv2':
         time = 36.5
     elif model_type == 'mobilenetv3':
@@ -191,7 +192,8 @@ def estimate_time(model_type, EPOCHS):
         time = 26
     elif model_type == 'baselineaugmented':
         time = 26    
-    
+    else:
+        print("ERROR", model_type)
     total_time = int(time * EPOCHS * 1000)
     return total_time
 

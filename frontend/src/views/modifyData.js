@@ -329,10 +329,11 @@ export default function User() {
         (response) => {
           console.log("response: ", response);
           if (response.status === 200) {
-            toast.success("Model training initiated successfully");
-            toast.warn("Estimated completion time : " +parseInt(res.data)/60000 +" minutes")
             
-            setEstimate(parseInt(res.data));
+            toast.success("Model training initiated successfully");
+            toast.warn("Estimated completion time : " +parseInt(response.data)/60000 +" minutes")
+            
+            setEstimate(parseInt(response.data));
             
           } else {
             toast.error("Error : " + response.data);
