@@ -222,22 +222,22 @@ class ExplainableAI extends React.Component {
                          
                           <img
                             onClick={() => this.showSlide(1)}
-                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/1.png"+"?"}
+                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/5.png"}
                             style = {{height: "20%", width: "20%", padding: "2em"}}
                             />
                             <img
                             onClick={() => this.showSlide(2)}
-                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/2.png"}
+                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/6.png"}
                             style = {{height: "20%", width: "20%", padding: "2em"}}
                             />
                             <img
                             onClick={() => this.showSlide(3)}
-                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/3.png"}
+                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/7.png"}
                             style = {{height: "20%", width: "20%", padding: "2em"}}
                             />
                             <img
                             onClick={() => this.showSlide(4)}
-                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/4.png"}
+                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/8.png"}
                             style = {{height: "20%", width: "20%", padding: "2em"}}
                             />                  
                             {(this.state.isVisible == true) ? <Lightbox toggler={this.state.isVisible} images = {[{url: "http://localhost:5000/static/models/" + this.state.model_type.title + "/1.png", title: "Image 1"}, {url: "http://localhost:5000/static/models/" + this.state.model_type.title + "/2.png", title: "Image 2"}, {url: "http://localhost:5000/static/models/" + this.state.model_type.title + "/3.png", title: "Image 3"}, {url: "http://localhost:5000/static/models/" + this.state.model_type.title + "/4.png", title: "Image 4"}]} onClose={(event) => {
