@@ -88,7 +88,13 @@ function valuetext(value) {
 function valueLabelFormat(value) {
   return `${value}%`;
 }
-
+function expformat(value) {
+  const [coefficient, exponent] = value
+    .toExponential()
+    .split('e')
+    .map((item) => Number(item));
+  return `${Math.round(coefficient)}e^${exponent}`;
+}
 let start = 1;
 var Images=[];
 export default function User() {
@@ -96,11 +102,13 @@ export default function User() {
     age: "",
     name: "hai",
   });
+  const optimizer_dataset=["Adam","RMSprop","SGD"]
   const [selectedFile, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [loading3, setLoading3] = useState(false);
   const [modelType, setmodelType] = useState("NULL");
+  const [optimizer,setOptimizer] = useState(optimizer_dataset[0])
   const handleRain = (event) => {
     const name = event.target.name;
     setRain({
@@ -195,6 +203,7 @@ export default function User() {
 
   const [trainPercent, setTrainPercent] = React.useState(90);
   const [epochs, setEpochs] = React.useState(0);
+  const [lr, setLearningRate] = React.useState(0.0001);
 
   const [numberImages, setnumberImages] = useState(0);
   const [datasetChanged, setChanged] = React.useState(1);
@@ -317,6 +326,8 @@ export default function User() {
         model: modelType,
         epochs: epochs,
         file: formData,
+        lr:lr,
+        optimizer:optimizer,
         config,
       })
       .then(
@@ -990,6 +1001,22 @@ export default function User() {
                         />
                       )}
                     />
+                    <Row style={{ padding:"35px", justifyContent: "center" }}>
+                      <Typography>OR</Typography>
+                    </Row>
+                    <Row style={{ justifyContent: "center" }}>
+                      <p style={{ textAlign: "center" }}>
+                        <b style={{ fontWeight: "700" }}>Upload Model JSON File</b>
+                      </p>
+                    </Row>
+                    <Row style={{ justifyContent: "center" }}>
+                      <input
+                        type="file"
+                        accept=".json"
+                        style={{ marginLeft: "100px" }}
+                        onChange={fileChange}
+                      ></input>
+                    </Row>
                   </Col>
 
                   <Col>
@@ -1014,24 +1041,47 @@ export default function User() {
                         aria-labelledby="non-linear-slider"
                       />
                     </Col>
+                    <Col>
+                      <Typography>Learning rate</Typography>
+                    </Col>
+                    <Col>
+                      <Slider
+                        value={lr}
+                        min={0.0001}
+                        step={0.001}
+                        max={0.1}
+                        
+                        style={{ width: "150px" }}
+                        marks={[
+                          { value: 0.0001, label: "0.0001" },
+                          { value: 0.1, label: "0.1" },
+                        ]}
+                        getAriaValueText={expformat}
+                        valueLabelFormat={expformat}
+                        onChange={(event, value) => setLearningRate(value)}
+                        valueLabelDisplay="auto"
+                        aria-labelledby="non-linear-slider"
+                      />
+                      <Autocomplete
+                        onChange={(event, value) => setOptimizer(value)}
+                        id="combo-box-demo"
+                        options={optimizer_dataset}
+                        getOptionLabel={(option) => option}
+                        style={{ width: 200, height: -50 }}
+                        defaultValue = {optimizer_dataset[0]}
+                        renderInput={(params) => (
+                          <TextField 
+                            {...params}
+                            label="Select optimizer"
+                            variant="outlined"
+                          />
+                        )}
+                      />
+                    </Col>
+
                   </Col>
                 </Row>
-                <Row style={{ justifyContent: "center" }}>
-                  <Typography>OR</Typography>
-                </Row>
-                <Row style={{ justifyContent: "center" }}>
-                  <p style={{ textAlign: "center" }}>
-                    <b style={{ fontWeight: "700" }}>Upload Model JSON File</b>
-                  </p>
-                </Row>
-                <Row style={{ justifyContent: "center" }}>
-                  <input
-                    type="file"
-                    accept=".json"
-                    style={{ marginLeft: "100px" }}
-                    onChange={fileChange}
-                  ></input>
-                </Row>
+                
 
                 <div className={classes.button}>
                   <div className={classes.wrapper}>
