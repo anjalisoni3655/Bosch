@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import pandas as pd
-from tqdm import tqdm
+# from tqdm import tqdm
 import tensorflow as tf
 import random
 import matplotlib.cm as cm
@@ -207,7 +207,7 @@ def checkmisc(json_path,weights_path,last_conv,misc_pathlist,cisc_pathlist, outp
     """ LAST FOUR ARE CORRECTLY CLASSIFIED """
 
     j = 1
-    for i in tqdm(misc_pathlist):
+    for i in (misc_pathlist):
         iou,coord = gradcam(json_path,weights_path,last_conv,i, output_folder)
         #print("IOU:",iou)
         img = cv2.imread(os.path.join(output_folder, 'tmp', 'cam.jpg'))
@@ -220,7 +220,7 @@ def checkmisc(json_path,weights_path,last_conv,misc_pathlist,cisc_pathlist, outp
         misc_dict['{}.png'.format(j)] = iou
         j = j + 1
     
-    for i in tqdm(cisc_pathlist):
+    for i in (cisc_pathlist):
         iou,coord = gradcam(json_path,weights_path,last_conv,i, output_folder)
         #print("IOU:",iou)
         img = cv2.imread(os.path.join(output_folder, 'tmp', 'cam.jpg'))
@@ -253,7 +253,7 @@ def Save_top4(json_path, weights_path, last_conv, df_path, output_folder, Dirpat
     #In rememberance of Yerram Varun, Rambatla Amey & AayushCode Sharma
     ###############################################
 
-    for i in tqdm(range(len(df))):
+    for i in (range(len(df))):
         name = df.loc[i, 'filenames']
         path = os.path.join(Dirpath, name)
         iou, _ = gradcam(json_path,weights_path,last_conv,path,'OUTPUT/')
