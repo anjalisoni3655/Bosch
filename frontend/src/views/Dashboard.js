@@ -43,15 +43,6 @@ class Dashboard extends React.Component {
 
   }
 
-  // getUserData = async () => {
-  //     try {
-  //         const {data} = await axios.get(`http://172.16.101.244:5000view-data-stats`);
-  //         console.log(data);
-  //         return data;
-  //     } catch (err) {
-  //         console.log(err.message);
-  //     }
-  // }
 
   componentWillMount(){
     axios.get(`http://localhost:5000/view-data-stats`).then(res => {

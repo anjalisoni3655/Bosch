@@ -251,7 +251,7 @@ export default function User() {
           setnumberImages(images_number);
           console.log("images", numberImages);
 
-          forceUpdate();
+          getImages();
           setLoading(false);
         } else {
           toast.error("💀 Error : " + response.data);
