@@ -13,7 +13,7 @@ import pandas as pd
 import tensorflow as tf
 import random
 import matplotlib.cm as cm
-from IPython.display import Image, display
+# from IPython.display import Image, display
 import keras
 from keras import activations
 import matplotlib.image as mpimg
