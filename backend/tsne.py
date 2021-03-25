@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import os
 import pandas as pd
-from tqdm.notebook import tqdm
+# from tqdm.notebook import tqdm
 import numpy as np
 from PIL import Image
 import tensorflow as tf
@@ -30,7 +30,7 @@ import os
 import random
 import tensorflow as tf
 from PIL import Image, ImageFile
-from tqdm import tqdm
+# from tqdm import tqdm
 import cv2
 
 # physical_devices = tf.config.experimental.list_physical_devices('GPU')
@@ -48,7 +48,7 @@ def get_data(ROOT_DIR,SIZE):
     for i, cls in (enumerate(classes)):
         pathtoimages = f'{ROOT_DIR}{cls}'
         images = os.listdir(pathtoimages)
-        for image in tqdm(images):
+        for image in (images):
             # print(image[-3:])
             if image[-3:] == 'csv':
                 continue
