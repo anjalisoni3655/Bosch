@@ -1,5 +1,4 @@
-import Upload from "./Upload";
-import React, { useRef, useState, useReducer } from "react";
+import React, { useState, useReducer } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
@@ -19,16 +18,13 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   CardTitle,
   FormGroup,
   Form,
-  Input,
   Row,
   Col,
 } from "reactstrap";
 import Augment from "./augment";
-import { LinearProgress } from "@material-ui/core";
 import LinearWithValueLabel from "./linearProgress";
 
 const initialValues = {
@@ -44,7 +40,7 @@ const initialValues = {
   prob10: "",
   prob11: "",
 };
-const url = `http://localhost:5000/static/grid/augmented/`;
+// const url = `http://localhost:5000/static/grid/augmented/`;
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -84,11 +80,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: -12,
   },
 }));
-
-const marks = [
-  { value: 0, label: "0" },
-  { value: 1, label: "1" },
-];
 
 function valuetext(value) {
   return `${value}`;
@@ -231,20 +222,16 @@ export default function User() {
 
   const [numberImages, setnumberImages] = useState(0);
 
-  const handleNumberOfImages = (event, newValue) => {
-    setnumberImages(parseInt(newValue));
-  };
-
   const trainPercentData = {
     train: trainPercent,
   };
 
   const handleAugment = () => {
     setLoading(true);
-    const res = axios.post("http://localhost:5000/augment", data).then(
+    axios.post("http://localhost:5000/augment", data).then(
       (response) => {
         console.log("response: ", response);
-        if (response.data != "0") {
+        if (response.data !== "0") {
           toast.success("Data Augmented succesfully");
 
           var images_number = Math.min(200, parseInt(response.data));
@@ -266,12 +253,12 @@ export default function User() {
   getImages(numberImages);
   const sendTrainPercent = () => {
     setLoading2(true);
-    const res = axios
+    axios
       .post("http://localhost:5000/train-percent", trainPercentData)
       .then(
         (response) => {
           console.log("response: ", response);
-          if (response.status == 200) {
+          if (response.status === 200) {
             toast.success(
               "Data Split and " + response.data + " images added succesfully"
             );
@@ -317,7 +304,7 @@ export default function User() {
       .then(
         (response) => {
           console.log("response: ", response);
-          if (response.data == "OK") {
+          if (response.data === "OK") {
             toast.success("Model training initiated successfully");
             setLoading3(false);
             setUploadStatus(true);
@@ -896,7 +883,7 @@ export default function User() {
         </div>
       </Card>
 
-      {numberImages != 0 ? (
+      {numberImages !== 0 ? (
         <Augment showDelete={true} images={Images}></Augment>
       ) : (
         <div></div>

@@ -1,37 +1,27 @@
-import React, { useRef, useState, useEffect, useReducer } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
-import Select from "@material-ui/core/Select";
 import { ToastContainer, toast } from "react-toastify";
-import InputLabel from "@material-ui/core/InputLabel";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
 import Augment from "./augment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Checkbox from "@material-ui/core/Checkbox";
 import Upload from "./Upload";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-
-import FormControl from "@material-ui/core/FormControl";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Button,
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   CardTitle,
-  FormGroup,
-  Form,
-  Input,
   Row,
   Col,
 } from "reactstrap";
-const url = `http://localhost:5000/static/grid/extracted/`;
+// const url = `http://localhost:5000/static/grid/extracted/`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
