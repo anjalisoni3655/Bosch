@@ -270,8 +270,8 @@ export default function AddData() {
                             max={5}
                             style={{ width: "300px" }}
                             marks={[
-                              { value: 0, label: "0" },
-                              { value: 5, label: "5" },
+                              { value: 0, label: "0%" },
+                              { value: 5, label: "5%" },
                             ]}
                             getAriaValueText={valueLabelFormat}
                             valueLabelFormat={valueLabelFormat}
