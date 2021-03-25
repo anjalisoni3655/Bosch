@@ -51,6 +51,7 @@ class ExplainableAI extends React.Component {
           openex: false,
           isVisible: false,
           slide: 0,
+          iou:0.1,
         
     };
 
@@ -103,12 +104,7 @@ class ExplainableAI extends React.Component {
                 this.setState({
                     model_type: newValue});
                     console.log("New Value: ", this.state.model_type, newValue)
-                    axios.post(`http://localhost:5000/explainable-ai`, {newValue}).then(
-                    (response) => {
-                        this.setState({data2: response.data});
-                        console.log(this.state.data2);
-                    }
-                    )
+                    
                     this.setState({hide: false})
                     };
                 }}
@@ -259,7 +255,33 @@ class ExplainableAI extends React.Component {
                             <CardTitle tag="h5">
                                 IOU Sensitivity
                             </CardTitle>
-                            
+                            <br />
+                            <label>IOU Threshold</label>
+                            <br />
+                            <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.05"
+                            value={this.state.iou}
+                            onChange={(event) => {
+                                this.setState({iou: event.target.value})
+                                console.log("IOU inside change", this.state.iou)
+                                axios.post(`http://localhost:5000/explainable-ai`, {"model_type": this.state.model_type.title, "iou": this.state.iou}).then(
+                                (response) => {
+                                    this.setState({data2: response.data});
+                                    console.log(this.state.data2);
+                                }
+                                )
+                            }}
+                            size="small"
+                            label="IOU Threshold"
+                            id="outlined-basic"
+                            variant="outlined"
+                          ></input>
+                          {console.log("IOU", this.state.iou)}
+                           <div>{this.state.iou}</div>
+                           <br />
                             </CardHeader>
                             <CardBody>
                                 <CanvasJSChart options = {{

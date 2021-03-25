@@ -150,6 +150,7 @@ export default function AddData() {
           var images_number = Math.min(200, parseInt(response.data));
           setNumberImages(images_number);
           setSuccess(false);
+          getImages(numberImages);
         } else {
           toast.error("Error : " + response.data);
         }

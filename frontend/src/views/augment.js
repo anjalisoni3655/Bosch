@@ -40,7 +40,16 @@ class Augment extends React.Component {
     this.onCurrentImageChange = this.onCurrentImageChange.bind(this);
     this.deleteImage = this.deleteImage.bind(this);
   }
+  componentDidUpdate(prevProps) {
 
+    if (prevProps.images !== this.props.images) {
+      this.setState({
+        images: this.props.images
+      });
+
+    }
+    console.log("PROPS CHANGED");
+  }
   onCurrentImageChange(index) {
     this.setState({ currentImage: index });
   }
@@ -53,7 +62,7 @@ class Augment extends React.Component {
       this.setState({
         images: images,
       });
-    const res = axios.post(`http://172.16.101.244:5000delete-file?fileid=${images[this.state.currentImage].id}`).then((res) => {
+    const res = axios.post(`http://localhost:5000/delete-file?fileid=${images[this.state.currentImage].id}`).then((res) => {
       
       console.log("Deleted file : ", this.state.currentImage );
       console.log(res, res.status)
