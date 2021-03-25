@@ -226,7 +226,7 @@ export default function User() {
         if (response.data !== "0") {
           toast.success("Data Augmented succesfully");
 
-          var images_number = Math.min(200, parseInt(response.data));
+          var images_number = Math.min(1000, parseInt(response.data));
           setnumberImages(images_number);
           console.log("images", numberImages);
 

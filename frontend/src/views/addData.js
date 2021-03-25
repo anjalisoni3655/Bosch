@@ -119,7 +119,7 @@ export default function AddData() {
           toast.success(response.data + " images sampled successfully ");
 
           
-          var images_number = Math.min(200, parseInt(response.data));
+          var images_number = Math.min(1000, parseInt(response.data));
           setNumberImages(images_number);
           setSuccess(false);
           handleChanged(1);
@@ -266,12 +266,12 @@ export default function AddData() {
                           <Slider
                             value={percent}
                             min={0}
-                            step={0.5}
-                            max={10}
-                            style={{ width: "150px" }}
+                            step={0.1}
+                            max={5}
+                            style={{ width: "300px" }}
                             marks={[
                               { value: 0, label: "0" },
-                              { value: 100, label: "100" },
+                              { value: 5, label: "5" },
                             ]}
                             getAriaValueText={valueLabelFormat}
                             valueLabelFormat={valueLabelFormat}

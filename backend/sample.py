@@ -79,9 +79,9 @@ def sampleDataStratified(folder_to_extract_from, folder_to_extract_to, percent,c
             destFinal = os.path.join(dest, str(i)+ext)
             i += 1
             imgFile = cv2.imread(img)
-            imgFile = cv2.resize(imgFile, (600,600))
-            # shutil.copy(img, destFinal)
-            cv2.imwrite(destFinal,imgFile)
+            # imgFile = cv2.resize(imgFile, (600,600))
+            shutil.copy(img, destFinal)
+            # cv2.imwrite(destFinal,imgFile)
 
     print(f'{i} Images Sampled.')
 

@@ -39,6 +39,7 @@ GRID_AUGMENTED_FOLDER = GRID_FOLDER + "augmented/"
 GRID_EXTRACTED_FOLDER = GRID_FOLDER + "extracted/" 
 MODELS_FOLDER = ROOT_FOLDER+"models/"
 
+DISP_IMG_SIZE = 600
 
 ALLOWED_EXTENSIONS = {'zip'}
 def allowed_file(filename):
@@ -87,8 +88,12 @@ def copy_rename_recursive(src, dest):
             
             # i = cv2.imread(os.path.join(src,x))
             filename = str(currentNo)+".png"
+            # i = cv2.resize(i, (DISP_IMG_SIZE,DISP_IMG_SIZE))
             # cv2.imwrite(os.path.join(dest,filename),i)  
-            shutil.copy(os.path.join(src,x),os.path.join(dest,filename))
+            img = Image.open(os.path.join(src,x))
+            img = img.resize((DISP_IMG_SIZE,DISP_IMG_SIZE),Image.NEAREST)
+            img.save(os.path.join(dest,filename))
+            # shutil.copy(os.path.join(src,x),os.path.join(dest,filename))
             currentNo+=1
 
 
@@ -217,6 +222,8 @@ def trainModel():
         data = request.get_json()
         model_type = data['model']
         epochs=data['epochs']
+        lr=data['lr']
+        optimizer=data['optimizer']
         print(data)
         output_folder = create_folder_entry(app.config["MODELS_FOLDER"],model_type,"v")
         
@@ -231,7 +238,7 @@ def trainModel():
         if(os.path.exists(img_loc)):
             shutil.copy(img_loc, output_folder)
 
-        train_model(app.config['TRAIN_FOLDER'], app.config["VALIDATION_FOLDER"], output_folder, model_type)
+        train_model(app.config['TRAIN_FOLDER'], app.config["VALIDATION_FOLDER"], output_folder, model_type,epochs,lr, optimizer)
         PLOT(output_folder)   
         return "training complete"
     return 'Request malformed',201
