@@ -1,37 +1,27 @@
-import React, { useRef, useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
-import Select from "@material-ui/core/Select";
 import { ToastContainer, toast } from "react-toastify";
-import InputLabel from "@material-ui/core/InputLabel";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
 import Augment from "./augment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Checkbox from "@material-ui/core/Checkbox";
 import Upload from "./Upload";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-
-import FormControl from "@material-ui/core/FormControl";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Button,
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   CardTitle,
-  FormGroup,
-  Form,
-  Input,
   Row,
   Col,
 } from "reactstrap";
-const url = `http://localhost:5000/static/grid/extracted/`;
+// const url = `http://localhost:5000/static/grid/extracted/`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,27 +75,7 @@ function valueLabelFormat(value) {
 
 let start = 1;
 var Images = [];
-function getImages(numberImages) {
-  Images = [];
 
-  for (var i = 0; i < numberImages; i++) {
-    var x = new Date().getTime().toLocaleString();
-    Images.push({
-      src:
-        "http://localhost:5000/static/grid/extracted/" +
-        i.toString() +
-        ".png" +
-        "?" +
-        x,
-      thumbnail:
-        "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
-      thumbnailWidth: 200,
-      thumbnailHeight: 200,
-      id:i,
-    });
-  }
-  console.log("Get : ", numberImages);
-}
 export default function AddData() {
   const [success, setSuccess] = useState(false);
   const [uploadClass, setuploadClass] = useState("NULL");
@@ -122,8 +92,8 @@ export default function AddData() {
   };
 
   const classes = useStyles();
-  const [percent, setPercent] = React.useState(50);
-
+  const [percent, setPercent] = React.useState(1);
+  const [datasetChanged, setChanged]= React.useState(1);
   const samplePercent = {
     sample: percent,
     className: uploadClass,
@@ -132,25 +102,28 @@ export default function AddData() {
   const handlePercent = (event, newValue) => {
     setPercent(newValue);
   };
-
+  const handleChanged = (newValue) => {
+    setChanged(newValue);
+  };
   const [numberImages, setNumberImages] = useState(0);
   const handleSample = () => {
     setSuccess(true);
-    console.log(samplePercent);
+    
     const res = axios.post("http://localhost:5000/sample", samplePercent).then(
       (response) => {
         console.log("response: ", response);
         if (response.status == 200) {
-          console.log("Images");
+          
 
       
           toast.success(response.data + " images sampled successfully ");
 
-          console.log(response);
-          var images_number = Math.min(200, parseInt(response.data));
+          
+          var images_number = Math.min(1000, parseInt(response.data));
           setNumberImages(images_number);
           setSuccess(false);
-          getImages(numberImages);
+          handleChanged(1);
+          
         } else {
           toast.error("Error : " + response.data);
         }
@@ -160,14 +133,48 @@ export default function AddData() {
       }
     );
 
-    console.log("Force updated");
+    
     // window.location.reload();
   };
 
   function handleNoOfImages(no_of_images) {
-    console.log("images from addData");
-    console.log(no_of_images);
+    
     setNumberImages(no_of_images);
+    handleChanged(1);
+  }
+  useEffect(() => {
+    
+    if (datasetChanged) {
+      getImages(numberImages)
+    } else {
+      getImages(numberImages)
+    }
+  }, [datasetChanged]);
+  function getImages(numberImages) {
+    
+    if(datasetChanged==1){
+      Images = [];
+      
+      for (var i = 0; i < numberImages; i++) {
+        var x = new Date().getTime().toLocaleString();
+        Images.push({
+          src:
+            "http://localhost:5000/static/grid/extracted/" +
+            i.toString() +
+            ".png" +
+            "?" +
+            x,
+          thumbnail:
+            "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
+          thumbnailWidth: 200,
+          thumbnailHeight: 200,
+          id: i,
+        });
+      }
+      console.log("Get : ", numberImages);
+      handleChanged(0);
+    }
+   
   }
   getImages(numberImages);
 
@@ -259,12 +266,12 @@ export default function AddData() {
                           <Slider
                             value={percent}
                             min={0}
-                            step={5}
-                            max={100}
-                            style={{ width: "150px" }}
+                            step={0.1}
+                            max={5}
+                            style={{ width: "300px" }}
                             marks={[
                               { value: 0, label: "0" },
-                              { value: 100, label: "100" },
+                              { value: 5, label: "5" },
                             ]}
                             getAriaValueText={valueLabelFormat}
                             valueLabelFormat={valueLabelFormat}

@@ -1,12 +1,6 @@
 import Dashboard from "views/Dashboard.js";
-import Notifications from "views/Notifications.js";
-import Icons from "views/Icons.js";
-
-import Maps from "views/Map.js";
 import modifyData from "views/modifyData.js";
 import AddData from "views/addData.js";
-// import CustomizedDialogs from "views/Dialog.js";
-import UpgradeToPro from "views/Upgrade.js";
 import ModelPerformance from "views/ModelPeformance";
 
 import PostEvaluation from "views/PostEvalution";

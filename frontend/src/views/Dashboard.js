@@ -1,7 +1,6 @@
 import axios from "axios";
 import React from "react";
 // react plugin used to create charts
-import { Line, Pie, Bar } from "react-chartjs-2";
 // var CanvasJSReact = require('./canvasjs.react');
 // reactstrap components
 import {
@@ -14,14 +13,8 @@ import {
   Col,
 } from "reactstrap";
 
-// core components
-import {
-  dashboard24HoursPerformanceChart,
-  dashboardEmailStatisticsChart,
-  dashboardNASDAQChart,
-} from "variables/charts.js";
 
-import CanvasJSReact from "./canvasjs.react";
+import CanvasJSReact from './canvasjs.react';
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 

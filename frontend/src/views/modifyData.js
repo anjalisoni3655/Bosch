@@ -1,5 +1,5 @@
 import Upload from "./Upload";
-import React, { useRef, useState, useReducer } from "react";
+import React, { useRef,useEffect, useState, useReducer } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
@@ -19,16 +19,13 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   CardTitle,
   FormGroup,
   Form,
-  Input,
   Row,
   Col,
 } from "reactstrap";
 import Augment from "./augment";
-import { LinearProgress } from "@material-ui/core";
 import LinearWithValueLabel from "./linearProgress";
 
 const initialValues = {
@@ -44,7 +41,7 @@ const initialValues = {
   prob10: "",
   prob11: "",
 };
-const url = `http://localhost:5000/static/grid/augmented/`;
+// const url = `http://localhost:5000/static/grid/augmented/`;
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -85,55 +82,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const marks = [
-  { value: 0, label: "0" },
-  { value: 1, label: "1" },
-];
-
 function valuetext(value) {
   return `${value}`;
 }
 function valueLabelFormat(value) {
   return `${value}%`;
 }
-
-let start = 1;
-var Images = [];
-function getImages(numberImages) {
-  Images = [];
-
-  for (var i = 0; i < numberImages; i++) {
-    var x = new Date().getTime().toLocaleString();
-    Images.push({
-      src:
-        "http://localhost:5000/static/grid/extracted/" +
-        i.toString() +
-        ".png" +
-        "?" +
-        x,
-      thumbnail:
-        "http://localhost:5000/static/grid/extracted/" +
-        i.toString() +
-        ".png" +
-        "?" +
-        x,
-      thumbnailWidth: 200,
-      thumbnailHeight: 200,
-      id: i,
-    });
-  }
-  console.log("Get : ", numberImages);
+function expformat(value) {
+  const [coefficient, exponent] = value
+    .toExponential()
+    .split('e')
+    .map((item) => Number(item));
+  return `${Math.round(coefficient)}e^${exponent}`;
 }
+let start = 1;
+var Images=[];
 export default function User() {
   const [rain, setRain] = React.useState({
     age: "",
     name: "hai",
   });
+  const optimizer_dataset=["Adam","RMSprop","SGD"]
   const [selectedFile, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [loading3, setLoading3] = useState(false);
   const [modelType, setmodelType] = useState("NULL");
+  const [optimizer,setOptimizer] = useState(optimizer_dataset[0])
   const handleRain = (event) => {
     const name = event.target.name;
     setRain({
@@ -222,15 +197,19 @@ export default function User() {
     rain: [rain.age, values.prob11],
   };
 
-  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+  
 
   const classes = useStyles();
 
   const [trainPercent, setTrainPercent] = React.useState(90);
   const [epochs, setEpochs] = React.useState(0);
+  const [lr, setLearningRate] = React.useState(0.0001);
 
   const [numberImages, setnumberImages] = useState(0);
-
+  const [datasetChanged, setChanged] = React.useState(1);
+  const handleChanged = (newValue) => {
+    setChanged(newValue);
+  };
   const handleNumberOfImages = (event, newValue) => {
     setnumberImages(parseInt(newValue));
   };
@@ -241,18 +220,19 @@ export default function User() {
 
   const handleAugment = () => {
     setLoading(true);
-    const res = axios.post("http://localhost:5000/augment", data).then(
+    axios.post("http://localhost:5000/augment", data).then(
       (response) => {
         console.log("response: ", response);
-        if (response.data != "0") {
+        if (response.data !== "0") {
           toast.success("Data Augmented succesfully");
 
-          var images_number = Math.min(200, parseInt(response.data));
+          var images_number = Math.min(1000, parseInt(response.data));
           setnumberImages(images_number);
           console.log("images", numberImages);
 
-          getImages();
+          
           setLoading(false);
+          handleChanged(1);
         } else {
           toast.error("💀 Error : " + response.data);
         }
@@ -263,15 +243,49 @@ export default function User() {
     );
     // window.location.reload();
   };
+  useEffect(() => {
+    console.log("Effect called : ", datasetChanged)
+    if (datasetChanged) {
+      getImages(numberImages)
+    } else {
+      getImages(numberImages)
+    }
+  }, [datasetChanged]);
+  function getImages(numberImages) {
+    
+    if (datasetChanged == 1) {
+      Images = [];
+      console.log("Regetting images") 
+      for (var i = 0; i < numberImages; i++) {
+        var x = new Date().getTime().toLocaleString();
+        Images.push({
+          src:
+            "http://localhost:5000/static/grid/augmented/" +
+            i.toString() +
+            ".png" +
+            "?" +
+            x,
+          thumbnail:
+            "http://localhost:5000/static/grid/augmented/" + i.toString() + ".png" + "?" + x,
+          thumbnailWidth: 200,
+          thumbnailHeight: 200,
+          id: i,
+        });
+      }
+      console.log("Get : ", numberImages);
+      handleChanged(0);
+    }
+
+  }
   getImages(numberImages);
   const sendTrainPercent = () => {
     setLoading2(true);
-    const res = axios
+    axios
       .post("http://localhost:5000/train-percent", trainPercentData)
       .then(
         (response) => {
           console.log("response: ", response);
-          if (response.status == 200) {
+          if (response.status === 200) {
             toast.success(
               "Data Split and " + response.data + " images added succesfully"
             );
@@ -312,12 +326,14 @@ export default function User() {
         model: modelType,
         epochs: epochs,
         file: formData,
+        lr:lr,
+        optimizer:optimizer,
         config,
       })
       .then(
         (response) => {
           console.log("response: ", response);
-          if (response.data == "OK") {
+          if (response.data === "OK") {
             toast.success("Model training initiated successfully");
             setLoading3(false);
             setUploadStatus(true);
@@ -896,7 +912,7 @@ export default function User() {
         </div>
       </Card>
 
-      {numberImages != 0 ? (
+      {numberImages !== 0 ? (
         <Augment showDelete={true} images={Images}></Augment>
       ) : (
         <div></div>
@@ -985,6 +1001,22 @@ export default function User() {
                         />
                       )}
                     />
+                    <Row style={{ padding:"35px", justifyContent: "center" }}>
+                      <Typography>OR</Typography>
+                    </Row>
+                    <Row style={{ justifyContent: "center" }}>
+                      <p style={{ textAlign: "center" }}>
+                        <b style={{ fontWeight: "700" }}>Upload Model JSON File</b>
+                      </p>
+                    </Row>
+                    <Row style={{ justifyContent: "center" }}>
+                      <input
+                        type="file"
+                        accept=".json"
+                        style={{ marginLeft: "100px" }}
+                        onChange={fileChange}
+                      ></input>
+                    </Row>
                   </Col>
 
                   <Col>
@@ -1009,24 +1041,47 @@ export default function User() {
                         aria-labelledby="non-linear-slider"
                       />
                     </Col>
+                    <Col>
+                      <Typography>Learning rate</Typography>
+                    </Col>
+                    <Col>
+                      <Slider
+                        value={lr}
+                        min={0.0001}
+                        step={0.001}
+                        max={0.1}
+                        
+                        style={{ width: "150px" }}
+                        marks={[
+                          { value: 0.0001, label: "0.0001" },
+                          { value: 0.1, label: "0.1" },
+                        ]}
+                        getAriaValueText={expformat}
+                        valueLabelFormat={expformat}
+                        onChange={(event, value) => setLearningRate(value)}
+                        valueLabelDisplay="auto"
+                        aria-labelledby="non-linear-slider"
+                      />
+                      <Autocomplete
+                        onChange={(event, value) => setOptimizer(value)}
+                        id="combo-box-demo"
+                        options={optimizer_dataset}
+                        getOptionLabel={(option) => option}
+                        style={{ width: 200, height: -50 }}
+                        defaultValue = {optimizer_dataset[0]}
+                        renderInput={(params) => (
+                          <TextField 
+                            {...params}
+                            label="Select optimizer"
+                            variant="outlined"
+                          />
+                        )}
+                      />
+                    </Col>
+
                   </Col>
                 </Row>
-                <Row style={{ justifyContent: "center" }}>
-                  <Typography>OR</Typography>
-                </Row>
-                <Row style={{ justifyContent: "center" }}>
-                  <p style={{ textAlign: "center" }}>
-                    <b style={{ fontWeight: "700" }}>Upload Model JSON File</b>
-                  </p>
-                </Row>
-                <Row style={{ justifyContent: "center" }}>
-                  <input
-                    type="file"
-                    accept=".json"
-                    style={{ marginLeft: "100px" }}
-                    onChange={fileChange}
-                  ></input>
-                </Row>
+                
 
                 <div className={classes.button}>
                   <div className={classes.wrapper}>
