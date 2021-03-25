@@ -41,9 +41,9 @@ class Sidebar extends React.Component {
         <div className="logo">
           <div className="logo-img">
             <img
-              src="https://www.germanroadsafety.de/img/logo_grs.gif"
+              src="https://cdn4.iconfinder.com/data/icons/miscellaneous-2-4/128/traffic_jam_road_highway-512.png"
               alt="german-sign"
-             // style={{ height: "200px" }}
+              //style={{ height: "230px", width: "230px" }}
             />
           </div>
         </div>
