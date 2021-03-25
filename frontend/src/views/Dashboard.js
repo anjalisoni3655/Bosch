@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 // react plugin used to create charts
-import { Line, Pie , Bar} from "react-chartjs-2";
+import { Line, Pie, Bar } from "react-chartjs-2";
 // var CanvasJSReact = require('./canvasjs.react');
 // reactstrap components
 import {
@@ -21,26 +21,20 @@ import {
   dashboardNASDAQChart,
 } from "variables/charts.js";
 
-
-import CanvasJSReact from './canvasjs.react';
+import CanvasJSReact from "./canvasjs.react";
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class Dashboard extends React.Component {
-  
   constructor(props) {
     super(props);
     this.state = {
-        
-          allData: {
-            cardData: {},
-            dataOG: [],
-            dataAUG: [],
-          },
-
-        
+      allData: {
+        cardData: {},
+        dataOG: [],
+        dataAUG: [],
+      },
     };
-
   }
 
   // getUserData = async () => {
@@ -53,100 +47,92 @@ class Dashboard extends React.Component {
   //     }
   // }
 
-  componentWillMount(){
-    axios.get(`http://localhost:5000/view-data-stats`).then(res => {
+  componentWillMount() {
+    axios.get(`http://localhost:5000/view-data-stats`).then((res) => {
       console.log(res.data);
-      this.setState({allData: res.data});
+      this.setState({ allData: res.data });
       // console.log(this.state.allData.cardData.total_images)
-    })
+    });
   }
 
   toggleDataSeries(e) {
-		if(typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-			e.dataSeries.visible = false;
-		}
-		else {
-			e.dataSeries.visible = true;
-		}
-		this.chart.render();
-	}
+    if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
+      e.dataSeries.visible = false;
+    } else {
+      e.dataSeries.visible = true;
+    }
+    this.chart.render();
+  }
 
   render() {
-    
     const options = {
-			animationEnabled: true,
+      animationEnabled: true,
       height: "600",
-			theme: "light2",
+      theme: "light2",
       // height: 800,
-			axisX: {
+      axisX: {
         // title: "Classes",
         // titleFontSize: 20,
         interval: 1,
         interlacedColor: "#F0FBFF",
         labelAngle: -90,
-        labelFontSize: 14
-        
-				// gridColor: "#FFFFFF"
-			},
-			axisY: {
-        
+        labelFontSize: 14,
+
+        // gridColor: "#FFFFFF"
+      },
+      axisY: {
         minimum: 0,
         title: "Number of Images\n\n",
         titleFontSize: 15,
         // gridThickness: 1,
         // gridColor: "lightblue",
-				lineThickness: 1,
-        
-        labelFontSize: 12
+        lineThickness: 1,
 
-			},
-      
+        labelFontSize: 12,
+      },
+
       zoomEnabled: true,
       zoomType: "xy",
 
-			toolTip: {
-				shared: true
-			},
-			legend:{
-				// cursor: "pointer",
-				itemclick: this.toggleDataSeries,
-        fontSize: 15, 
-        
-			},
+      toolTip: {
+        shared: true,
+      },
+      legend: {
+        // cursor: "pointer",
+        itemclick: this.toggleDataSeries,
+        fontSize: 15,
+      },
       dataPointWidth: 20,
-			data: [{
-        color: "#51cbce",
-				type: "stackedColumn",
-				name: "Original",
-				showInLegend: "true",
-        // indexLabel: "{y}",
-				// yValueFormatString: "#,##0",
-        
-				dataPoints: this.state.allData.dataOG,
-			},
-			{
-        color: "#FFC0A4",
-				type: "stackedColumn",
-				name: "Augmented",
-				showInLegend: "true",
-        // indexLabel: "{y}",
-				// yValueFormatString: "#,##0",
+      data: [
+        {
+          color: "#51cbce",
+          type: "stackedColumn",
+          name: "Original",
+          showInLegend: "true",
+          // indexLabel: "{y}",
+          // yValueFormatString: "#,##0",
 
+          dataPoints: this.state.allData.dataOG,
+        },
+        {
+          color: "#FFC0A4",
+          type: "stackedColumn",
+          name: "Augmented",
+          showInLegend: "true",
+          // indexLabel: "{y}",
+          // yValueFormatString: "#,##0",
 
-        dataPoints: this.state.allData.dataAUG,
-        
-			},
-			]
-		}
-    
-      
+          dataPoints: this.state.allData.dataAUG,
+        },
+      ],
+    };
+
     return (
       <>
-      
         <div className="content">
           <Row>
             <Col lg="3" md="6" sm="6">
-              <Card className="card-stats">
+              <Card className="card-stats" style={{ height: "30vh" }}>
                 <CardBody>
                   <Row>
                     <Col md="4" xs="5">
@@ -156,26 +142,19 @@ class Dashboard extends React.Component {
                     </Col>
                     <Col md="8" xs="7">
                       <div className="numbers">
-                        <p className="card-category">Total Images</p>
-                        <CardTitle tag="p">{this.state.allData.cardData.total_images}</CardTitle>
-                        <p>
-                          <br />
+                        <CardTitle>Total Images</CardTitle>
+                        <p className="card-category">
+                          {" "}
+                          <b>{this.state.allData.cardData.total_images}</b>{" "}
                         </p>
-                        <p />
                       </div>
                     </Col>
                   </Row>
                 </CardBody>
-                <CardFooter>
-                  <hr />
-                  {/* <div className="stats">
-                    <i className="fas fa-sync-alt" /> Update Now
-                  </div> */}
-                </CardFooter>
               </Card>
             </Col>
             <Col lg="3" md="6" sm="6">
-              <Card className="card-stats">
+              <Card className="card-stats" style={{ height: "30vh" }}>
                 <CardBody>
                   <Row>
                     <Col md="4" xs="5">
@@ -185,26 +164,19 @@ class Dashboard extends React.Component {
                     </Col>
                     <Col md="8" xs="7">
                       <div className="numbers">
-                        <p className="card-category">Number of Classes</p>
-                        <CardTitle tag="p">{this.state.allData.cardData.num_classes}</CardTitle>
-                        <p />
-                        <p>
-                          <br />
+                        <CardTitle>Number of Classes</CardTitle>
+                        <p className="card-category">
+                          {" "}
+                          <b>{this.state.allData.cardData.num_classes}</b>{" "}
                         </p>
                       </div>
                     </Col>
                   </Row>
                 </CardBody>
-                <CardFooter>
-                  <hr />
-                  {/* <div className="stats">
-                    <i className="far fa-calendar" /> Last day
-                  </div> */}
-                </CardFooter>
               </Card>
             </Col>
             <Col lg="3" md="6" sm="6">
-              <Card className="card-stats">
+              <Card className="card-stats" style={{ height: "30vh" }}>
                 <CardBody>
                   <Row>
                     <Col md="4" xs="5">
@@ -214,26 +186,21 @@ class Dashboard extends React.Component {
                     </Col>
                     <Col md="8" xs="7">
                       <div className="numbers">
-                        <p className="card-category">Average Class Size</p>
-                        <CardTitle tag="p">{this.state.allData.cardData.avg_class_size}</CardTitle>
-                        <p />
-                        <p>
-                          <br />
+                        <CardTitle>Average Class Size</CardTitle>
+                        <p className="card-category">
+                          {" "}
+                          <b>
+                            {this.state.allData.cardData.avg_class_size}
+                          </b>{" "}
                         </p>
                       </div>
                     </Col>
                   </Row>
                 </CardBody>
-                <CardFooter>
-                  <hr />
-                  {/* <div className="stats">
-                    <i className="far fa-clock" /> In the last hour
-                  </div> */}
-                </CardFooter>
               </Card>
             </Col>
             <Col lg="3" md="6" sm="6">
-              <Card className="card-stats" >
+              <Card className="card-stats" style={{ height: "30vh" }}>
                 <CardBody>
                   <Row>
                     <Col md="4" xs="5">
@@ -243,24 +210,21 @@ class Dashboard extends React.Component {
                     </Col>
                     <Col md="8" xs="7">
                       <div className="numbers">
-                        <p className="card-category">Largest Class</p>
-                        <CardTitle tag="p">{this.state.allData.cardData.max_class}</CardTitle>
-                        <br />
-                        <p />
+                      
+                        <CardTitle>Largest Class</CardTitle>
+                        <p className="card-category">
+                          {" "}
+                          <b>{this.state.allData.cardData.max_class}</b>{" "}
+                        </p>
                       </div>
                     </Col>
                   </Row>
                 </CardBody>
-                <CardFooter>
-                  <hr />
-                  {/* <div className="stats">
-                    <i className="fas fa-sync-alt" /> Update now
-                  </div> */}
-                </CardFooter>
+                
               </Card>
             </Col>
           </Row>
-{/*  
+          {/*  
           <Row>
             <Col md="12">
               <Card>
@@ -285,17 +249,15 @@ class Dashboard extends React.Component {
             </Col>
             </Row> */}
 
-
-         
           <Row>
             <Col md="12">
-              <Card style = {{height: "100%"}}>
+              <Card style={{ height: "100%" }}>
                 <CardHeader>
                   <CardTitle tag="h5">Class Distribution</CardTitle>
                 </CardHeader>
                 <CardBody>
-                    <CanvasJSChart options = {options}/>
-               </CardBody>
+                  <CanvasJSChart options={options} />
+                </CardBody>
                 <CardFooter>
                   <hr />
                   {/* <div className="stats">
