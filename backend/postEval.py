@@ -63,5 +63,26 @@ def get_cmdata(folder):
     except:
         print("cm_csv.csv Not Found")
 
+
+def acc_loss(OUTPUT_FOLDER):
+    log_file = os.path.join(OUTPUT_FOLDER, 'log.csv')
+    log_csv = pd.read_csv(log_file)
+    tail = log_csv.tail(5)
+    acc_diff = tail['accuracy'] - tail['val_accuracy']
+    if tail['accuracy'].mean() < 0.9:
+        str1 = 'The model is Underfitting.'
+        str2 = "Suggested Network Changes: \nYou can increase the number of epochs or reduce the learning rate. You can also switch to a fast optimizer like Adam or train deeper networks."
+        str3 = "Suggested Dataset Changes: \nIf you can't change the network, you can decrease the dataset difficulty level."
+    elif acc_diff.mean() > 0.2:
+        str1 = 'The model is Overfitting.'
+        str2 = "Suggested Network Changes: \nYou can reduce the number of epochs or increase the learning rate. You can also reduce the number of layers or you can increase the dropout value."
+        str3 = "Suggested Dataset Changes: \nYou can increase the number of training images or you can increase the dataset difficulty level."
+    else:
+        str1 = 'Good Fit!'
+        str2 = 'The Network and the Dataset seem to be fine.'
+        str3 = '' 
+    
+    return str1, str2, str3
+
 print(get_model_types('static/models/'))
 # print(get_cmdata('static/models/Baseline_v1'))

@@ -5,7 +5,6 @@ import ModelPerformance from "views/ModelPeformance";
 
 import PostEvaluation from "views/PostEvalution";
 import ExplainableAI from "views/ExplainableAI";
-import Example from "views/graph3d";
 
 var routes = [
   {
@@ -37,12 +36,6 @@ var routes = [
     name: "Post Evaluation",
     icon: "nc-icon nc-zoom-split",
     component: PostEvaluation,
-  },
-  {
-    path: "/3d-plot",
-    name: "React 3D plot",
-    icon: "nc-icon nc-caps-small",
-    component: Example,
   },
 
   {
