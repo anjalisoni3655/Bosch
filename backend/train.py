@@ -201,9 +201,9 @@ def estimate_time(model_type, EPOCHS):
 
 
 def get_gradcam(output_folder, valid_folder):
-    jsonfile = os.path.join(folder, 'model.json')
-    weights = os.path.join(folder, 'weights.h5')
-    csvf = os.path.join(folder, 'Preds_gradcam.csv')
+    jsonfile = os.path.join(output_folder, 'model.json')
+    weights = os.path.join(output_folder, 'weights.h5')
+    csvf = os.path.join(output_folder, 'Preds_gradcam.csv')
     
     Save_top4(jsonfile, weights, 'last_conv', csvf, output_folder, valid_folder)
 
