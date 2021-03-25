@@ -219,7 +219,7 @@ class PostEvaluation extends React.Component{
                 <Card className="card-user">
                   <CardTitle className = "card-category" style = {{textAlign: "center"}}>
                     <h4>
-                      Loss Accruacy Curve Analysis
+                      Loss Accuracy Curve Analysis
                     </h4>
                   </CardTitle>
                   <CardBody>
@@ -236,11 +236,14 @@ class PostEvaluation extends React.Component{
                       
                       </Col>
                       <Col md="5" xs="7">
+                        <p style = {{fontSize: "20px"}}>
+
                         {this.state.data2.model_behavior1}
-                        <br/>
+                        <br/><br/>
                         {this.state.data2.dataset_changes}
-                        <br/>
+                        <br/><br/>
                         {this.state.data2.network_changes}
+                        </p>
                       </Col>
                     </Row>
                   </CardBody>
@@ -277,8 +280,8 @@ class PostEvaluation extends React.Component{
                     </Row>
                   </CardBody>
                   <CardFooter>
-                    {/* <hr />
-                    <div className="stats">
+                    <hr />
+                    {/* <div className="stats">
                             <i className="fas fa-sync-alt" /> Update Now
                           </div> */}
                   </CardFooter>
@@ -304,8 +307,8 @@ class PostEvaluation extends React.Component{
                     </Row>
                   </CardBody>
                   <CardFooter>
-                    {/* <hr />
-                    <div className="stats">
+                    <hr />
+                    {/* <div className="stats">
                             <i className="fas fa-sync-alt" /> Update Now
                           </div> */}
                   </CardFooter>

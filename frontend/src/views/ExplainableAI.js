@@ -152,13 +152,13 @@ class ExplainableAI extends React.Component {
                                 </h4>
                             </CardTitle>
                             <CardBody style = {{justifyContent: "center", alignItems: "center", textAlign: "center"}}>
-                            <img style = {{cursor: "zoom-in"}}  src={`http://localhost:5000/static/models/` + this.state.model_type.title + `/gc1.png`}
+                            <img style = {{cursor: "zoom-in"}}  src={`http://localhost:5000/static/models/` + this.state.model_type.title + `/1.png`}
                                 onClick = {(event) => {
                                 this.setState({openex: true})
                             }}
                             style = {{height: "100%",}} 
                             />
-                            {(this.state.openex == true)?<Lightbox image={`http://localhost:5000/static/models/` + this.state.model_type.title + `/gc1.png`} title="Confusion Matrix" onClose={(event) => {
+                            {(this.state.openex == true)?<Lightbox image={`http://localhost:5000/static/models/` + this.state.model_type.title + `/1.png`} title="Confusion Matrix" onClose={(event) => {
                                 this.setState({openex: false})
                             }} > </Lightbox>: null}
                       
@@ -338,10 +338,10 @@ class ExplainableAI extends React.Component {
                                             }}/>
                         </CardBody>
                             <CardFooter>
-                            <hr />
-                            {/* <div className="stats">
+                            {/* <hr />
+                             <div className="stats">
                                 <i className="fa fa-history" /> Updated 3 minutes ago
-                            </div> */}
+                            </div>  */}
                             </CardFooter>
                         </Card>
                         </Col>
