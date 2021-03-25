@@ -13,7 +13,6 @@ import PostEvaluation from "views/PostEvalution";
 import ExplainableAI from "views/ExplainableAI";
 import Example from "views/graph3d";
 
-
 var routes = [
   {
     path: "/upload-dataset",
@@ -51,18 +50,13 @@ var routes = [
     icon: "nc-icon nc-caps-small",
     component: Example,
   },
-  {
-    path: "/progress",
-    name: "plot",
-    icon: "nc-icon nc-caps-small",
-    component: Notifications,
-  },  
+
   {
     path: "/explainable-ai",
     name: "Explainable AI",
     icon: "nc-icon nc-caps-small",
     component: ExplainableAI,
-  }, 
+  },
   // {
   //   path: "/model-analysis",
   //   name: "Model Analysis",

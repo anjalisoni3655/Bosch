@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
   },
   buttonProgress: {
-   // color: green[500],
+    // color: green[500],
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -100,22 +100,29 @@ function valueLabelFormat(value) {
 let start = 1;
 var Images = [];
 function getImages(numberImages) {
-  Images = []
+  Images = [];
 
   for (var i = 0; i < numberImages; i++) {
     var x = new Date().getTime().toLocaleString();
     Images.push({
       src:
-        "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
+        "http://localhost:5000/static/grid/extracted/" +
+        i.toString() +
+        ".png" +
+        "?" +
+        x,
       thumbnail:
-        "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
+        "http://localhost:5000/static/grid/extracted/" +
+        i.toString() +
+        ".png" +
+        "?" +
+        x,
       thumbnailWidth: 200,
       thumbnailHeight: 200,
       id: i,
     });
   }
   console.log("Get : ", numberImages);
-
 }
 export default function User() {
   const [rain, setRain] = React.useState({
@@ -123,9 +130,9 @@ export default function User() {
     name: "hai",
   });
   const [selectedFile, setFile] = useState(null);
-  const [loading,setLoading]=useState(false);
-  const [loading2,setLoading2]=useState(false);
-  const [loading3,setLoading3]=useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [loading3, setLoading3] = useState(false);
   const [modelType, setmodelType] = useState("NULL");
   const handleRain = (event) => {
     const name = event.target.name;
@@ -138,8 +145,8 @@ export default function User() {
   const [values, setValues] = useState(initialValues);
   const [uploadProgress, updateUploadProgress] = useState(0);
 
-const [uploadStatus, setUploadStatus] = useState(false);
-const [uploading, setUploading] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const handleProb = (e) => {
     const { name, value } = e.target;
@@ -240,7 +247,7 @@ const [uploading, setUploading] = useState(false);
         if (response.data != "0") {
           toast.success("Data Augmented succesfully");
 
-          var images_number = Math.min(200,parseInt(response.data))
+          var images_number = Math.min(200, parseInt(response.data));
           setnumberImages(images_number);
           console.log("images", numberImages);
 
@@ -256,9 +263,8 @@ const [uploading, setUploading] = useState(false);
     );
     // window.location.reload();
   };
-  getImages(numberImages)
+  getImages(numberImages);
   const sendTrainPercent = () => {
-   
     setLoading2(true);
     const res = axios
       .post("http://localhost:5000/train-percent", trainPercentData)
@@ -266,7 +272,9 @@ const [uploading, setUploading] = useState(false);
         (response) => {
           console.log("response: ", response);
           if (response.status == 200) {
-            toast.success("Data Split and "+response.data+" images added succesfully");
+            toast.success(
+              "Data Split and " + response.data + " images added succesfully"
+            );
             setLoading2(false);
             setUploadStatus(true);
             setUploading(false);
@@ -281,12 +289,16 @@ const [uploading, setUploading] = useState(false);
   };
   const sendTrainRequest = () => {
     const config = {
-      onUploadProgress: function(progressEvent) {
-        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-        console.log("percent",percentCompleted)
-      }
-    }
+      onUploadProgress: function (progressEvent) {
+        var percentCompleted = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+        updateUploadProgress(percentCompleted);
+        console.log("percent", percentCompleted);
+      },
+    };
     setLoading3(true);
+    setUploading(true);
     const formData = new FormData();
 
     // Update the formData object
@@ -300,7 +312,7 @@ const [uploading, setUploading] = useState(false);
         model: modelType,
         epochs: epochs,
         file: formData,
-       config
+        config,
       })
       .then(
         (response) => {
@@ -867,23 +879,20 @@ const [uploading, setUploading] = useState(false);
           style={{ justifyContent: "center" }}
         >
           <div className={classes.wrapper}>
-                  <Button
-                    // variant="contained"
-                    color="primary"
-                    //className={buttonClassname}
-                    disabled={loading}
-                    onClick={handleAugment}
-                    //  value={this.props.title}
-                  >
-                    Apply
-                  </Button>
-                  {loading && (
-                    <CircularProgress
-                      size={24}
-                      className={classes.buttonProgress}
-                    />
-                  )}
-                </div>
+            <Button
+              // variant="contained"
+              color="primary"
+              //className={buttonClassname}
+              disabled={loading}
+              onClick={handleAugment}
+              //  value={this.props.title}
+            >
+              Apply
+            </Button>
+            {loading && (
+              <CircularProgress size={24} className={classes.buttonProgress} />
+            )}
+          </div>
         </div>
       </Card>
 
@@ -928,25 +937,24 @@ const [uploading, setUploading] = useState(false);
                 </Col>
 
                 <div className={classes.button}>
-                <div className={classes.wrapper}>
-                  <Button
-                    // variant="contained"
-                    color="primary"
-                    //className={buttonClassname}
-                    disabled={loading2}
-                    onClick={sendTrainPercent}
-                    //  value={this.props.title}
-                  >
-                    Apply
-                  </Button>
-                  {loading2 && (
-                     <CircularProgress
-                       size={24}
-                       className={classes.buttonProgress}
-                     />
-                    
-                  )}
-                </div>
+                  <div className={classes.wrapper}>
+                    <Button
+                      // variant="contained"
+                      color="primary"
+                      //className={buttonClassname}
+                      disabled={loading2}
+                      onClick={sendTrainPercent}
+                      //  value={this.props.title}
+                    >
+                      Apply
+                    </Button>
+                    {loading2 && (
+                      <CircularProgress
+                        size={24}
+                        className={classes.buttonProgress}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
             </CardBody>
@@ -1021,26 +1029,28 @@ const [uploading, setUploading] = useState(false);
                 </Row>
 
                 <div className={classes.button}>
-                <div className={classes.wrapper}>
-                  <Button
-                    // variant="contained"
-                    color="primary"
-                    //className={buttonClassname}
-                    disabled={loading3}
-                    onClick={sendTrainRequest}
-                    //  value={this.props.title}
-                  >
-                    Train
-                  </Button>
-                  {loading3&& (
-                    <LinearWithValueLabel progress={uploadProgress}></LinearWithValueLabel>
-                    // <LinearProgress></LinearProgress>
+                  <div className={classes.wrapper}>
+                    <Button
+                      // variant="contained"
+                      color="primary"
+                      //className={buttonClassname}
+                      disabled={loading3}
+                      onClick={sendTrainRequest}
+                      //  value={this.props.title}
+                    >
+                      Train
+                    </Button>
+                    {uploading ? (
+                      <LinearWithValueLabel
+                        progress={uploadProgress}
+                      ></LinearWithValueLabel>
+                    ) : // <LinearProgress></LinearProgress>
                     // <CircularProgress
                     //   size={24}
                     //   className={classes.buttonProgress}
                     // />
-                  )}
-                </div>
+                    null}
+                  </div>
                 </div>
               </div>
             </CardBody>

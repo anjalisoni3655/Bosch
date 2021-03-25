@@ -40,7 +40,11 @@ class Sidebar extends React.Component {
       >
         <div className="logo">
           <div className="logo-img">
-            {/* <img src={logo} alt="react-logo" /> */}
+            <img
+              src="https://www.germanroadsafety.de/img/logo_grs.gif"
+              alt="german-sign"
+             // style={{ height: "200px" }}
+            />
           </div>
         </div>
         <div className="sidebar-wrapper" ref={this.sidebar}>
