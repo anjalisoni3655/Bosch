@@ -12,6 +12,8 @@ from keras.preprocessing.image import ImageDataGenerator
 import tensorflow as tf
 from sklearn.metrics import classification_report, confusion_matrix
 from animate import * 
+from tsne import *
+from gradcam import *
 
 def recall_m(y_true, y_pred):
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
@@ -195,6 +197,17 @@ def estimate_time(model_type, EPOCHS):
     total_time = int(time * EPOCHS * 1000)
     return total_time
 
+
+def get_gradcam(output_folder, valid_folder):
+    jsonfile = os.path.join(folder, 'model.json')
+    weights = os.path.join(folder, 'weights.h5')
+    csvf = os.path.join(folder, 'Preds_gradcam.csv')
+    
+    Save_top4(jsonfile, weights, 'last_conv', csvf, output_folder, valid_folder)
+
 def final_training_call(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, learning_rate=1e-2, optimizer='Adam'):
     train_model(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, learning_rate, optimizer)
     PLOT(OUTPUT_FOLDER)
+    get_gradcam(OUTPUT_FOLDER, VALID_FOLDER)
+
+    

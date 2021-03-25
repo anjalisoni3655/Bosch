@@ -9,7 +9,7 @@ from PIL import Image
 import tensorflow as tf
 import random
 import matplotlib.cm as cm
-from IPython.display import Image, display
+# from IPython.display import Image, display
 import keras
 from keras import activations
 import matplotlib.image as mpimg
@@ -33,12 +33,9 @@ from PIL import Image, ImageFile
 from tqdm import tqdm
 import cv2
 
-image_folder="Images/"
-model_folder="models"
-
-physical_devices = tf.config.experimental.list_physical_devices('GPU')
-assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
-tf.config.experimental.set_memory_growth(physical_devices[0], True)
+# physical_devices = tf.config.experimental.list_physical_devices('GPU')
+# assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
+# tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 def get_data(ROOT_DIR,SIZE):
     classes = sorted(os.listdir(ROOT_DIR))
@@ -71,38 +68,45 @@ def get_model(model_folder, model_type):
     model_dict = {
         'mobilenetv2': {
             'image_size': 96,
-            'json_file': os.path.join(model_folder, 'mobilenetv2.json'),
-            'tsne': os.path.join(model_folder, 'mobilenetv2_tsne.json'),
-            'tsne_weights': os.path.join(model_folder, 'mobilenetv2_tsne.h5'),
-            'h5_file': os.path.join(model_folder, 'mobilenetv2.h5')
+            'json_file': os.path.join(model_folder, 'model.json'),
+            'tsne': os.path.join(model_folder, 'model_tsne.json'),
+            'tsne_weights': os.path.join(model_folder, 'weights_tsne.h5'),
+            'h5_file': os.path.join(model_folder, 'weights.h5')
         },
         'mobilenetv3': {
             'image_size': 96,
-            'json_file': os.path.join(model_folder, 'mobilenetv3.json'),
-            'tsne': os.path.join(model_folder, 'mobilenetv3_tsne.json'),
-            'tsne_weights': os.path.join(model_folder, 'mobilenetv3_tsne.h5'),
-            'h5_file': os.path.join(model_folder, 'mobilenetv3.h5')
+            'json_file': os.path.join(model_folder, 'model.json'),
+            'tsne': os.path.join(model_folder, 'model_tsne.json'),
+            'tsne_weights': os.path.join(model_folder, 'weights_tsne.h5'),
+            'h5_file': os.path.join(model_folder, 'weights.h5')
+        },
+        'resnet50': {
+            'image_size': 96,
+            'json_file': os.path.join(model_folder, 'model.json'),
+            'tsne': os.path.join(model_folder, 'model_tsne.json'),
+            'tsne_weights': os.path.join(model_folder, 'weights_tsne.h5'),
+            'h5_file': os.path.join(model_folder, 'weights.h5')
         },
         'inceptionv3': {
-            'image_size': 75,
-            'json_file': os.path.join(model_folder, 'inceptionv3.json'),
-            'tsne': os.path.join(model_folder, 'inceptionv3_tsne.json'),
-            'tsne_weights': os.path.join(model_folder, 'inception_tsne.h5'),
-            'h5_file': os.path.join(model_folder, 'inception.h5')
+            'image_size': 96,
+            'json_file': os.path.join(model_folder, 'model.json'),
+            'tsne': os.path.join(model_folder, 'model_tsne.json'),
+            'tsne_weights': os.path.join(model_folder, 'weights_tsne.h5'),
+            'h5_file': os.path.join(model_folder, 'weights.h5')
         },
         'baseline': {
             'image_size': 30,
-            'json_file': os.path.join(model_folder, 'baseline.json'),
-            'tsne': os.path.join(model_folder, 'baseline_tsne.json'),
-            'tsne_weights': os.path.join(model_folder, 'baseline_tsne.h5'),
-            'h5_file': os.path.join(model_folder, 'baseline.h5')
+            'json_file': os.path.join(model_folder, 'model.json'),
+            'tsne': os.path.join(model_folder, 'model_tsne.json'),
+            'tsne_weights': os.path.join(model_folder, 'weights_tsne.h5'),
+            'h5_file': os.path.join(model_folder, 'weights.h5')
         },
-        'baseline_augmented': {
+        'baselineaugmented': {
             'image_size': 30,
-            'json_file': os.path.join(model_folder, 'baseline.json'),
-            'tsne': os.path.join(model_folder, 'baseline_tsne.json'),
-            'tsne_weights': os.path.join(model_folder, 'baseline_tsne.h5'),
-            'h5_file': os.path.join(model_folder, 'baseline.h5')
+            'json_file': os.path.join(model_folder, 'model.json'),
+            'tsne': os.path.join(model_folder, 'model_tsne.json'),
+            'tsne_weights': os.path.join(model_folder, 'weights_tsne.h5'),
+            'h5_file': os.path.join(model_folder, 'weights.h5')
         }
     }
 
@@ -116,8 +120,24 @@ def get_model(model_folder, model_type):
     print("Loaded model from disk")
     return loaded_model, model_dict[model_type]['image_size']
 
+
+sign_list = ['Speed limit (20km/h)', 'Speed limit (30km/h)', 'Speed limit (50km/h)', 'Speed limit (60km/h)',
+                 'Speed limit (70km/h)', 'Speed limit (80km/h)', 'End of speed limit (80km/h)', 'Speed limit (100km/h)',
+                 'Speed limit (120km/h)', 'No passing', 'No passing for vehicles over 3.5 metric tons',
+                 'Right-of-way at the next intersection', 'Priority road', 'Yield', 'Stop', 'No vehicles',
+                 'Vehicles over 3.5 metric tons prohibited', 'No entry', 'General caution',
+                 'Dangerous curve to the left', 'Dangerous curve to the right', 'Double curve', 'Bumpy road',
+                 'Slippery road', 'Road narrows on the right', 'Road work', 'Traffic signals', 'Pedestrians',
+                 'Children crossing', 'Bicycles crossing', 'Beware of ice/snow', 'Wild animals crossing',
+                 'End of all speed and passing limits', 'Turn right ahead', 'Turn left ahead', 'Ahead only',
+                 'Go straight or right', 'Go straight or left', 'Keep right', 'Keep left', 'Roundabout mandatory',
+                 'End of no passing', 'End of no passing by vehicles over 3.5 metric tons', 'No Stopping', 'Cross Road',
+                 'No passing Cars', 'Route for Pedal Cycles Only',
+                 'Separated Track for Pedal Cyclists and Pedestrians Only', 'Parking Sign', 'Tonnage Limits']
+
 def tsne_dict(tsnepred, labels):
-    #aishik's input will consist of x and y coordinated and class
+    
+    #input will consist of x and y coordinated and class
     colors = ['#0cc3ba', '#ec6387', '#300936', '#b70870', '#d500d2', '#be6222', '#b86b46', '#348642', '#8d2b02', '#9ccdcb',
            '#79b7fd', '#34ac66', '#846610', '#81cfd1', '#ade01a', '#97af10', '#7b802d', '#7150a5', '#0757b5', '#2fe49e',
            '#539ae4', '#79a230', '#0a527a', '#e994b0', '#6feb2e', '#84ad2e', '#ca1fed', '#178db4', '#9c1c29', '#f68a45',
@@ -130,16 +150,19 @@ def tsne_dict(tsnepred, labels):
     
     x = tsnepred[:,0]
     y = tsnepred[:,1]
+
     list_ = []
-    for i in range(len(X)):
+    for i in range(len(x)):
         dict_ = {"x":x[i],
                  "y":y[i],
-                 "label":labels[i],
+                 "name":sign_list[labels[i]],
                 "color": color_dict[str(labels[i])]}
         list_.append(dict_)
+        
     return list_
 
-def tsne(model_type,image_folder):
+
+def get_tsne(model_type,image_folder, model_folder):
     model, size= get_model(model_folder, model_type)
     data, labs=get_data(image_folder, size)
     model.compile(loss='categorical_crossentropy',
@@ -151,4 +174,4 @@ def tsne(model_type,image_folder):
     return tsne_dict(tsnepred, labs)
 
 
-print(tsne('inceptionv3', image_folder))
+# print(tsne('inceptionv3', "static/dataset/validation", ""))

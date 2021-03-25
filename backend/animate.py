@@ -55,7 +55,7 @@ def get_plot_loss_acc(folder, df):
 
         return ln1, ln2, ln3, ln4
 
-    ani = FuncAnimation(fig, update, df['epoch'].values, init_func=init, repeat = False, interval = 200, blit = True)
+    ani = FuncAnimation(fig, update, df['epoch'].values, init_func=init, repeat = False, interval = 400, blit = True)
     plt.legend(fontsize=13)
     plt.xticks(fontsize=13)
     plt.yticks(fontsize=13)
@@ -104,7 +104,7 @@ def get_plot_pr(folder, df):
 
         return ln1, ln2, ln3, ln4
 
-    ani = FuncAnimation(fig, update, df['epoch'].values, init_func=init, repeat = False, interval = 200, blit = True)
+    ani = FuncAnimation(fig, update, df['epoch'].values, init_func=init, repeat = False, interval = 400, blit = True)
     plt.legend(fontsize=13)
     plt.xticks(fontsize=13)
     plt.yticks(fontsize=13)
@@ -145,7 +145,7 @@ def get_plot_f1(folder, df):
         
         return ln1, ln2
 
-    ani = FuncAnimation(fig, update, df['epoch'].values, init_func=init, repeat = False, interval = 200, blit = True)
+    ani = FuncAnimation(fig, update, df['epoch'].values, init_func=init, repeat = False, interval = 400, blit = True)
     plt.legend(fontsize=13)
     plt.xticks(fontsize=13)
     plt.yticks(fontsize=13)
@@ -172,8 +172,8 @@ def PLOT(folder):
 
 
 # PLOT('static/models/Baseline_v1')
-# base_folder = 'static/models/'
-# for folder in os.listdir(base_folder):
-#     folder = os.path.join(base_folder, folder)
-#     PLOT(folder)
+base_folder = 'static/models/'
+for folder in os.listdir(base_folder):
+    folder = os.path.join(base_folder, folder)
+    PLOT(folder)
 
