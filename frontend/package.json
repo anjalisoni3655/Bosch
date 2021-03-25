@@ -22,6 +22,7 @@
     "react-awesome-lightbox": "^1.8.0",
     "react-bootstrap": "^1.5.2",
     "react-chartjs-2": "2.9.0",
+    "react-countdown": "^2.3.1",
     "react-data-grid": "^7.0.0-canary.38",
     "react-dom": "16.13.1",
     "react-google-maps": "9.4.5",
@@ -31,9 +32,7 @@
     "react-lightbox-component": "^1.2.1",
     "react-notification-alert": "0.0.12",
     "react-plotly.js": "^2.5.1",
-
     "react-plotlyjs": "^0.4.4",
-
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "3.4.1",
