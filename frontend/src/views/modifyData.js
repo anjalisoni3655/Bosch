@@ -1,5 +1,5 @@
 import Upload from "./Upload";
-import React, { useRef, useState, useReducer } from "react";
+import React, { useRef,useEffect, useState, useReducer } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
@@ -98,32 +98,7 @@ function valueLabelFormat(value) {
 }
 
 let start = 1;
-var Images = [];
-function getImages(numberImages) {
-  Images = [];
-
-  for (var i = 0; i < numberImages; i++) {
-    var x = new Date().getTime().toLocaleString();
-    Images.push({
-      src:
-        "http://localhost:5000/static/grid/extracted/" +
-        i.toString() +
-        ".png" +
-        "?" +
-        x,
-      thumbnail:
-        "http://localhost:5000/static/grid/extracted/" +
-        i.toString() +
-        ".png" +
-        "?" +
-        x,
-      thumbnailWidth: 200,
-      thumbnailHeight: 200,
-      id: i,
-    });
-  }
-  console.log("Get : ", numberImages);
-}
+var Images=[];
 export default function User() {
   const [rain, setRain] = React.useState({
     age: "",
@@ -222,7 +197,7 @@ export default function User() {
     rain: [rain.age, values.prob11],
   };
 
-  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+  
 
   const classes = useStyles();
 
@@ -230,7 +205,10 @@ export default function User() {
   const [epochs, setEpochs] = React.useState(0);
 
   const [numberImages, setnumberImages] = useState(0);
-
+  const [datasetChanged, setChanged] = React.useState(1);
+  const handleChanged = (newValue) => {
+    setChanged(newValue);
+  };
   const handleNumberOfImages = (event, newValue) => {
     setnumberImages(parseInt(newValue));
   };
@@ -251,8 +229,9 @@ export default function User() {
           setnumberImages(images_number);
           console.log("images", numberImages);
 
-          getImages();
+          
           setLoading(false);
+          handleChanged(1);
         } else {
           toast.error("💀 Error : " + response.data);
         }
@@ -263,6 +242,40 @@ export default function User() {
     );
     // window.location.reload();
   };
+  useEffect(() => {
+    console.log("Effect called : ", datasetChanged)
+    if (datasetChanged) {
+      getImages(numberImages)
+    } else {
+      getImages(numberImages)
+    }
+  }, [datasetChanged]);
+  function getImages(numberImages) {
+    
+    if (datasetChanged == 1) {
+      Images = [];
+      console.log("Regetting images") 
+      for (var i = 0; i < numberImages; i++) {
+        var x = new Date().getTime().toLocaleString();
+        Images.push({
+          src:
+            "http://localhost:5000/static/grid/augmented/" +
+            i.toString() +
+            ".png" +
+            "?" +
+            x,
+          thumbnail:
+            "http://localhost:5000/static/grid/augmented/" + i.toString() + ".png" + "?" + x,
+          thumbnailWidth: 200,
+          thumbnailHeight: 200,
+          id: i,
+        });
+      }
+      console.log("Get : ", numberImages);
+      handleChanged(0);
+    }
+
+  }
   getImages(numberImages);
   const sendTrainPercent = () => {
     setLoading2(true);

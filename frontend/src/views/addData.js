@@ -85,27 +85,7 @@ function valueLabelFormat(value) {
 
 let start = 1;
 var Images = [];
-function getImages(numberImages) {
-  Images = [];
 
-  for (var i = 0; i < numberImages; i++) {
-    var x = new Date().getTime().toLocaleString();
-    Images.push({
-      src:
-        "http://localhost:5000/static/grid/extracted/" +
-        i.toString() +
-        ".png" +
-        "?" +
-        x,
-      thumbnail:
-        "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
-      thumbnailWidth: 200,
-      thumbnailHeight: 200,
-      id:i,
-    });
-  }
-  console.log("Get : ", numberImages);
-}
 export default function AddData() {
   const [success, setSuccess] = useState(false);
   const [uploadClass, setuploadClass] = useState("NULL");
@@ -123,7 +103,7 @@ export default function AddData() {
 
   const classes = useStyles();
   const [percent, setPercent] = React.useState(50);
-
+  const [datasetChanged, setChanged]= React.useState(1);
   const samplePercent = {
     sample: percent,
     className: uploadClass,
@@ -132,25 +112,28 @@ export default function AddData() {
   const handlePercent = (event, newValue) => {
     setPercent(newValue);
   };
-
+  const handleChanged = (newValue) => {
+    setChanged(newValue);
+  };
   const [numberImages, setNumberImages] = useState(0);
   const handleSample = () => {
     setSuccess(true);
-    console.log(samplePercent);
+    
     const res = axios.post("http://localhost:5000/sample", samplePercent).then(
       (response) => {
         console.log("response: ", response);
         if (response.status == 200) {
-          console.log("Images");
+          
 
       
           toast.success(response.data + " images sampled successfully ");
 
-          console.log(response);
+          
           var images_number = Math.min(200, parseInt(response.data));
           setNumberImages(images_number);
           setSuccess(false);
-          getImages(numberImages);
+          handleChanged(1);
+          
         } else {
           toast.error("Error : " + response.data);
         }
@@ -160,14 +143,48 @@ export default function AddData() {
       }
     );
 
-    console.log("Force updated");
+    
     // window.location.reload();
   };
 
   function handleNoOfImages(no_of_images) {
-    console.log("images from addData");
-    console.log(no_of_images);
+    
     setNumberImages(no_of_images);
+    handleChanged(1);
+  }
+  useEffect(() => {
+    
+    if (datasetChanged) {
+      getImages(numberImages)
+    } else {
+      getImages(numberImages)
+    }
+  }, [datasetChanged]);
+  function getImages(numberImages) {
+    
+    if(datasetChanged==1){
+      Images = [];
+      
+      for (var i = 0; i < numberImages; i++) {
+        var x = new Date().getTime().toLocaleString();
+        Images.push({
+          src:
+            "http://localhost:5000/static/grid/extracted/" +
+            i.toString() +
+            ".png" +
+            "?" +
+            x,
+          thumbnail:
+            "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
+          thumbnailWidth: 200,
+          thumbnailHeight: 200,
+          id: i,
+        });
+      }
+      console.log("Get : ", numberImages);
+      handleChanged(0);
+    }
+   
   }
   getImages(numberImages);
 

@@ -46,9 +46,9 @@ class Augment extends React.Component {
       this.setState({
         images: this.props.images
       });
-
+      
     }
-    console.log("PROPS CHANGED");
+    
   }
   onCurrentImageChange(index) {
     this.setState({ currentImage: index });
