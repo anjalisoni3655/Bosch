@@ -31,9 +31,7 @@
     "react-lightbox-component": "^1.2.1",
     "react-notification-alert": "0.0.12",
     "react-plotly.js": "^2.5.1",
-
     "react-plotlyjs": "^0.4.4",
-
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "3.4.1",

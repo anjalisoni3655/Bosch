@@ -32,20 +32,53 @@ def get_model_stats(folder):
 
     for model in model_options:
         
-        if os.path.isfile(os.path.join(os.path.join(folder, model), 'log.csv')):
-            print(model, '-log.csv found')
+        try:
+            # print(model, '-log.csv found')
             df = pd.read_csv(os.path.join(os.path.join(folder, model), 'log.csv'))
-            
-            train_accuracy.append(str(round((df['accuracy'].values[-1])*100, ROUND))+'%')
-            train_f1.append(round(df['f1_m'].values[-1], ROUND))
-            train_precision.append(round(df['precision_m'].values[-1], ROUND))
-            train_recall.append(round(df['recall_m'].values[-1], ROUND))
-            val_accuracy.append(str(round(df['val_accuracy'].values[-1]*100, ROUND))+'%')
-            val_f1.append(round(df['val_f1_m'].values[-1],ROUND))
-            val_precision.append(round(df['val_precision_m'].values[-1], ROUND))
-            val_recall.append(round(df['val_recall_m'].values[-1], ROUND))
-            
-        else:
+            columns = df.columns
+
+            if 'accuracy' in columns:
+                train_accuracy.append(str(round((df['accuracy'].values[-1])*100, ROUND))+'%')
+            else:
+                train_accuracy.append("NAN")
+
+            if 'f1_m' in columns:
+                train_f1.append(round(df['f1_m'].values[-1], ROUND))
+            else:
+                train_f1.append("NAN")
+
+            if 'precision_m' in columns:
+                train_precision.append(round(df['precision_m'].values[-1], ROUND))
+            else:
+                train_precision.append("NAN")
+
+            if 'recall_m' in columns:
+                train_recall.append(round(df['recall_m'].values[-1], ROUND))
+            else:
+                train_recall.append("NAN")
+
+            if 'val_accuracy' in columns:
+                val_accuracy.append(str(round(df['val_accuracy'].values[-1]*100, ROUND))+'%')
+            else:
+                val_accuracy.append("NAN")
+
+            if 'val_f1_m' in columns:
+                val_f1.append(round(df['val_f1_m'].values[-1],ROUND))
+            else:
+                val_f1.append("NAN")
+
+            if 'val_precision_m' in columns:
+                val_precision.append(round(df['val_precision_m'].values[-1], ROUND))
+            else:
+                val_precision.append("NAN")
+
+            if 'val_recall_m' in columns:
+                val_recall.append(round(df['val_recall_m'].values[-1], ROUND))
+            else:
+                val_recall.append("NAN")
+        
+ 
+        except:
 
             train_accuracy.append('NAN')
             train_f1.append('NAN')

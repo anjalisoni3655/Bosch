@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 // react plugin used to create charts
+import { Line, Pie, Bar } from "react-chartjs-2";
 // var CanvasJSReact = require('./canvasjs.react');
 // reactstrap components
 import {
@@ -13,8 +14,14 @@ import {
   Col,
 } from "reactstrap";
 
+// core components
+import {
+  dashboard24HoursPerformanceChart,
+  dashboardEmailStatisticsChart,
+  dashboardNASDAQChart,
+} from "variables/charts.js";
 
-import CanvasJSReact from './canvasjs.react';
+import CanvasJSReact from "./canvasjs.react";
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -116,7 +123,7 @@ class Dashboard extends React.Component {
         <div className="content">
           <Row>
             <Col lg="3" md="6" sm="6">
-              <Card className="card-stats" style={{ height: "30vh" }}>
+              <Card className="card-stats" style={{ height: "15vh" }}>
                 <CardBody>
                   <Row>
                     <Col md="4" xs="5">
@@ -126,11 +133,11 @@ class Dashboard extends React.Component {
                     </Col>
                     <Col md="8" xs="7">
                       <div className="numbers">
-                        <CardTitle>Total Images</CardTitle>
                         <p className="card-category">
-                          {" "}
-                          <b>{this.state.allData.cardData.total_images}</b>{" "}
+                        <CardTitle>Total Images</CardTitle>
                         </p>
+                          {" "}
+                          {this.state.allData.cardData.total_images}{" "}
                       </div>
                     </Col>
                   </Row>
@@ -138,7 +145,7 @@ class Dashboard extends React.Component {
               </Card>
             </Col>
             <Col lg="3" md="6" sm="6">
-              <Card className="card-stats" style={{ height: "30vh" }}>
+              <Card className="card-stats" style={{ height: "15vh" }}>
                 <CardBody>
                   <Row>
                     <Col md="4" xs="5">
@@ -148,11 +155,11 @@ class Dashboard extends React.Component {
                     </Col>
                     <Col md="8" xs="7">
                       <div className="numbers">
-                        <CardTitle>Number of Classes</CardTitle>
                         <p className="card-category">
-                          {" "}
-                          <b>{this.state.allData.cardData.num_classes}</b>{" "}
+                        <CardTitle>Number of Classes</CardTitle>
                         </p>
+                          {" "}
+                          {this.state.allData.cardData.num_classes}{" "}
                       </div>
                     </Col>
                   </Row>
@@ -160,7 +167,7 @@ class Dashboard extends React.Component {
               </Card>
             </Col>
             <Col lg="3" md="6" sm="6">
-              <Card className="card-stats" style={{ height: "30vh" }}>
+              <Card className="card-stats" style={{ height: "15vh" }}>
                 <CardBody>
                   <Row>
                     <Col md="4" xs="5">
@@ -170,13 +177,13 @@ class Dashboard extends React.Component {
                     </Col>
                     <Col md="8" xs="7">
                       <div className="numbers">
-                        <CardTitle>Average Class Size</CardTitle>
                         <p className="card-category">
-                          {" "}
-                          <b>
-                            {this.state.allData.cardData.avg_class_size}
-                          </b>{" "}
+                        <CardTitle>Average Class Size</CardTitle>
                         </p>
+                          {" "}
+                          
+                            {this.state.allData.cardData.avg_class_size}
+                          {" "}
                       </div>
                     </Col>
                   </Row>
@@ -184,7 +191,7 @@ class Dashboard extends React.Component {
               </Card>
             </Col>
             <Col lg="3" md="6" sm="6">
-              <Card className="card-stats" style={{ height: "30vh" }}>
+              <Card className="card-stats" style={{ height: "15vh" }}>
                 <CardBody>
                   <Row>
                     <Col md="4" xs="5">
@@ -195,11 +202,11 @@ class Dashboard extends React.Component {
                     <Col md="8" xs="7">
                       <div className="numbers">
                       
-                        <CardTitle>Largest Class</CardTitle>
                         <p className="card-category">
-                          {" "}
-                          <b>{this.state.allData.cardData.max_class}</b>{" "}
+                        <CardTitle>Largest Class</CardTitle>
                         </p>
+                          {" "}
+                          {this.state.allData.cardData.max_class}{" "}
                       </div>
                     </Col>
                   </Row>

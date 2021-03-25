@@ -119,14 +119,8 @@ class ExplainableAI extends React.Component {
             <br />
             {(this.state.hide == false && this.state.model_type) ? 
                 <div>
-                    
-                    <div style = {{textAlign: "right"}}>
-                        <p>
-                            <h4>
-                                {this.state.model_type.title}
-                            </h4>
-                        </p>
-                    </div>
+            
+            
                     <Row>
                         <Col lg="6" >
                         <Card className="card-stats" style = {{height: "400px"}}>
@@ -136,7 +130,14 @@ class ExplainableAI extends React.Component {
                                 </h4>
                             </CardTitle>
                             <CardBody>
-                            
+                              <p>
+                              Grad-CAM uses the gradients of any target concept, flowing into the final convolutional layer to produce a coarse localization map highlighting important regions in the image for predicting the concept.
+                              </p>
+                              <p>
+                              Methodology:
+                              <br/>
+                              We first find out the region of interest in our image using pre-trained models to create a bounding box. Then we use Grad-CAM to find out how much of the focus area lies inside the bounding box. We use IoU (Intersection over Union) to quantify this overlapping area.
+                              </p>
                             </CardBody>
                             <CardFooter>
                             <hr />
@@ -173,7 +174,7 @@ class ExplainableAI extends React.Component {
                     <Card>
                     <CardTitle className = "card-category" style = {{textAlign: "center"}}>
                     <h4>
-                      Correctly Classified Predictions
+                      Misclassified Predictions
                     </h4>
                   </CardTitle>
                        <CardBody style = {{alignItems: "center", justifyContent: "center", textAlign: "center" }}>
@@ -214,7 +215,7 @@ class ExplainableAI extends React.Component {
                     <Card>
                     <CardTitle className = "card-category" style = {{textAlign: "center"}}>
                     <h4>
-                      Misclassified Predictions
+                      Correctly Classified Predictions
                     </h4>
                   </CardTitle>
                        <CardBody style = {{alignItems: "center", justifyContent: "center", textAlign: "center" }}>
