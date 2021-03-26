@@ -250,7 +250,7 @@ def Save_top4(json_path, weights_path, last_conv, df_path, output_folder, Dirpat
     df = pd.read_csv(df_path)
 
     ######## DELETE BEFORE PUSH ###################
-    df = df.sample(50).reset_index(drop=True)
+    # df = df.sample(50).reset_index(drop=True)
     ###############################################
     #In rememberance of Yerram Varun, Rambatla Amey & AayushCode Sharma
     ###############################################

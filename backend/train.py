@@ -138,6 +138,7 @@ def train_model(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, l
             self.file = open(f'{OUTPUT_FOLDER}/../../epoch.txt', "a")  # append mode
             self.file.write(str(int(cal_time)) + "\n")
             self.file.close()
+            PLOT(OUTPUT_FOLDER)
 
     time_history = TimeHistory()
     callbacks = [csv_logger, time_history]
@@ -230,7 +231,6 @@ def get_gradcam(output_folder, valid_folder):
 
 def final_training_call(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, learning_rate=1e-2, optimizer='Adam'):
     train_model(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, learning_rate, optimizer)
-    PLOT(OUTPUT_FOLDER)
     get_gradcam(OUTPUT_FOLDER, VALID_FOLDER)
 
     
