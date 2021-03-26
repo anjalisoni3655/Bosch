@@ -12,8 +12,10 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Divider from "@material-ui/core/Divider";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import FormControl from "@material-ui/core/FormControl";
+import LinearProgress from '@material-ui/core/LinearProgress';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Tooltip from "@material-ui/core/Tooltip";
+import Box from '@material-ui/core/Box';
 
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -99,6 +101,20 @@ function expformat(value) {
 }
 let start = 1;
 var Images = [];
+function LinearProgressWithLabel(props) {
+  return (
+    <Box display="flex" alignItems="center">
+      <Box width="90%" mr={1}>
+        <LinearProgress variant="determinate" {...props} />
+      </Box>
+      <Box minWidth={35}>
+        <Typography variant="body2" color="textSecondary">{`${Math.round(
+          props.value,
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 export default function User() {
   const [rain, setRain] = React.useState({
     age: "",
@@ -206,13 +222,28 @@ export default function User() {
   const [numberImages, setnumberImages] = useState(0);
   const [datasetChanged, setChanged] = React.useState(1);
   const[estimatedTrainingTime,setEstimate] = React.useState(10000);
+  const [progress, setProgress] = React.useState(10);
   const handleChanged = (newValue) => {
     setChanged(newValue);
   };
   const handleNumberOfImages = (event, newValue) => {
     setnumberImages(parseInt(newValue));
   };
-
+  React.useEffect(() => {
+    console.log("Use effect called");
+    axios.get(`http://localhost:5000/view-data-stats`).then((res) => {
+      console.log(res.data);
+      console.log(res.data.epochs_done, res.data.time_remaining)
+      setProgress(res.data.epochs_done * 10)
+      // console.log(this.state.allData.cardData.total_images)
+    });
+    const timer = setInterval(() => {
+      setProgress((prevProgress) => (prevProgress >= 100 ? 10 : prevProgress + 10));
+    }, 10000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
   const trainPercentData = {
     train: trainPercent,
   };
@@ -331,7 +362,7 @@ export default function User() {
           if (response.status === 200) {
             
             toast.success("Model training initiated successfully");
-            toast.warn("Estimated completion time : " +parseInt(response.data)/60000 +" minutes")
+            toast.warn("Estimated completion time : " +Math.round(parseInt(response.data)/60000 )+" minutes")
             
             setEstimate(parseInt(response.data));
             
@@ -922,7 +953,7 @@ export default function User() {
       <br />
       <Row>
         <Col md="6">
-          <Card className="card-user" style={{ height: "50vh" }}>
+          <Card className="card-user" style={{ height: "auto" }}>
             <CardHeader>
               <CardTitle tag="h5" style={{ textAlign: "center" }}>
                 Percentage of Train Split
@@ -978,7 +1009,7 @@ export default function User() {
           </Card>
         </Col>
         <Col md="6">
-          <Card className="card-user" style={{ height: "50vh" }}>
+          <Card className="card-user" style={{ height: "auto" }}>
             <CardHeader>
               <CardTitle tag="h5" style={{ textAlign: "center" }}>
                 Retrain model on new data
@@ -1105,7 +1136,7 @@ export default function User() {
                         Train time remaining :  
                       <br/>
                       <Countdown date={Date.now() + estimatedTrainingTime} onComplete={trainingComplete} />
-
+                        <LinearProgressWithLabel value={progress} />
                       
                     </Typography>
                     ) : 
