@@ -24,6 +24,7 @@ import {
 
 
 import CanvasJSReact from './canvasjs.react';
+import { CircularProgress } from "@material-ui/core";
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -50,6 +51,8 @@ class ExplainableAI extends React.Component {
           slide: 0,
           iou:"0",
           success_iou: false,
+          success: false,
+          
         
     };
 
@@ -115,8 +118,10 @@ class ExplainableAI extends React.Component {
             </div>
             <br />
             <br />
-            {(this.state.hide == false && this.state.model_type) ? 
-                <div>
+            {(this.state.hide == false) ? 
+               ((this.state.model_type) ?
+               
+               <div>
             
             
                     <Row>
@@ -364,7 +369,16 @@ class ExplainableAI extends React.Component {
                         </Card>
                         </Col>
                 </Row>
-                </div>: null    
+                </div>: 
+                <div style = {{textAlign: "center"}}>
+                  <CircularProgress
+                      size={50}
+                      
+                    />
+                    <p style = {{fontSize: "30px"}}>
+                      The Gradcam is running, be patient!
+                    </p>
+                </div> ): null  
         
         }
           

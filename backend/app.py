@@ -245,10 +245,10 @@ def trainModel():
         tsne_weights_loc = os.path.join(model_loc, 'weights_tsne.h5')
         tsne_model_loc = os.path.join(model_loc, 'model_tsne.json')
         
-        for i in range(8):
-            gc_loc = os.path.join(model_loc, f'{i}.png')
-            if os.path.exists(gc_loc):
-                shutil.copy(gc_loc, output_folder)
+        # for i in range(8):
+        #     gc_loc = os.path.join(model_loc, f'{i}.png')
+        #     if os.path.exists(gc_loc):
+        #         shutil.copy(gc_loc, output_folder)
         
         if(os.path.exists(weights_loc)):
             shutil.copy(weights_loc, output_folder)
