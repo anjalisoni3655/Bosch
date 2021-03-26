@@ -307,10 +307,21 @@ def delete_file():
 @app.route('/get-train-progress', methods = ['POST', 'GET'])
 @cross_origin()
 def get_train_progress():
+    data={'epochs_done':0,'time_left':180000}
     if request.method == 'GET':
-        epochs_done=3
-        time_left=100
-        data = {'epochs_done': epochs_done, 'time_left': time_left}
+        
+        if not os.path.exists(os.path.join(app.config["ROOT_FOLDER"],"epochs.txt")):
+            return jsonify(data)
+        file = open(os.path.join(app.config["ROOT_FOLDER"],"epochs.txt"),"r")
+        epochs_data = file.readlines()
+        file.close()
+        epochs_done=len(epochs_data)
+        time_left = int(epochs_data[-1].strip())
+        
+        data['epochs_done'] = epochs_done
+        data['time_left'] =  time_left
+        print(data)
+        
     return jsonify(data)
 
 

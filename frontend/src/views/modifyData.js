@@ -115,6 +115,13 @@ function LinearProgressWithLabel(props) {
     </Box>
   );
 }
+const model_dataset = [
+  "Baseline",
+  "BaselineAugmented",
+  "InceptionV3",
+  "MobileNetV2",
+  "MobileNetV3",
+];
 export default function User() {
   const [rain, setRain] = React.useState({
     age: "",
@@ -125,7 +132,7 @@ export default function User() {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   
-  const [modelType, setmodelType] = useState("NULL");
+  const [modelType, setmodelType] = useState(model_dataset[0]);
   const [optimizer, setOptimizer] = useState(optimizer_dataset[0]);
   const handleRain = (event) => {
     const name = event.target.name;
@@ -216,13 +223,13 @@ export default function User() {
   const classes = useStyles();
 
   const [trainPercent, setTrainPercent] = React.useState(90);
-  const [epochs, setEpochs] = React.useState(0);
+  const [epochs, setEpochs] = React.useState(1);
   const [lr, setLearningRate] = React.useState(0.0001);
 
   const [numberImages, setnumberImages] = useState(0);
   const [datasetChanged, setChanged] = React.useState(1);
-  const[estimatedTrainingTime,setEstimate] = React.useState(10000);
-  const [progress, setProgress] = React.useState(10);
+  const [estimatedTrainingTime,setEstimate] = React.useState(Date.now()+10000);
+  const [progress, setProgress] = React.useState(0);
   const handleChanged = (newValue) => {
     setChanged(newValue);
   };
@@ -230,15 +237,20 @@ export default function User() {
     setnumberImages(parseInt(newValue));
   };
   React.useEffect(() => {
-    console.log("Use effect called");
-    axios.get(`http://localhost:5000/view-data-stats`).then((res) => {
-      console.log(res.data);
-      console.log(res.data.epochs_done, res.data.time_remaining)
-      setProgress(res.data.epochs_done * 10)
-      // console.log(this.state.allData.cardData.total_images)
-    });
+    
     const timer = setInterval(() => {
-      setProgress((prevProgress) => (prevProgress >= 100 ? 10 : prevProgress + 10));
+      
+      console.log("interval valled");
+      
+      axios.get(`http://localhost:5000/get-train-progress`).then((res) => {
+        console.log(res.data);
+        console.log(res.data.epochs_done, epochs)
+        setProgress(100*(res.data.epochs_done/epochs))
+        setEstimate(Date.now()+parseInt(res.data.time_left))
+        console.log(estimatedTrainingTime)
+        
+        // console.log(this.state.allData.cardData.total_images)
+      });
     }, 10000);
     return () => {
       clearInterval(timer);
@@ -379,13 +391,7 @@ export default function User() {
   const handleTrainPercent = (event, newValue) => {
     setTrainPercent(newValue);
   };
-  const model_dataset = [
-    "Baseline",
-    "BaselineAugmented",
-    "InceptionV3",
-    "MobileNetV2",
-    "MobileNetV3",
-  ];
+  
   // const model_dataset= ['inception']
   return (
     <div className="content">
@@ -1025,6 +1031,7 @@ export default function User() {
                       options={model_dataset}
                       getOptionLabel={(option) => option}
                       // style={{ width: 300, height: -30 }}
+                      defaultValue = {model_dataset[0]}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -1060,13 +1067,13 @@ export default function User() {
                     <Col>
                       <Slider
                         value={epochs}
-                        min={0}
+                        min={1}
                         step={1}
-                        max={100}
+                        max={50}
                         style={{ width: "150px" }}
                         marks={[
                           { value: 0, label: "0" },
-                          { value: 100, label: "100" },
+                          { value: 50, label: "50" },
                         ]}
                         getAriaValueText={valuetext}
                         valueLabelFormat={valuetext}
@@ -1135,7 +1142,7 @@ export default function User() {
                     <Typography>
                         Train time remaining :  
                       <br/>
-                      <Countdown date={Date.now() + estimatedTrainingTime} onComplete={trainingComplete} />
+                      <Countdown key={estimatedTrainingTime} date={estimatedTrainingTime} onComplete={trainingComplete} />
                         <LinearProgressWithLabel value={progress} />
                       
                     </Typography>
