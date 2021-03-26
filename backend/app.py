@@ -323,6 +323,8 @@ def get_train_progress():
             return jsonify(data)
         file = open(os.path.join(app.config["ROOT_FOLDER"],"epoch.txt"),"r")
         epochs_data = file.readlines()
+        if(len(epochs_data)==0):
+            return jsonify(data)
         file.close()
         epochs_done=len(epochs_data)
         time_left = int(epochs_data[-1].strip())
