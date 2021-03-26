@@ -14,6 +14,8 @@ from postEval import *
 from threading import Thread
 import shutil 
 from PIL import Image
+from iou_graph import *
+import pickle as p
 
 import sys
 import requests
@@ -232,7 +234,8 @@ def trainModel():
         weights_loc = os.path.join(model_loc, 'weights.h5')
         json_loc = os.path.join(model_loc, 'model.json')
         img_loc = os.path.join(model_loc, 'model.svg')
-        
+        tsne_weights_loc = os.path.join(model_loc, 'weights_tsne.h5')
+        tsne_model_loc = os.path.join(model_loc, 'model_tsne.h5')
         
         for i in range(8):
             gc_loc = os.path.join(model_loc, f'{i}.png')
@@ -245,6 +248,12 @@ def trainModel():
             shutil.copy(json_loc, output_folder)
         if(os.path.exists(img_loc)):
             shutil.copy(img_loc, output_folder)
+        if (os.path.exists(tsne_weights_loc)):
+            shutil.copy(tsne_weights_loc, output_folder)
+        if (os.path.exists(tsne_model_loc)):
+            shutil.copy(tsne_model_loc, output_folder)
+
+
         model_type_lower = model_type.lower()
         thread = Thread(target=final_training_call, kwargs={'TRAIN_FOLDER':app.config['TRAIN_FOLDER'] ,'VALID_FOLDER' : app.config["VALIDATION_FOLDER"], 'OUTPUT_FOLDER':output_folder, 'model_type':model_type_lower,'EPOCHS':epochs,'learning_rate':lr,'optimizer':optimizer})
         thread.start()
@@ -356,21 +365,42 @@ def post_eval():
     if request.method == "POST":
 
         data = request.get_json()
-        model_type = data['newValue']['title']
+        model_type = data['model_type']['title']
         model_loc = os.path.join(app.config['MODELS_FOLDER'], model_type)
         cmData = get_cmdata(model_loc)
-        tsne = [{"x": 1, "y": 2, "name":"hello", "color": "#3CB371"}, {"x": 3, "y": 1, "name":"hello", "color": "#2F4F4F"}, {"x": 1, "y": 4, "name":"hello", "color": "#008080"}, {"x": 4, "y": 7, "name":"hello", "color": "#90EE90"}]
-        model_behavior1, dataset_changes, netwok_changes = acc_loss(model_loc)
-        data = {
-            "cmData": cmData,
-            'tsneData': tsne,
-            "model_behavior1": model_behavior1,
-            "dataset_changes": dataset_changes,
-            "network_changes": netwok_changes,
-            "suggestions": "Model Parameters: [lr = 0.01]",
-        }
 
-        return jsonify(data)
+        if data['flag'] == 0:
+            model_behavior1, dataset_changes, network_changes = acc_loss(model_loc)
+            data = {
+                "cmData": cmData,
+                "model_behavior1": model_behavior1,
+                "dataset_changes": dataset_changes,
+                "network_changes": network_changes,
+            }
+
+            return jsonify(data)
+
+        elif data['flag'] == 1:
+
+            print("Getting data for tsne plot")
+            if not os.path.exists(os.path.join(model_loc, 'tsne.p')):
+                tsne = get_tsne(model_type.split('_')[0].lower(), app.config["VALIDATION_FOLDER"], model_loc)
+                f = open(os.path.join(model_loc, 'tsne.p'), 'wb')
+                p.dump(tsne, f)
+                f.close()
+            
+            else:
+                f = open(os.path.join(model_loc, 'tsne.p'), 'rb')
+                tsne = p.load(f)
+                f.close()
+
+            print(len(tsne))
+            
+            data = {
+                'tsneData': tsne,
+            }
+
+            return jsonify(data)
 
     elif request.method == 'GET':
         print(app.config["MODELS_FOLDER"])
@@ -400,14 +430,13 @@ def get_ai_stats():
     elif request.method == "POST":
         data = request.get_json()
         print(data)
-
-
-        folder1 = app.config['TRAIN_FOLDER']
-        folder2 = app.config['VALIDATION_FOLDER']
+        model_type = data['model_type']
+        iou_thresh = float(data['iou'])
+        model_loc = os.path.join(app.config['MODELS_FOLDER'], model_type)
         
-        dataOG, dataAUG = getGraphStats(folder1, folder2)
+        plotdata = iouGraph(iou_thresh, model_loc, app.config["VALIDATION_FOLDER"])
         
-        data = {'plotdata': dataOG}
+        data = {'plotdata': plotdata}
         
         return jsonify(data)
 

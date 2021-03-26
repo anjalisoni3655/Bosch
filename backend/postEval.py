@@ -84,5 +84,5 @@ def acc_loss(OUTPUT_FOLDER):
     
     return str1, str2, str3
 
-print(get_model_types('static/models/'))
+# print(get_model_types('static/models/'))
 # print(get_cmdata('static/models/Baseline_v1'))
