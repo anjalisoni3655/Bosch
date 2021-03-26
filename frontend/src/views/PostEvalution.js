@@ -285,11 +285,14 @@ class PostEvaluation extends React.Component{
                     <Row>
                       <Col md="5" xs="5">
                       {(this.state.success == false) ? (
+                        <div>
 
                         <CircularProgress
                           size={24}
-                          
-                        />
+                          />
+
+                        <p>The plot is being made...</p>
+                        </div>
                       ): <CanvasJSChart options={options} />}
                           
                       

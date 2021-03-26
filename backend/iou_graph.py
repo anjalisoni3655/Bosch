@@ -2,10 +2,14 @@ from gradcam import Iou_dataframe_generator
 import pandas as pd
 import os
 
-def iouGraph(thrld, output_folder, val_folder):
 
-    Iou_dataframe_generator(os.path.join(output_folder, 'model.json'),os.path.join(output_folder, 'weights.h5'),'last_conv',
-                        os.path.join(output_folder, 'Preds_gradcam.csv'), Dirpath = val_folder, output_folder = output_folder)
+def iouGraph(thrld, output_folder, val_folder):
+    
+
+    if not os.path.exists(os.path.join(output_folder,'prediction_ious.csv')):
+        Iou_dataframe_generator(os.path.join(output_folder, 'model.json'),os.path.join(output_folder, 'weights.h5'),'last_conv',
+                            os.path.join(output_folder, 'Preds_gradcam.csv'), Dirpath = val_folder, output_folder = output_folder)
+
 
     try:
         df = pd.read_csv(os.path.join(output_folder,'prediction_ious.csv'))
@@ -30,4 +34,5 @@ def iouGraph(thrld, output_folder, val_folder):
     except:
         print("ERROR")
         return "ERROR"
-    
+        
+        

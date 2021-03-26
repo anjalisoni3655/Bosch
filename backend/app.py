@@ -234,7 +234,8 @@ def trainModel():
         weights_loc = os.path.join(model_loc, 'weights.h5')
         json_loc = os.path.join(model_loc, 'model.json')
         img_loc = os.path.join(model_loc, 'model.svg')
-        
+        tsne_weights_loc = os.path.join(model_loc, 'weights_tsne.h5')
+        tsne_model_loc = os.path.join(model_loc, 'model_tsne.h5')
         
         for i in range(8):
             gc_loc = os.path.join(model_loc, f'{i}.png')
@@ -247,6 +248,12 @@ def trainModel():
             shutil.copy(json_loc, output_folder)
         if(os.path.exists(img_loc)):
             shutil.copy(img_loc, output_folder)
+        if (os.path.exists(tsne_weights_loc)):
+            shutil.copy(tsne_weights_loc, output_folder)
+        if (os.path.exists(tsne_model_loc)):
+            shutil.copy(tsne_model_loc, output_folder)
+
+
         model_type_lower = model_type.lower()
         thread = Thread(target=final_training_call, kwargs={'TRAIN_FOLDER':app.config['TRAIN_FOLDER'] ,'VALID_FOLDER' : app.config["VALIDATION_FOLDER"], 'OUTPUT_FOLDER':output_folder, 'model_type':model_type_lower,'EPOCHS':epochs,'learning_rate':lr,'optimizer':optimizer})
         thread.start()
