@@ -12,6 +12,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Upload from "./Upload";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import "react-toastify/dist/ReactToastify.css";
+import MetaTags from 'react-meta-tags';
 import {
   Button,
   Card,
