@@ -14,6 +14,7 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Lightbox from "react-awesome-lightbox";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
 // You need to import the CSS only once
 import "react-awesome-lightbox/build/style.css";
 import { DataGrid, ColDef, ValueGetterParams } from '@material-ui/data-grid';
@@ -57,7 +58,8 @@ class PostEvaluation extends React.Component{
       model_type: [],
       hide: true,
       opencmcm: false,
-      openla: false
+      openla: false,
+      success: false,
 
     };
   }
@@ -161,6 +163,7 @@ class PostEvaluation extends React.Component{
                     axios.post(`http://localhost:5000/post-evaluation`, {'model_type': newValue, 'flag': 1}).then(
                     (response) => {
                       this.setState({data3: response.data});
+                      this.setState({success: true})
                       console.log(this.state.data3);
                     }
                     )
@@ -281,8 +284,14 @@ class PostEvaluation extends React.Component{
                   <CardBody>
                     <Row>
                       <Col md="5" xs="5">
-                      
-                          <CanvasJSChart options={options} />
+                      {(this.state.success == false) ? (
+
+                        <CircularProgress
+                          size={24}
+                          
+                        />
+                      ): <CanvasJSChart options={options} />}
+                          
                       
                       </Col>
                       <Col md = "1">
