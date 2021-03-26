@@ -1,10 +1,7 @@
 import axios from "axios";
 import React from "react";
-// react plugin used to create charts
-import { Line, Pie , Bar} from "react-chartjs-2";
-// var CanvasJSReact = require('./canvasjs.react');
-// reactstrap components
 
+import { Line, Pie , Bar} from "react-chartjs-2";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Lightbox from "react-awesome-lightbox";
@@ -51,7 +48,7 @@ class ExplainableAI extends React.Component {
           openex: false,
           isVisible: false,
           slide: 0,
-          iou:0,
+          iou:"0",
         
     };
 
@@ -123,20 +120,26 @@ class ExplainableAI extends React.Component {
             
                     <Row>
                         <Col lg="6" >
-                        <Card className="card-stats" style = {{height: "400px"}}>
+                        <Card className="card-stats" style = {{height: "40vh"}}>
                             <CardTitle className = "card-category" style = {{textAlign: "center"}}>
                                 <h4>
                                 What we mean by explainable AI?    
                                 </h4>
                             </CardTitle>
                             <CardBody>
+                              <p style = {{fontSize: "18px", textAlign: "center", padding: "1em"}}>
+
                               <p>
                               Grad-CAM uses the gradients of any target concept, flowing into the final convolutional layer to produce a coarse localization map highlighting important regions in the image for predicting the concept.
                               </p>
-                              <p>
+                              <p style = {{fontSize: "18px", textAlign: "left"}}>
                               Methodology:
-                              <br/>
+                              
+                              </p>
+                              <p  style = {{fontSize: "18px", textAlign: "left"}}>
+                                
                               We first find out the region of interest in our image using pre-trained models to create a bounding box. Then we use Grad-CAM to find out how much of the focus area lies inside the bounding box. We use IoU (Intersection over Union) to quantify this overlapping area.
+                              </p>
                               </p>
                             </CardBody>
                             <CardFooter>
@@ -145,7 +148,7 @@ class ExplainableAI extends React.Component {
                         </Card>
                         </Col>
                         <Col lg="6" >
-                        <Card className="card-stats" style = {{height: "400px"}}>
+                        <Card className="card-stats" style = {{height: "40vh"}}>
                             <CardTitle className = "card-category" style = {{textAlign: "center"}}>
                                 <h4>
                                 Example    
@@ -156,7 +159,7 @@ class ExplainableAI extends React.Component {
                                 onClick = {(event) => {
                                 this.setState({openex: true})
                             }}
-                            style = {{height: "100%",}} 
+                            style = {{height: "100%", padding: "1em"}} 
                             />
                             {(this.state.openex == true)?<Lightbox image={`http://localhost:5000/static/models/` + this.state.model_type.title + `/1.png`} title="Confusion Matrix" onClose={(event) => {
                                 this.setState({openex: false})
@@ -268,7 +271,7 @@ class ExplainableAI extends React.Component {
                             onChange={(event) => {
                                 this.setState({iou: event.target.value})
                                 console.log("IOU inside change", this.state.iou)
-                                axios.post(`http://localhost:5000/explainable-ai`, {"model_type": this.state.model_type.title, "iou": this.state.iou}).then(
+                                axios.post(`http://localhost:5000/explainable-ai`, {"model_type": this.state.model_type.title, "iou": event.target.value}).then(
                                 (response) => {
                                     this.setState({data2: response.data});
                                     console.log(this.state.data2);

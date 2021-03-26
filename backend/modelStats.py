@@ -28,7 +28,7 @@ def get_model_stats(folder):
     train_recall = []
     train_precision = []
 
-    ROUND = 4
+    ROUND = 2
 
     for model in model_options:
         

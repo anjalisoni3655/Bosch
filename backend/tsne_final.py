@@ -53,7 +53,7 @@ def get_data(ROOT_DIR,SIZE):
     for i, cls in (enumerate(classes)):
         pathtoimages = f'{ROOT_DIR}{cls}'
         images = os.listdir(pathtoimages)
-        for image in (images):
+        for image in tqdm(images):
             # print(image[-3:])
             if image[-3:] == 'csv':
                 continue
@@ -86,7 +86,7 @@ def get_model(model_folder, model_type):
             'h5_file': os.path.join(model_folder, 'weights.h5')
         },
         'resnet50': {
-            'image_size': 32,
+            'image_size': 96,
             'json_file': os.path.join(model_folder, 'model.json'),
             'tsne': os.path.join(model_folder, 'model_tsne.json'),
             'tsne_weights': os.path.join(model_folder, 'weights_tsne.h5'),
@@ -159,8 +159,8 @@ def tsne_dict(tsnepred, labels):
 
     list_ = []
     for i in range(len(x)):
-        dict_ = {"x":float(x[i]),
-                 "y":float(y[i]),
+        dict_ = {"x":x[i],
+                 "y":y[i],
                  "name":sign_list[labels[i]],
                 "color": color_dict[str(labels[i])]}
         list_.append(dict_)

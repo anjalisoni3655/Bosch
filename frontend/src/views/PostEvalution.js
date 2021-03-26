@@ -43,11 +43,15 @@ class PostEvaluation extends React.Component{
 
       data2: {
         cmData: [],
-        tsneData: [],
+        
         model_behavior1: "",
         dataset_changes: "",
         network_changes: "",
         suggestions: "",
+      },
+
+      data3: {
+        tsneData: [],
       },
 
       model_type: [],
@@ -87,7 +91,8 @@ class PostEvaluation extends React.Component{
         titleFontSize: 15,
         rot: 0,
         interval: 1,
-        interlacedColor: "#F0FBFF",
+        gridThickness: 0,
+        // interlacedColor: "#F0FBFF",
         labelAngle: -90,
         labelFontSize: 14,
 
@@ -97,7 +102,7 @@ class PostEvaluation extends React.Component{
         minimum: 0,
         title: "Dimension 2\n\n",
         titleFontSize: 15,
-        // gridThickness: 1,
+        gridThickness: 0,
         // gridColor: "lightblue",
         lineThickness: 1,
 
@@ -125,7 +130,7 @@ class PostEvaluation extends React.Component{
           // indexLabel: "{y}",
           // yValueFormatString: "#,##0",
 
-          dataPoints: this.state.data2.tsneData,
+          dataPoints: this.state.data3.tsneData,
         },
         
       ],
@@ -147,12 +152,19 @@ class PostEvaluation extends React.Component{
                 this.setState({
                   model_type: newValue});
                   console.log("New Value: ", newValue)
-                  axios.post(`http://localhost:5000/post-evaluation`, {newValue}).then(
+                  axios.post(`http://localhost:5000/post-evaluation`, {'model_type': newValue, 'flag': 0}).then(
                     (response) => {
                       this.setState({data2: response.data});
                       console.log(this.state.data2);
                     }
                     )
+                    axios.post(`http://localhost:5000/post-evaluation`, {'model_type': newValue, 'flag': 1}).then(
+                    (response) => {
+                      this.setState({data3: response.data});
+                      console.log(this.state.data3);
+                    }
+                    )
+                  
                     this.setState({hide: false})
                   };
                 }}
@@ -236,6 +248,8 @@ class PostEvaluation extends React.Component{
                       
                       </Col>
                       <Col md="5" xs="7">
+                        <br/>
+                        <br/>
                         <p style = {{fontSize: "20px"}}>
 
                         {this.state.data2.model_behavior1}
