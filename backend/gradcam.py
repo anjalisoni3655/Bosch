@@ -52,7 +52,7 @@ def get_model(json_path,weights_path):
 
 
 
-def gradcam(json_path,weights_path,last_conv,image_path, output_folder):
+def gradcam(model, last_conv, image_path, output_folder):
     """
     Takes an image with model weights and find iou with gradcam and bounding box
     """
@@ -67,7 +67,7 @@ def gradcam(json_path,weights_path,last_conv,image_path, output_folder):
     # json_file.close()
     # model = keras.models.model_from_json(loaded_model_json)
     # model.load_weights(weights_path)#--------------->weights_path is used here
-
+    
     img = plt.imread(image_path)#---------------->image_path is used here
 
     img = cv2.imread(image_path)#---------------->image_path is used here

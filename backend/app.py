@@ -379,7 +379,8 @@ def post_eval():
         model_type = data['model_type']['title']
         model_loc = os.path.join(app.config['MODELS_FOLDER'], model_type)
         cmData = get_cmdata(model_loc)
-        # suggestions = cmData
+        suggestions = cmData
+        print(suggestions)
 
         if data['flag'] == 0:
             model_behavior1, dataset_changes, network_changes = acc_loss(model_loc)
