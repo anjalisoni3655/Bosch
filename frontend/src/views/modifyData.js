@@ -256,6 +256,7 @@ export default function User() {
           setEstimate(Date.now() + parseInt(res.data.time_left))
         }else if(res.data.epochs_done==total_epochs){
           setEstimate(Date.now())
+          clearInterval(timer)
         }
         
         console.log(estimatedTrainingTime)
@@ -263,9 +264,7 @@ export default function User() {
         // console.log(this.state.allData.cardData.total_images)
       });
     }, 15000);
-    return () => {
-      clearInterval(timer);
-    };
+   
   }, []);
   const trainPercentData = {
     train: trainPercent,
