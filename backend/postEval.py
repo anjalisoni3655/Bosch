@@ -73,7 +73,7 @@ def acc_loss(OUTPUT_FOLDER):
     if tail['accuracy'].mean() < 0.8:
         str1 = 'The model is Underfitting.'
         str2 = ["Increase the number of epochs", "Reduce the learning rate", "Switch to a faster optimizer like Adam", "Train deeper networks", "Decrease the dataset difficulty level"]
-    elif acc_diff.mean() > 0.1:
+    elif acc_diff.mean() > 0.05:
         str1 = 'The model is Overfitting.'
         str2 = ["Reduce the number of epochs", "Increase the learning rate", "Reduce the number of layers in the network" ,"Increase the dropout value", "Increase the number of training images", "Increase the dataset difficulty level"]
     else:
