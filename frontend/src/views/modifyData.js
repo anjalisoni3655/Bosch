@@ -417,8 +417,13 @@ export default function User() {
 
       <Card className="card-user" className={classes.card}>
         <CardHeader>
+
           <CardTitle tag="h5" style={{ textAlign: "center" }}>
-            Add Augmentation
+          {/* <Tooltip title="Use the double slider to set random range of the augmentation and probability slider to set how likely the augmentation is to be applied"> */}
+            
+              Augment data
+          
+          {/* </Tooltip> */}
           </CardTitle>
         </CardHeader>
         <CardBody>
@@ -431,7 +436,7 @@ export default function User() {
                       <Row>
                         <Col md="8">
                           <label style={{fontSize:'15px', fontWeight:'bold'}}>Brightness</label>
-                          <Tooltip title="add brightness">
+                          <Tooltip title="Increases/decreases brightness of the image by a factor inside range">
                             <Slider
                               value={brightness}
                               // defaultValue={[0, 1]}
@@ -480,7 +485,7 @@ export default function User() {
                       <Row>
                         <Col md="8">
                           <label style={{fontSize:'15px', fontWeight:'bold'}}>Contrast</label>
-                          <Tooltip title="add contrast">
+                          <Tooltip title="Increases/decreases contrast of the image by a factor inside range">
                             <Slider
                               value={contrast}
                               // defaultValue={[0, 1]}
@@ -528,7 +533,7 @@ export default function User() {
                       <Row>
                         <Col md="8">
                           <label style={{fontSize:'15px', fontWeight:'bold'}}>Noise</label>
-                          <Tooltip title="add noise">
+                          <Tooltip title="Add noise to the image">
                             <Slider
                               value={noise}
                               // defaultValue={[0, 1]}
@@ -574,11 +579,67 @@ export default function User() {
                     <div style={{ padding: "1em" }} className={classes.root}>
                       <Row>
                         <Col md="8">
+                          <label style={{ fontSize: '15px', fontWeight: 'bold' }}>Shear</label>
+                          <Tooltip title="Shear the image by a factor in range">
+                            <Slider
+                              value={shear}
+                              // defaultValue={[0, 1]}
+                              min={-30}
+                              max={30}
+                              step={1}
+                              onChange={handleShear}
+                              valueLabelDisplay="auto"
+                              marks={[
+                                { value: -30, label: "-30" },
+                                { value: 30, label: "30" },
+                                { value: 0, label: "0" },
+                              ]}
+                              aria-labelledby="range-slider"
+                              getAriaValueText={valuetext}
+                            />
+                          </Tooltip>
+                        </Col>
+                        <Col md="4" className={classes.text}>
+                          <label style={{ fontSize: '15px', fontWeight: 'bold' }}>Probabilty</label>
+                          <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.05"
+                            value={values.prob8}
+                            onChange={handleProb}
+                            size="small"
+                            label="Probabilty"
+                            name="prob8"
+                            id="outlined-basic"
+                            variant="outlined"
+                          ></input>
+
+                          <div>{values.prob8}</div>
+                        </Col>
+                      </Row>
+                    </div>
+                  </FormGroup>
+                </Row>
+             
+              </Col>
+
+              <Divider orientation="vertical" flexItem />
+
+              <Col>
+                <Typography style={{ textAlign: "center", fontSize: '15px', fontWeight: 'bold'}}>
+                Weather augmentations
+              </Typography>
+                <Row className="pl-1" md="12">
+                  <FormGroup>
+                    <div style={{ padding: "1em" }} className={classes.root}>
+                      <Row>
+                        <Col md="8">
                           <FormControl
                             variant="outlined"
                             className={classes.formControl}
                           >
-                            <InputLabel style={{fontSize:'15px', fontWeight:'bold'}} htmlFor="outlined-age-native-simple">
+                            <InputLabel style={{ fontSize: '15px', fontWeight: 'bold' }} htmlFor="outlined-age-native-simple">
                               Rain
                             </InputLabel>
                             <Select
@@ -591,15 +652,15 @@ export default function User() {
                                 id: "outlined-age-native-simple",
                               }}
                             >
-                              <option aria-label="None" value="" />
+                              
                               <option value={0}>Drizzle</option>
                               <option value={1}>Heavy</option>
-                              <option value={2}>Torrestial</option>
+                              <option value={2}>Torrential</option>
                             </Select>
                           </FormControl>
                         </Col>
                         <Col md="4" className={classes.text}>
-                          <label style={{fontSize:'15px', fontWeight:'bold'}}>Probabilty</label>
+                          <label style={{ fontSize: '15px', fontWeight: 'bold' }}>Probabilty</label>
                           <input
                             type="range"
                             min="0"
@@ -620,18 +681,14 @@ export default function User() {
                     </div>
                   </FormGroup>
                 </Row>
-              </Col>
 
-              <Divider orientation="vertical" flexItem />
-
-              <Col>
                 <Row className="pl-1" md="12">
                   <FormGroup>
                     <div style={{ padding: "1em" }} className={classes.root}>
                       <Row>
                         <Col md="8">
                           <label style={{fontSize:'15px', fontWeight:'bold'}}>Fog</label>
-                          <Tooltip title="add fog">
+                          <Tooltip title="Add fog to image to simulate poor weather conditions on roads">
                             <Slider
                               value={fog}
                               // defaultValue={[0, 1]}
@@ -672,59 +729,14 @@ export default function User() {
                     </div>
                   </FormGroup>
                 </Row>
-                <Row className="pl-1" md="12">
-                  <FormGroup>
-                    <div style={{ padding: "1em" }} className={classes.root}>
-                      <Row>
-                        <Col md="8">
-                          <label style={{fontSize:'15px', fontWeight:'bold'}}>Shadow</label>
-                          <Tooltip title="add shadow">
-                            <Slider
-                              value={shadow}
-                              // defaultValue={[0, 1]}
-                              min={0}
-                              max={5}
-                              step={1}
-                              onChange={handleShadow}
-                              valueLabelDisplay="auto"
-                              marks={[
-                                { value: 5, label: "5" },
-                                { value: 0, label: "0" },
-                              ]}
-                              aria-labelledby="range-slider"
-                              getAriaValueText={valuetext}
-                            />
-                          </Tooltip>  
-                        </Col>
-                        <Col md="4" className={classes.text}>
-                          <label style={{fontSize:'15px', fontWeight:'bold'}}>Probabilty</label>
-                          <input
-                            type="range"
-                            min="0"
-                            max="1"
-                            step="0.05"
-                            value={values.prob5}
-                            onChange={handleProb}
-                            size="small"
-                            label="Probabilty"
-                            name="prob5"
-                            id="outlined-basic"
-                            variant="outlined"
-                          ></input>
-
-                          <div>{values.prob5}</div>
-                        </Col>
-                      </Row>
-                    </div>
-                  </FormGroup>
-                </Row>
+                
                 <Row className="pl-1" md="12">
                   <FormGroup>
                     <div style={{ padding: "1em" }} className={classes.root}>
                       <Row>
                         <Col md="8">
                           <label style={{fontSize:'15px', fontWeight:'bold'}}>Snow</label>
-                          <Tooltip title="add snow">
+                          <Tooltip title="Add snow to image to simulate poor weather conditions">
                             <Slider
                               value={snow}
                               // defaultValue={[0, 1]}
@@ -771,7 +783,7 @@ export default function User() {
                       <Row>
                         <Col md="8">
                           <label style={{fontSize:'15px', fontWeight:'bold'}}>Sunflare</label>
-                          <Tooltip title="add sunflare">
+                          <Tooltip title="Add sunflare to image to simulate natural conditions">
                             <Slider
                               value={sunflare}
                               // defaultValue={[0, 1]}
@@ -822,43 +834,42 @@ export default function User() {
                     <div style={{ padding: "1em" }} className={classes.root}>
                       <Row>
                         <Col md="8">
-                          <label style={{fontSize:'15px', fontWeight:'bold'}}>Shear</label>
-                          <Tooltip title="add shear">
+                          <label style={{ fontSize: '15px', fontWeight: 'bold' }}>Shadow</label>
+                          <Tooltip title="Add shadows to image">
                             <Slider
-                              value={shear}
+                              value={shadow}
                               // defaultValue={[0, 1]}
-                              min={-30}
-                              max={30}
+                              min={0}
+                              max={5}
                               step={1}
-                              onChange={handleShear}
+                              onChange={handleShadow}
                               valueLabelDisplay="auto"
                               marks={[
-                                { value: -30, label: "-30" },
-                                { value: 30, label: "30" },
+                                { value: 5, label: "5" },
                                 { value: 0, label: "0" },
                               ]}
                               aria-labelledby="range-slider"
                               getAriaValueText={valuetext}
                             />
-                          </Tooltip>  
+                          </Tooltip>
                         </Col>
                         <Col md="4" className={classes.text}>
-                          <label style={{fontSize:'15px', fontWeight:'bold'}}>Probabilty</label>
+                          <label style={{ fontSize: '15px', fontWeight: 'bold' }}>Probabilty</label>
                           <input
                             type="range"
                             min="0"
                             max="1"
                             step="0.05"
-                            value={values.prob8}
+                            value={values.prob5}
                             onChange={handleProb}
                             size="small"
                             label="Probabilty"
-                            name="prob8"
+                            name="prob5"
                             id="outlined-basic"
                             variant="outlined"
                           ></input>
 
-                          <div>{values.prob8}</div>
+                          <div>{values.prob5}</div>
                         </Col>
                       </Row>
                     </div>
@@ -870,7 +881,7 @@ export default function User() {
                       <Row>
                         <Col md="8">
                           <label style={{fontSize:'15px', fontWeight:'bold'}}>Blur</label>
-                          <Tooltip title="add blur">
+                          <Tooltip title="Blur the image">
                             <Slider
                               value={blur}
                               // defaultValue={[0, 1]}
@@ -917,7 +928,7 @@ export default function User() {
                       <Row>
                         <Col md="8">
                           <label style={{fontSize:'15px', fontWeight:'bold'}}>Degrade</label>
-                          <Tooltip title="add degrade">
+                          <Tooltip title="Degrade the quality of the image">
                             <Slider
                               value={degrade}
                               // defaultValue={[0, 1]}
@@ -993,6 +1004,9 @@ export default function User() {
       <br />
       <Row>
         <Col md="6">
+          
+
+          
           <Card className="card-user" style={{ height: "auto" }}>
             <CardHeader>
               <CardTitle tag="h5" style={{ textAlign: "center" }}>
@@ -1003,6 +1017,7 @@ export default function User() {
               <div className="description text-center">
                 <Col>
                   <Row style={{ justifyContent: "center" }}>
+                    <Tooltip title="The percentage of added/sampled data to be added to train set, the rest would be added to validation set">
                     <Slider
                       value={trainPercent}
                       min={0}
@@ -1019,6 +1034,7 @@ export default function User() {
                       valueLabelDisplay="auto"
                       aria-labelledby="non-linear-slider"
                     />
+                    </Tooltip>
                   </Row>
 
                   <Row style={{ justifyContent: "center" }}></Row>
@@ -1047,7 +1063,9 @@ export default function User() {
               </div>
             </CardBody>
           </Card>
+          
         </Col>
+        
         <Col md="6">
           <Card className="card-user" style={{ height: "auto" }}>
             <CardHeader>
