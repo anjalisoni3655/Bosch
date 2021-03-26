@@ -1071,7 +1071,7 @@ export default function User() {
                         />
                       )}
                     />
-                    <Row style={{ padding: "35px", justifyContent: "center" }}>
+                    {/* <Row style={{ padding: "35px", justifyContent: "center" }}>
                       <Typography>OR</Typography>
                     </Row>
                     <Row style={{ justifyContent: "center" }}>
@@ -1088,7 +1088,7 @@ export default function User() {
                         style={{ marginLeft: "100px" }}
                         onChange={fileChange}
                       ></input>
-                    </Row>
+                    </Row> */}
                   </Col>
 
                   <Col>
