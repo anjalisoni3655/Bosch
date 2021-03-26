@@ -101,7 +101,7 @@ class PostEvaluation extends React.Component{
         // gridColor: "#FFFFFF"
       },
       axisY: {
-        minimum: 0,
+        // minimum: 0,
         title: "Dimension 2\n\n",
         titleFontSize: 15,
         gridThickness: 0,
