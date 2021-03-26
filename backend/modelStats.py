@@ -100,10 +100,10 @@ def get_model_stats(folder):
                 'f1': 0.994,
             },
             'baseline_on_augmented': {
-                'precision': 0.097, 
+                'precision': 0.97, 
                 'accuracy': '38.30%',
-                'recall': 0.023,
-                'f1': 0.037
+                'recall': 0.23,
+                'f1': 0.37
             },
             'model_options': model_options,
             'model_types': model_types,
