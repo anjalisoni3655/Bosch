@@ -21,7 +21,7 @@ import sys
 import requests
 
 number_of_images = 0 
-
+train_time_data={'epochs_done':0,'time_left':180000}
 
 from dataStats import *
 
@@ -316,24 +316,24 @@ def delete_file():
 @app.route('/get-train-progress', methods = ['POST', 'GET'])
 @cross_origin()
 def get_train_progress():
-    data={'epochs_done':0,'time_left':180000}
+    
     if request.method == 'GET':
         
         if not os.path.exists(os.path.join(app.config["ROOT_FOLDER"],"epoch.txt")):
-            return jsonify(data)
+            return jsonify(train_time_data)
         file = open(os.path.join(app.config["ROOT_FOLDER"],"epoch.txt"),"r")
         epochs_data = file.readlines()
         if(len(epochs_data)==0):
-            return jsonify(data)
+            return jsonify(train_time_data)
         file.close()
         epochs_done=len(epochs_data)
         time_left = int(epochs_data[-1].strip())
         
-        data['epochs_done'] = epochs_done
-        data['time_left'] =  time_left
-        print(data)
+        train_time_data['epochs_done'] = epochs_done
+        train_time_data['time_left'] =  time_left
+        print(train_time_data)
         
-    return jsonify(data)
+    return jsonify(train_time_data)
 
 
 @app.route('/view-data-stats', methods = ['POST', 'GET'])
