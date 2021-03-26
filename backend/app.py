@@ -228,8 +228,8 @@ def trainModel():
         optimizer=data['optimizer']
         print(data)
         output_folder = create_folder_entry(app.config["MODELS_FOLDER"],model_type,"v")
-        
-        
+        if os.path.exists(os.path.join(app.config["ROOT_FOLDER"],"epoch.txt")):
+            os.remove(os.path.join(app.config["ROOT_FOLDER"],"epoch.txt"))
         model_loc = os.path.join(app.config["MODELS_FOLDER"], model_type+'_v1')
         weights_loc = os.path.join(model_loc, 'weights.h5')
         json_loc = os.path.join(model_loc, 'model.json')
