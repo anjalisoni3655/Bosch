@@ -245,10 +245,10 @@ def trainModel():
         tsne_weights_loc = os.path.join(model_loc, 'weights_tsne.h5')
         tsne_model_loc = os.path.join(model_loc, 'model_tsne.json')
         
-        for i in range(8):
-            gc_loc = os.path.join(model_loc, f'{i}.png')
-            if os.path.exists(gc_loc):
-                shutil.copy(gc_loc, output_folder)
+        # for i in range(8):
+        #     gc_loc = os.path.join(model_loc, f'{i}.png')
+        #     if os.path.exists(gc_loc):
+        #         shutil.copy(gc_loc, output_folder)
         
         if(os.path.exists(weights_loc)):
             shutil.copy(weights_loc, output_folder)
@@ -379,16 +379,20 @@ def post_eval():
         model_type = data['model_type']['title']
         model_loc = os.path.join(app.config['MODELS_FOLDER'], model_type)
         cmData = get_cmdata(model_loc)
-        suggestions = cmData
-        print(suggestions)
+        
+        mispredicted = []
+        for d in cmData:
+            mispredicted.append(d['pred'])
+        
+
 
         if data['flag'] == 0:
-            model_behavior1, dataset_changes, network_changes = acc_loss(model_loc)
+            model_behavior1, changes = acc_loss(model_loc)
             data = {
                 "cmData": cmData,
                 "model_behavior1": model_behavior1,
-                "dataset_changes": dataset_changes,
-                "network_changes": network_changes,
+                "changes": changes,
+                "suggestions": mispredicted
             }
 
             return jsonify(data)
@@ -422,7 +426,7 @@ def post_eval():
 
 
             print(len(tsne))
-            print(tsne_scores)
+            print("TSNE Scores: ", tsne_scores)
             data = {
                 'tsneData': tsne,
                 'tsneScores': tsne_scores

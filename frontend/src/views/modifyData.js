@@ -1049,7 +1049,7 @@ export default function User() {
                       onClick={sendTrainPercent}
                       //  value={this.props.title}
                     >
-                      Apply
+                      Smart Split
                     </Button>
                     {loading2 && (
                       <CircularProgress

@@ -33,7 +33,7 @@ var routes = [
   },
   {
     path: "/post-evaluation",
-    name: "Post Evaluation",
+    name: "Post Experiment",
     icon: "nc-icon nc-zoom-split",
     component: PostEvaluation,
   },
