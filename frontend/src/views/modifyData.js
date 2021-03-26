@@ -247,12 +247,15 @@ export default function User() {
         console.log(res.data);
         console.log(res.data.epochs_done, total_epochs)
         setProgress(100*(res.data.epochs_done/total_epochs))
-        setEstimate(Date.now()+parseInt(res.data.time_left))
+        if(res.data.epochs_done < total_epochs){
+          setEstimate(Date.now() + parseInt(res.data.time_left))
+        }
+        
         console.log(estimatedTrainingTime)
         
         // console.log(this.state.allData.cardData.total_images)
       });
-    }, 10000);
+    }, 15000);
     return () => {
       clearInterval(timer);
     };
@@ -377,7 +380,7 @@ export default function User() {
             toast.success("Model training initiated successfully");
             toast.warn("Estimated completion time : " +Math.round(parseInt(response.data)/60000 )+" minutes")
             
-            setEstimate(parseInt(response.data));
+            setEstimate(Date.now() + parseInt(response.data));
             
             
           } else {
