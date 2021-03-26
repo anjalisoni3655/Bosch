@@ -21,7 +21,7 @@ import sys
 import requests
 
 number_of_images = 0 
-
+train_time_data={'epochs_done':0,'time_left':-1}
 
 from dataStats import *
 
@@ -228,8 +228,8 @@ def trainModel():
         optimizer=data['optimizer']
         print(data)
         output_folder = create_folder_entry(app.config["MODELS_FOLDER"],model_type,"v")
-        
-        
+        if os.path.exists(os.path.join(app.config["ROOT_FOLDER"],"epoch.txt")):
+            os.remove(os.path.join(app.config["ROOT_FOLDER"],"epoch.txt"))
         model_loc = os.path.join(app.config["MODELS_FOLDER"], model_type+'_v1')
         weights_loc = os.path.join(model_loc, 'weights.h5')
         json_loc = os.path.join(model_loc, 'model.json')
@@ -316,11 +316,24 @@ def delete_file():
 @app.route('/get-train-progress', methods = ['POST', 'GET'])
 @cross_origin()
 def get_train_progress():
+    
     if request.method == 'GET':
-        epochs_done=3
-        time_left=100
-        data = {'epochs_done': epochs_done, 'time_left': time_left}
-    return jsonify(data)
+        
+        if not os.path.exists(os.path.join(app.config["ROOT_FOLDER"],"epoch.txt")):
+            return jsonify(train_time_data)
+        file = open(os.path.join(app.config["ROOT_FOLDER"],"epoch.txt"),"r")
+        epochs_data = file.readlines()
+        if(len(epochs_data)==0):
+            return jsonify(train_time_data)
+        file.close()
+        epochs_done=len(epochs_data)
+        time_left = int(epochs_data[-1].strip())
+        
+        train_time_data['epochs_done'] = epochs_done
+        train_time_data['time_left'] =  time_left
+        print(train_time_data)
+        
+    return jsonify(train_time_data)
 
 
 @app.route('/view-data-stats', methods = ['POST', 'GET'])
