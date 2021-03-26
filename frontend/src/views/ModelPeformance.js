@@ -52,7 +52,7 @@ class ModelPerformance extends React.Component {
     return (
       <div className="content">
         <p style={{ color: "#707070" }}>
-          <h4>Baseline Model Tested on Original Dataset</h4>
+          <h4>Baseline Model Trained on Original Dataset and Tested on Original Dataset</h4>
         </p>
         <Row>
 
@@ -67,7 +67,7 @@ class ModelPerformance extends React.Component {
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">Accuracy</p>
+                      <p className="card-category">Validation Accuracy</p>
                       <CardTitle tag="p">
                         {this.state.data.baseline_on_original.accuracy}
                       </CardTitle>
@@ -96,7 +96,7 @@ class ModelPerformance extends React.Component {
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">F1-Score</p>
+                      <p className="card-category">Validation F1-Score</p>
                       <CardTitle tag="p">
                         {this.state.data.baseline_on_original.f1}
                       </CardTitle>
@@ -125,7 +125,7 @@ class ModelPerformance extends React.Component {
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">Precision</p>
+                      <p className="card-category">Validation Precision</p>
                       <CardTitle tag="p">
                         {this.state.data.baseline_on_original.precision}
                       </CardTitle>
@@ -154,7 +154,7 @@ class ModelPerformance extends React.Component {
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">Recall</p>
+                      <p className="card-category">Validation Recall</p>
                       <CardTitle tag="p">
                         {this.state.data.baseline_on_original.recall}
                       </CardTitle>
@@ -175,7 +175,7 @@ class ModelPerformance extends React.Component {
         </Row>
 
         <p style={{ color: "#707070" }}>
-          <h4>Baseline Model Tested on Augmented Dataset</h4>
+          <h4>Baseline Model Trained on Original Dataset and Tested on Augmented Dataset</h4>
         </p>
         <Row>
 
@@ -190,7 +190,7 @@ class ModelPerformance extends React.Component {
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">Accuracy</p>
+                      <p className="card-category">Test Accuracy</p>
                       <CardTitle tag="p">
                         {this.state.data.baseline_on_augmented.accuracy}
                       </CardTitle>
@@ -219,7 +219,7 @@ class ModelPerformance extends React.Component {
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">F1-Score</p>
+                      <p className="card-category">Test F1-Score</p>
                       <CardTitle tag="p">
                         {this.state.data.baseline_on_augmented.f1}
                       </CardTitle>
@@ -248,7 +248,7 @@ class ModelPerformance extends React.Component {
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">Precision</p>
+                      <p className="card-category">Test Precision</p>
                       <CardTitle tag="p">
                         {this.state.data.baseline_on_augmented.precision}
                       </CardTitle>
@@ -276,7 +276,7 @@ class ModelPerformance extends React.Component {
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">Recall</p>
+                      <p className="card-category">Test Recall</p>
                       <CardTitle tag="p">
                         {this.state.data.baseline_on_augmented.recall}
                       </CardTitle>

@@ -92,13 +92,12 @@ def get_model_stats(folder):
 
 
     
-
     stats = {
             'baseline_on_original': {
-                'precision': '1.0', 
-                'accuracy': '99.51%',
-                'recall': '1.0',
-                'f1': '1.0',
+                'precision': 0.995, 
+                'accuracy': '99.43%',
+                'recall': 0.993,
+                'f1': 0.994,
             },
             'baseline_on_augmented': {
                 'precision': 0.097, 

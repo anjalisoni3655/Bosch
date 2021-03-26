@@ -1,4 +1,6 @@
 import os
+import cv2
+
 import time
 import numpy as np
 import pandas as pd
@@ -10,6 +12,7 @@ from keras.callbacks import CSVLogger
 from keras.models import model_from_json
 from keras.preprocessing.image import ImageDataGenerator
 import tensorflow as tf
+from keras.utils import to_categorical
 from sklearn.metrics import classification_report, confusion_matrix
 from animate import * 
 from tsne import *
@@ -33,6 +36,32 @@ def f1_m(y_true, y_pred):
     precision = precision_m(y_true, y_pred)
     recall = recall_m(y_true, y_pred)
     return 2 * ((precision * recall) / (precision + recall + K.epsilon()))
+
+def get_data(ROOT_DIR, SIZE):
+    classes = sorted(os.listdir(ROOT_DIR))
+    dfs = {}
+    for cls in classes:
+        # path = f'{ROOT_DIR}{cls}/GT-{cls}.csv'
+        path = f'{ROOT_DIR}/{cls}'
+        dfs[cls] = path
+    resizedimages = []
+    labels = []
+    filenames = []
+    for i, cls in (enumerate(classes)):
+        pathtoimages = f'{ROOT_DIR}/{cls}'
+        images = os.listdir(pathtoimages)
+        for image in images:
+            img = cv2.imread(f'{ROOT_DIR}/{cls}/{image}')
+            filenames.append(f'{cls}/{image}')
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            res = cv2.resize(img, (SIZE, SIZE))
+            resizedimages.append(res)
+            labels.append(i)
+
+    data = np.array(resizedimages)
+    labs = np.array(labels)
+
+    return data, labs, filenames
 
 def get_model(model_folder, model_type):
     model_dict = {
@@ -62,7 +91,7 @@ def get_model(model_folder, model_type):
             'h5_file': os.path.join(model_folder, 'weights.h5')
         },
         'resnet50': {
-            'image_size': 96,
+            'image_size': 32,
             'json_file': os.path.join(model_folder, 'model.json'),
             'h5_file': os.path.join(model_folder, 'weights.h5')
         }
@@ -79,7 +108,7 @@ def get_model(model_folder, model_type):
             print(layers)
             layers.trainable = False
 
-    print(loaded_model.summary())
+    # print(loaded_model.summary())
     return loaded_model, model_dict[model_type]['image_size']
 
 
@@ -108,20 +137,12 @@ def train_model(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, l
 
 
     model, SIZE = get_model(model_folder=OUTPUT_FOLDER, model_type=model_type)
+    train_data, train_label, _ = get_data(TRAIN_IMAGE_DIR, SIZE)
+    train_label_onehot = to_categorical(train_label)
+    val_data, val_label, val_filenames = get_data(VALID_IMAGE_DIR, SIZE)
+    val_label_onehot = to_categorical(val_label)
 
-    datagen = ImageDataGenerator(rescale=1. / 255)
-    train = datagen.flow_from_directory(TRAIN_IMAGE_DIR,
-                                        target_size=(SIZE, SIZE),
-                                        batch_size=BATCH_SIZE,
-                                        shuffle=True,
-                                        seed=SEED)
-
-    val = datagen.flow_from_directory(VALID_IMAGE_DIR,
-                                      target_size=(SIZE, SIZE),
-                                      batch_size=BATCH_SIZE,
-                                      shuffle=False,
-                                      seed=SEED)
-
+    
     csv_logger = CSVLogger(filename=f"{OUTPUT_FOLDER}/log.csv")
     class TimeHistory(keras.callbacks.Callback):
         def on_train_begin(self, logs={}):
@@ -158,23 +179,24 @@ def train_model(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, l
         optimizer=optimizer,
         metrics=['accuracy', f1_m, precision_m, recall_m]
     )
-    num_train_samples = len(train.classes)
+    num_train_samples = len(train_label)
 
-    history = model.fit(train,
-                        validation_data=val,
+    history = model.fit(train_data, train_label_onehot,
+                        validation_data=(val_data, val_label_onehot),
                         callbacks=callbacks,
                         epochs=EPOCHS,
-                        steps_per_epoch=num_train_samples//BATCH_SIZE,
                         batch_size=BATCH_SIZE)
 
-    val_preds = model.predict(val)
-    val_preds = np.argmax(val_preds, axis=1)
-    cr = classification_report(val.classes, val_preds)
-    cm = confusion_matrix(val.classes, val_preds)
 
-    valpreds_forgrad = {'filenames': val.filenames,
+    val_preds = model.predict(val_data)
+
+    val_preds = np.argmax(val_preds, axis=1)
+    cr = classification_report(val_label, val_preds)
+    cm = confusion_matrix(val_label, val_preds)
+
+    valpreds_forgrad = {'filenames': val_filenames,
                         'predictions': val_preds,
-                        'labels': val.classes}
+                        'labels': val_label}
     pd.DataFrame(valpreds_forgrad).to_csv(f'{OUTPUT_FOLDER}/Preds_gradcam.csv', index=False)
 
     training_stats = {'train_loss': history.history["loss"],

@@ -69,20 +69,17 @@ def acc_loss(OUTPUT_FOLDER):
     log_csv = pd.read_csv(log_file)
     tail = log_csv.tail(15)
     acc_diff = tail['accuracy'] - tail['val_accuracy']
-    if tail['accuracy'].mean() < 0.9:
+    if tail['accuracy'].mean() < 0.8:
         str1 = 'The model is Underfitting.'
-        str2 = "Suggested Network Changes: \nYou can increase the number of epochs or reduce the learning rate. You can also switch to a fast optimizer like Adam or train deeper networks."
-        str3 = "Suggested Dataset Changes: \nIf you can't change the network, you can decrease the dataset difficulty level."
-    elif acc_diff.mean() > 0.2:
+        str2 = ["Increase the number of epochs", "Reduce the learning rate", "Switch to a faster optimizer like Adam", "Train deeper networks", "Decrease the dataset difficulty level"]
+    elif acc_diff.mean() > 0.1:
         str1 = 'The model is Overfitting.'
-        str2 = "Suggested Network Changes: \nYou can reduce the number of epochs or increase the learning rate. You can also reduce the number of layers or you can increase the dropout value."
-        str3 = "Suggested Dataset Changes: \nYou can increase the number of training images or you can increase the dataset difficulty level."
+        str2 = ["Reduce the number of epochs", "Increase the learning rate", "Reduce the number of layers in the network" ,"Increase the dropout value", "Increase the number of training images", "Increase the dataset difficulty level"]
     else:
         str1 = 'Good Fit!'
-        str2 = 'The Network and the Dataset seem to be fine.'
-        str3 = '' 
+        str2 = ["Hurray, everything seems to be fine :)"]
     
-    return str1, str2, str3
+    return str1, str2
 
 # print(get_model_types('static/models/'))
 # print(get_cmdata('static/models/Baseline_v1'))

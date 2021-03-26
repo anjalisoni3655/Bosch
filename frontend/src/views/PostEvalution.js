@@ -46,9 +46,9 @@ class PostEvaluation extends React.Component{
         cmData: [],
         
         model_behavior1: "",
-        dataset_changes: "",
-        network_changes: "",
-        suggestions: "",
+        changes: [],
+        
+        suggestions: [],
       },
 
       data3: {
@@ -142,6 +142,11 @@ class PostEvaluation extends React.Component{
         
       ],
     };
+
+    const changes = this.state.data2.changes
+    const suggestions = this.state.data2.suggestions
+    // <li>(change)</li>
+    // )
     
 
     return (
@@ -262,9 +267,11 @@ class PostEvaluation extends React.Component{
 
                         {this.state.data2.model_behavior1}
                         <br/><br/>
-                        {this.state.data2.dataset_changes}
-                        <br/><br/>
-                        {this.state.data2.network_changes}
+                        
+                        {changes.map((change) =>{
+                          return <li>{change}</li>;
+
+                        })}
                         </p>
                       </Col>
                     </Row>
@@ -364,10 +371,21 @@ class PostEvaluation extends React.Component{
                   <CardBody>
                     <Row>
                       <Col md="4" xs="5">
-                        
+                        <p  style = {{fontSize: "20px", padding: "1em"}}>
+                        The classes mentioned on the right have high misclassifications. Apart from the above network and dataset changes, you can improve on this by increasing the dataset for these classes or reducing the difficulty of these classes in the existing dataset. 
+                        </p>
+
                       </Col>
-                      <Col md="8" xs="7">
-                        
+                      <Col md = "3">
+                      </Col>
+                      <Col md="5" xs="7">
+                        <p style = {{padding: "2em", fontSize: "20px"}}>
+                        {suggestions.map((change) =>{
+                          return <li>{change}</li>;
+
+                        })}
+
+                        </p>
                       </Col>
                     </Row>
                   </CardBody>
