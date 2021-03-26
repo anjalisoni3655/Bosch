@@ -182,6 +182,9 @@ export default function AddData() {
 
   return (
     <div className="content">
+      <MetaTags>
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+      </MetaTags>,
       <ToastContainer />
 
       <Row>

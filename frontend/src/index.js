@@ -13,9 +13,7 @@ import AdminLayout from "layouts/Admin.js";
 const hist = createBrowserHistory();
 
 ReactDOM.render(
-  <MetaTags>
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
-  </MetaTags>,
+ 
   <Router history={hist}>
     <Switch>
 
