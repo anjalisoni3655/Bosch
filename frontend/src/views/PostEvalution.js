@@ -53,6 +53,11 @@ class PostEvaluation extends React.Component{
 
       data3: {
         tsneData: [],
+        tsneScores: {
+          original: "",
+          kmeans: "",
+          dbscan: ""
+        }
       },
 
       model_type: [],
@@ -282,28 +287,40 @@ class PostEvaluation extends React.Component{
                     </h4>
                   </CardTitle>
                   <CardBody>
-                    <Row>
-                      <Col md="5" xs="5">
                       {(this.state.success == false) ? (
-                        <div>
+                      <Row>
+                        <div style = {{textAlign: "center"}}>
 
                         <CircularProgress
                           size={24}
+                          style = {{textAlign:"center"}}
                           />
 
-                        <p>The plot is being made...</p>
+                        <p style = {{textAlign: "center"}}>The plot is being made...</p>
                         </div>
-                      ): <CanvasJSChart options={options} />}
-                          
-                      
+                        </Row>
+                      ): (
+                      <Row>
+                      <Col md="5" xs="5">
+                      <CanvasJSChart options={options} />
                       </Col>
+
                       <Col md = "1">
                       </Col>
 
                       <Col md="6" xs="7">
-                        
+                        <p>
+                        {this.state.data3.tsneScores.original}
+                        </p>
+                        <p>
+                        {this.state.data3.tsneScores.kmeans}
+                        </p>
+                        <p>
+                        {this.state.data3.tsneScores.dbscan}
+                        </p>
                       </Col>
-                    </Row>
+                      </Row>
+                      )}
                   </CardBody>
                   <CardFooter>
                     <hr />
