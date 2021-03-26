@@ -235,6 +235,7 @@ export default function User() {
   const [datasetChanged, setChanged] = React.useState(1);
   const [estimatedTrainingTime,setEstimate] = React.useState(Date.now()+180000);
   const [progress, setProgress] = React.useState(0);
+  // const
   const handleChanged = (newValue) => {
     setChanged(newValue);
   };
@@ -253,6 +254,8 @@ export default function User() {
         setProgress(100*(res.data.epochs_done/total_epochs))
         if(res.data.epochs_done < total_epochs && res.data.time_left!=-1){
           setEstimate(Date.now() + parseInt(res.data.time_left))
+        }else if(res.data.epochs_done==total_epochs){
+          setEstimate(Date.now())
         }
         
         console.log(estimatedTrainingTime)

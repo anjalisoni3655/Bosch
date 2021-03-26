@@ -67,7 +67,7 @@ def gradcam(model, last_conv, image_path, output_folder):
     # json_file.close()
     # model = keras.models.model_from_json(loaded_model_json)
     # model.load_weights(weights_path)#--------------->weights_path is used here
-    
+
     img = plt.imread(image_path)#---------------->image_path is used here
 
     img = cv2.imread(image_path)#---------------->image_path is used here
@@ -237,7 +237,7 @@ def checkmisc(model,last_conv,misc_pathlist,cisc_pathlist, output_folder, fullio
         img = cv2.imread(os.path.join(output_folder, 'tmp', 'cam.jpg'))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         res = cv2.resize(img, (100, 100))
-        res = cv2.putText(res, f'IOU: {iou}', (0, 10), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,255,0), 1)
+        res = cv2.putText(res, f'{iou}', (0, 10), cv2.FONT_HERSHEY_SIMPLEX, 0.2, (0,0,255), 1)
         ncoords = [int(x*100) for x in coord.numpy().tolist()]
         data = im.fromarray(cv2.rectangle(res, (ncoords[0],ncoords[1]), (ncoords[2], ncoords[3]), (0,255,0),1))
         if not fulliou:
@@ -260,7 +260,7 @@ def Save_top4(json_path, weights_path, last_conv, df_path, output_folder, Dirpat
     df = pd.read_csv(df_path)
 
     ######## DELETE BEFORE PUSH ###################
-    df = df.sample(100).reset_index(drop=True)
+    # df = df.sample(100).reset_index(drop=True)
     ###############################################
     #In rememberance of Yerram Varun, Rambatla Amey & AayushCode Sharma
     ###############################################
@@ -281,7 +281,8 @@ def Save_top4(json_path, weights_path, last_conv, df_path, output_folder, Dirpat
     cisc_pathlist = [os.path.join(Dirpath, x) for x in list(dfcisc['filenames'])]
 
     _ = checkmisc(model,last_conv,misc_pathlist,cisc_pathlist, output_folder, fulliou=False)
+    Iou_dataframe_generator(os.path.join(output_folder, 'model.json'),os.path.join(output_folder, 'weights.h5'),'last_conv',
+                            os.path.join(output_folder, 'Preds_gradcam.csv'), output_folder,  Dirpath = Dirpath )
 
 # if __name__ == '__main__':
     # Save_top4('baseline_augmented.json','baseline_augmented.h5','last_conv','Preds_MBNV2.csv','OUTPUT/')
-    # Iou_dataframe_generator('baseline_augmented.json','baseline_augmented.h5','last_conv','kuchbhi.csv','Train/')

@@ -243,7 +243,7 @@ def trainModel():
         json_loc = os.path.join(model_loc, 'model.json')
         img_loc = os.path.join(model_loc, 'model.svg')
         tsne_weights_loc = os.path.join(model_loc, 'weights_tsne.h5')
-        tsne_model_loc = os.path.join(model_loc, 'model_tsne.h5')
+        tsne_model_loc = os.path.join(model_loc, 'model_tsne.json')
         
         for i in range(8):
             gc_loc = os.path.join(model_loc, f'{i}.png')
