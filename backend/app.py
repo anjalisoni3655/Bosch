@@ -377,16 +377,20 @@ def post_eval():
                 f = open(os.path.join(model_loc, 'tsne.p'), 'wb')
                 p.dump(tsne, f)
                 f.close()
+                print("why")
             
             else:
                 f = open(os.path.join(model_loc, 'tsne.p'), 'rb')
                 tsne = p.load(f)
                 f.close()
 
+            tsne_scores = get_tsne_scores(model_loc)
+
             print(len(tsne))
-            
+            print(tsne_scores)
             data = {
                 'tsneData': tsne,
+                'tsneScores': tsne_scores
             }
 
             return jsonify(data)

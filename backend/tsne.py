@@ -1,10 +1,13 @@
-import cv2
+
+import pickle
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+from sklearn.cluster import DBSCAN
+from sklearn.metrics import silhouette_samples, silhouette_score
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-import os
 import pandas as pd
 # from tqdm.notebook import tqdm
-import numpy as np
 from PIL import Image
 import tensorflow as tf
 import random
@@ -184,7 +187,7 @@ def get_tsne(model_type,image_folder, model_folder):
                     optimizer='sgd',
                     metrics=['accuracy'])
     pred = model.predict(data)
-    tsne = manifold.TSNE(n_components=3, init='pca')
+    tsne = manifold.TSNE(n_components=2, init='pca')
     tsnepred = tsne.fit_transform(pred)
     #fig = plt.figure(num=None, figsize=(10, 10), dpi=80, facecolor='w', edgecolor='k')
     #sp1 =plt.scatter(tsnepred[:, 0], tsnepred[:, 1], marker='.', c=labs, label='all')
@@ -192,5 +195,44 @@ def get_tsne(model_type,image_folder, model_folder):
     #plt.show()
     return tsne_dict(tsnepred, labs)
 
+
+
+def get_DBSACN_score(arr):
+    clusterer=DBSCAN()
+    cluster_labels = clusterer.fit_predict(arr)
+    silhouette_avg = silhouette_score(arr, cluster_labels)
+    return str(round(silhouette_avg,2))
+
+def get_KMeans_score(arr):
+    clusterer = KMeans(n_clusters=50, random_state=10)
+    cluster_labels = clusterer.fit_predict(arr)
+    silhouette_avg = silhouette_score(arr, cluster_labels)
+    return str(round(silhouette_avg, 2))
+
+def get_original_score(arr,labels):
+    silhouette_avg = silhouette_score(arr, labels)
+    return str(round(silhouette_avg,2))
+
+def get_tsne_scores(path):
+    path = os.path.join(path, 'tsne.p')
+
+    with open(path,'rb') as pickle_file:
+        content = pickle.load(pickle_file)
+
+    Id2Label = {0: 'Speed limit (20km/h)', 1: 'Speed limit (30km/h)', 2: 'Speed limit (50km/h)', 3: 'Speed limit (60km/h)', 4: 'Speed limit (70km/h)', 5: 'Speed limit (80km/h)', 6: 'End of speed limit (80km/h)', 7: 'Speed limit (100km/h)', 8: 'Speed limit (120km/h)', 9: 'No passing', 10: 'No passing for vehicles over 3.5 metric tons', 11: 'Right-of-way at the next intersection', 12: 'Priority road', 13: 'Yield', 14: 'Stop', 15: 'No vehicles', 16: 'Vehicles over 3.5 metric tons prohibited', 17: 'No entry', 18: 'General caution', 19: 'Dangerous curve to the left', 20: 'Dangerous curve to the right', 21: 'Double curve', 22: 'Bumpy road', 23: 'Slippery road', 24: 'Road narrows on the right', 25: 'Road work', 26: 'Traffic signals', 27: 'Pedestrians', 28: 'Children crossing', 29: 'Bicycles crossing', 30: 'Beware of ice/snow', 31: 'Wild animals crossing', 32: 'End of all speed and passing limits', 33: 'Turn right ahead', 34: 'Turn left ahead', 35: 'Ahead only', 36: 'Go straight or right', 37: 'Go straight or left', 38: 'Keep right', 39: 'Keep left', 40: 'Roundabout mandatory', 41: 'End of no passing', 42: 'End of no passing by vehicles over 3.5 metric tons', 43: 'No Stopping', 44: 'Cross Road', 45: 'No passing Cars', 46: 'Route for Pedal Cycles Only', 47: 'Separated Track for Pedal Cyclists and Pedestrians Only', 48: 'Parking Sign', 49: 'Tonnage Limits'}
+
+    my_dict = {v: k for k, v in Id2Label.items()}
+    arr=[]
+    temp_arr=[]
+    labels=[]
+
+    for i in range(len(content)):
+        temp_arr.append(content[i]['x'])
+        temp_arr.append(content[i]['y'])
+        labels.append(my_dict[content[i]['name']])
+        arr.append(temp_arr)
+        temp_arr=[]
+    
+    return {'original':get_original_score(arr,labels),'kmeans':get_KMeans_score(arr),'dbscan':get_DBSACN_score(arr)}
 
 #print(get_tsne('inceptionv3', image_folder,model_folder))
