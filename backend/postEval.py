@@ -67,7 +67,8 @@ def get_cmdata(folder):
 def acc_loss(OUTPUT_FOLDER):
     log_file = os.path.join(OUTPUT_FOLDER, 'log.csv')
     log_csv = pd.read_csv(log_file)
-    tail = log_csv.tail(15)
+    n = int(len(log_csv)*0.1)
+    tail = log_csv.tail(n)
     acc_diff = tail['accuracy'] - tail['val_accuracy']
     if tail['accuracy'].mean() < 0.8:
         str1 = 'The model is Underfitting.'

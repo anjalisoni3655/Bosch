@@ -218,7 +218,7 @@ def trainPercent():
 def final_training_call(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, learning_rate=1e-2, optimizer='Adam'):
     global model_is_training
     train_model(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, learning_rate, optimizer)
-    get_gradcam(OUTPUT_FOLDER, VALID_FOLDER)
+    get_gradcam(os.path.join(app.config["MODELS_FOLDER"], 'Baseline_v1'), VALID_FOLDER)
     model_is_training = 0
     
 @app.route('/train-model', methods = ['POST'])
