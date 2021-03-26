@@ -81,8 +81,8 @@ class PostEvaluation extends React.Component{
     
     const columns: ColDef[] = [
       { field: 'pred', headerName: 'Predicted Class', width: 250 },
-      { field: 'act', headerName: 'Actual Class', width: 250},
-      { field: 'num', headerName: 'Number of Misclassifications', width:250},
+      { field: 'act', headerName: 'Actual Class', width: 260},
+      { field: 'num', headerName: 'Number of Misclassifications', width:240},
 
     ];
     
@@ -218,7 +218,7 @@ class PostEvaluation extends React.Component{
                       <br />
 
                       
-                        <Col md="6" xs="7">
+                        <Col md="5" xs="6">
                           <br />
                           <DataGrid rows={rows} columns={columns} autoHeight={true} scrollbarSize={0} hideFooter= {true} disableSelectionOnClick={true} disableExtendRowFullWidth={true} pageSize={5} />
                         </Col>
@@ -289,15 +289,22 @@ class PostEvaluation extends React.Component{
                   <CardBody>
                       {(this.state.success == false) ? (
                       <Row>
+                        <Col md = "4">
+                        </Col>
+                        <Col md = "4">
                         <div style = {{textAlign: "center"}}>
 
                         <CircularProgress
                           size={24}
                           style = {{textAlign:"center"}}
                           />
-
-                        <p style = {{textAlign: "center"}}>The plot is being made...</p>
+                        <br/>
+                        <p style = {{textAlign: "center", fontSize: "17px"}}>The plot is being made...</p>
                         </div>
+                        
+                        </Col>
+                        <Col md = "4">
+                        </Col>
                         </Row>
                       ): (
                       <Row>
