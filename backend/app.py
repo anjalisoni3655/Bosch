@@ -306,6 +306,15 @@ def delete_file():
         os.remove(os.path.join(app.config["GRID_AUGMENTED_FOLDER"],str(fileid)+".png"))
     return "File deleted succesfully"
 
+@app.route('/get-train-progress', methods = ['POST', 'GET'])
+@cross_origin()
+def get_train_progress():
+    if request.method == 'GET':
+        epochs_done=3
+        time_left=100
+        data = {'epochs_done': epochs_done, 'time_left': time_left}
+    return jsonify(data)
+
 
 @app.route('/view-data-stats', methods = ['POST', 'GET'])
 @cross_origin()

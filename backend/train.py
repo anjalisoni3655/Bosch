@@ -121,7 +121,28 @@ def train_model(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, l
                                       seed=SEED)
 
     csv_logger = CSVLogger(filename=f"{OUTPUT_FOLDER}/log.csv")
-    callbacks = [csv_logger]
+    class TimeHistory(keras.callbacks.Callback):
+        def on_train_begin(self, logs={}):
+            self.times = []
+            self.recalculated_time = []
+            self.file = open(f'{OUTPUT_FOLDER}/../../epoch.txt', "w")
+            self.file.close()
+
+        def on_epoch_begin(self, epoch, logs={}):
+            self.epoch_time_start = time.time()
+
+        def on_epoch_end(self, epoch, logs={}):
+            self.times.append(time.time() - self.epoch_time_start)
+            cal_time = (EPOCHS - epoch) * (time.time() - self.epoch_time_start) * 1000
+            self.recalculated_time.append(cal_time)
+            self.file = open(f'{OUTPUT_FOLDER}/../../epoch.txt', "a")  # append mode
+            self.file.write(str(int(cal_time)) + "\n")
+            self.file.close()
+            PLOT(OUTPUT_FOLDER)
+
+    time_history = TimeHistory()
+    callbacks = [csv_logger, time_history]
+    
 
     if optimizer == 'Adam':
         optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
@@ -195,6 +216,7 @@ def estimate_time(model_type, EPOCHS):
     elif model_type == 'baselineaugmented':
         time = 26    
     else:
+        time=0
         print("ERROR", model_type)
     total_time = int(time * EPOCHS * 1000)
     return total_time
@@ -209,7 +231,6 @@ def get_gradcam(output_folder, valid_folder):
 
 def final_training_call(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, learning_rate=1e-2, optimizer='Adam'):
     train_model(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, learning_rate, optimizer)
-    PLOT(OUTPUT_FOLDER)
     get_gradcam(OUTPUT_FOLDER, VALID_FOLDER)
 
     

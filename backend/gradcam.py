@@ -21,6 +21,8 @@ import scipy.ndimage as ndimage
 from sklearn.metrics import classification_report, confusion_matrix, f1_score,accuracy_score
 from PIL import Image as im
 import warnings
+from tqdm import tqdm
+
 warnings.filterwarnings("ignore")
 
 
@@ -207,7 +209,7 @@ def checkmisc(json_path,weights_path,last_conv,misc_pathlist,cisc_pathlist, outp
     """ LAST FOUR ARE CORRECTLY CLASSIFIED """
 
     j = 1
-    for i in (misc_pathlist):
+    for i in tqdm(misc_pathlist):
         iou,coord = gradcam(json_path,weights_path,last_conv,i, output_folder)
         #print("IOU:",iou)
         img = cv2.imread(os.path.join(output_folder, 'tmp', 'cam.jpg'))
@@ -220,7 +222,7 @@ def checkmisc(json_path,weights_path,last_conv,misc_pathlist,cisc_pathlist, outp
         misc_dict['{}.png'.format(j)] = iou
         j = j + 1
     
-    for i in (cisc_pathlist):
+    for i in tqdm(cisc_pathlist):
         iou,coord = gradcam(json_path,weights_path,last_conv,i, output_folder)
         #print("IOU:",iou)
         img = cv2.imread(os.path.join(output_folder, 'tmp', 'cam.jpg'))
@@ -248,12 +250,12 @@ def Save_top4(json_path, weights_path, last_conv, df_path, output_folder, Dirpat
     df = pd.read_csv(df_path)
 
     ######## DELETE BEFORE PUSH ###################
-    df = df.sample(50).reset_index(drop=True)
+    # df = df.sample(50).reset_index(drop=True)
     ###############################################
     #In rememberance of Yerram Varun, Rambatla Amey & AayushCode Sharma
     ###############################################
 
-    for i in (range(len(df))):
+    for i in tqdm(range(len(df))):
         name = df.loc[i, 'filenames']
         path = os.path.join(Dirpath, name)
         iou, _ = gradcam(json_path,weights_path,last_conv,path,output_folder)
