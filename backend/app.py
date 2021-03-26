@@ -319,9 +319,9 @@ def get_train_progress():
     data={'epochs_done':0,'time_left':180000}
     if request.method == 'GET':
         
-        if not os.path.exists(os.path.join(app.config["ROOT_FOLDER"],"epochs.txt")):
+        if not os.path.exists(os.path.join(app.config["ROOT_FOLDER"],"epoch.txt")):
             return jsonify(data)
-        file = open(os.path.join(app.config["ROOT_FOLDER"],"epochs.txt"),"r")
+        file = open(os.path.join(app.config["ROOT_FOLDER"],"epoch.txt"),"r")
         epochs_data = file.readlines()
         file.close()
         epochs_done=len(epochs_data)
