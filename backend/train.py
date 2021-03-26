@@ -78,6 +78,8 @@ def get_model(model_folder, model_type):
         for layers in loaded_model.layers[:-5]:
             print(layers)
             layers.trainable = False
+
+    print(loaded_model.summary())
     return loaded_model, model_dict[model_type]['image_size']
 
 
