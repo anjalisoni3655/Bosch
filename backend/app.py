@@ -22,7 +22,7 @@ import requests
 
 number_of_images = 0 
 train_time_data={'epochs_done':0,'time_left':-1}
-
+model_is_training=0
 from dataStats import *
 
 import random
@@ -215,12 +215,20 @@ def trainPercent():
 
         return str(len(os.listdir(app.config["GRID_AUGMENTED_FOLDER"])))
     return 'Request malformed',201
+def final_training_call(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, learning_rate=1e-2, optimizer='Adam'):
+    global model_is_training
+    train_model(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, learning_rate, optimizer)
+    get_gradcam(OUTPUT_FOLDER, VALID_FOLDER)
+    model_is_training = 0
+    
 @app.route('/train-model', methods = ['POST'])
 @cross_origin()
 def trainModel():
-    
+    global model_is_training
     if request.method == "POST":
-
+        if(model_is_training):
+            return "Model already training"
+        model_is_training=1
         data = request.get_json()
         model_type = data['model']
         epochs=data['epochs']
@@ -262,6 +270,7 @@ def trainModel():
         print("ESTIMATED TIME : ",time_estimate)
         return time_estimate
     return 'Request malformed',201
+
 
 @app.route('/augment', methods=[ 'POST','GET'])
 @cross_origin()
@@ -316,7 +325,7 @@ def delete_file():
 @app.route('/get-train-progress', methods = ['POST', 'GET'])
 @cross_origin()
 def get_train_progress():
-    
+    global train_time_data
     if request.method == 'GET':
         
         if not os.path.exists(os.path.join(app.config["ROOT_FOLDER"],"epoch.txt")):
