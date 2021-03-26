@@ -38,7 +38,7 @@ class ModelPerformance extends React.Component {
   }
 
   componentWillMount() {
-    axios.get(`http://localhost:5000/model-performance`).then((res) => {
+    axios.get(`http://172.16.101.244:5000/model-performance`).then((res) => {
       console.log(res.data);
       console.log("res precision", res.data.precision);
       this.setState({ data: res.data });
@@ -582,7 +582,7 @@ class ModelPerformance extends React.Component {
                     alt="Model Architecture"
                     // className="avatar border-gray"
                     key = {Date.now()}
-                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/model.svg`}
+                    src={`http://172.16.101.244:5000/static/models/` + this.state.value.title + `/model.svg`}
                     // style = {{height: "80%", width: "80%"}}
                     
                     />
@@ -620,7 +620,7 @@ class ModelPerformance extends React.Component {
                     alt="Accuracy-Loss Curve"
                     // className="avatar border-gray"
                     key = {Date.now()}
-                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/loss_acc.gif`}
+                    src={`http://172.16.101.244:5000/static/models/` + this.state.value.title + `/loss_acc.gif`}
                     style={{ height: "120%", width: "120%"}}
                     />
                 </CardBody>
@@ -648,7 +648,7 @@ class ModelPerformance extends React.Component {
                     alt="Precision-Recall Curve"
                     // className="avatar border-gray"
                     key = {Date.now()}
-                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/pr.gif`}
+                    src={`http://172.16.101.244:5000/static/models/` + this.state.value.title + `/pr.gif`}
                     style={{ height: "120%", width: "120%"}}
                     />
               </CardBody>
@@ -676,7 +676,7 @@ class ModelPerformance extends React.Component {
                     alt="F1-Scores"
                     // className="avatar border-gray"
                     key = {Date.now()}
-                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/f1.gif`}
+                    src={`http://172.16.101.244:5000/static/models/` + this.state.value.title + `/f1.gif`}
                     style={{ height: "120%", width: "120%"}}
                     />
               </CardBody>
@@ -696,7 +696,7 @@ class ModelPerformance extends React.Component {
                 <img 
                     alt="F1-Scores"
                     // className="avatar border-gray"
-                    src={`http://localhost:5000/static/models/` + this.state.value.title + `/cm.png`}
+                    src={`http://172.16.101.244:5000/static/models/` + this.state.value.title + `/cm.png`}
                     style={{ height: "100%", width: "100%"}}
                     />
               </CardBody>

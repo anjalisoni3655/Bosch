@@ -21,7 +21,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-// const url = `http://localhost:5000/static/grid/extracted/`;
+// const url = `http://172.16.101.244:5000/static/grid/extracted/`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -109,7 +109,7 @@ export default function AddData() {
   const handleSample = () => {
     setSuccess(true);
     
-    const res = axios.post("http://localhost:5000/sample", samplePercent).then(
+    const res = axios.post("http://172.16.101.244:5000/sample", samplePercent).then(
       (response) => {
         console.log("response: ", response);
         if (response.status == 200) {
@@ -159,13 +159,13 @@ export default function AddData() {
         var x = new Date().getTime().toLocaleString();
         Images.push({
           src:
-            "http://localhost:5000/static/grid/extracted/" +
+            "http://172.16.101.244:5000/static/grid/extracted/" +
             i.toString() +
             ".png" +
             "?" +
             x,
           thumbnail:
-            "http://localhost:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
+            "http://172.16.101.244:5000/static/grid/extracted/" + i.toString() + ".png" + "?" + x,
           thumbnailWidth: 200,
           thumbnailHeight: 200,
           id: i,

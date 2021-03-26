@@ -55,7 +55,7 @@ class ExplainableAI extends React.Component {
   }
 
   componentWillMount(){
-    axios.get(`http://localhost:5000/explainable-ai`).then(res => {
+    axios.get(`http://172.16.101.244:5000/explainable-ai`).then(res => {
       console.log(res.data);
       this.setState({data1: res.data});
     //   console.log(this.state.allData.cardData.total_images)
@@ -155,13 +155,13 @@ class ExplainableAI extends React.Component {
                                 </h4>
                             </CardTitle>
                             <CardBody style = {{justifyContent: "center", alignItems: "center", textAlign: "center"}}>
-                            <img style = {{cursor: "zoom-in"}}  src={`http://localhost:5000/static/models/` + this.state.model_type.title + `/1.png`}
+                            <img style = {{cursor: "zoom-in"}}  src={`http://172.16.101.244:5000/static/models/` + this.state.model_type.title + `/1.png`}
                                 onClick = {(event) => {
                                 this.setState({openex: true})
                             }}
                             style = {{height: "100%", padding: "1em"}} 
                             />
-                            {(this.state.openex == true)?<Lightbox image={`http://localhost:5000/static/models/` + this.state.model_type.title + `/1.png`} title="Confusion Matrix" onClose={(event) => {
+                            {(this.state.openex == true)?<Lightbox image={`http://172.16.101.244:5000/static/models/` + this.state.model_type.title + `/1.png`} title="Confusion Matrix" onClose={(event) => {
                                 this.setState({openex: false})
                             }} > </Lightbox>: null}
                       
@@ -184,25 +184,25 @@ class ExplainableAI extends React.Component {
                          
                           <img
                             onClick={() => this.showSlide(1)}
-                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/1.png"+"?"}
+                            src={"http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/1.png"+"?"}
                             style = {{height: "20%", width: "20%", padding: "2em"}}
                             />
                             <img
                             onClick={() => this.showSlide(2)}
-                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/2.png"}
+                            src={"http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/2.png"}
                             style = {{height: "20%", width: "20%", padding: "2em"}}
                             />
                             <img
                             onClick={() => this.showSlide(3)}
-                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/3.png"}
+                            src={"http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/3.png"}
                             style = {{height: "20%", width: "20%", padding: "2em"}}
                             />
                             <img
                             onClick={() => this.showSlide(4)}
-                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/4.png"}
+                            src={"http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/4.png"}
                             style = {{height: "20%", width: "20%", padding: "2em"}}
                             />                  
-                            {(this.state.isVisible == true) ? <Lightbox toggler={this.state.isVisible} images = {[{url: "http://localhost:5000/static/models/" + this.state.model_type.title + "/1.png", title: "Image 1"}, {url: "http://localhost:5000/static/models/" + this.state.model_type.title + "/2.png", title: "Image 2"}, {url: "http://localhost:5000/static/models/" + this.state.model_type.title + "/3.png", title: "Image 3"}, {url: "http://localhost:5000/static/models/" + this.state.model_type.title + "/4.png", title: "Image 4"}]} onClose={(event) => {
+                            {(this.state.isVisible == true) ? <Lightbox toggler={this.state.isVisible} images = {[{url: "http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/1.png", title: "Image 1"}, {url: "http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/2.png", title: "Image 2"}, {url: "http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/3.png", title: "Image 3"}, {url: "http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/4.png", title: "Image 4"}]} onClose={(event) => {
                             this.setState({isVisible: false})
                           }} > </Lightbox>: null}
                       
@@ -225,25 +225,25 @@ class ExplainableAI extends React.Component {
                          
                           <img
                             onClick={() => this.showSlide(1)}
-                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/5.png"}
+                            src={"http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/5.png"}
                             style = {{height: "20%", width: "20%", padding: "2em"}}
                             />
                             <img
                             onClick={() => this.showSlide(2)}
-                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/6.png"}
+                            src={"http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/6.png"}
                             style = {{height: "20%", width: "20%", padding: "2em"}}
                             />
                             <img
                             onClick={() => this.showSlide(3)}
-                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/7.png"}
+                            src={"http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/7.png"}
                             style = {{height: "20%", width: "20%", padding: "2em"}}
                             />
                             <img
                             onClick={() => this.showSlide(4)}
-                            src={"http://localhost:5000/static/models/" + this.state.model_type.title + "/8.png"}
+                            src={"http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/8.png"}
                             style = {{height: "20%", width: "20%", padding: "2em"}}
                             />                  
-                            {(this.state.isVisible == true) ? <Lightbox toggler={this.state.isVisible} images = {[{url: "http://localhost:5000/static/models/" + this.state.model_type.title + "/1.png", title: "Image 1"}, {url: "http://localhost:5000/static/models/" + this.state.model_type.title + "/2.png", title: "Image 2"}, {url: "http://localhost:5000/static/models/" + this.state.model_type.title + "/3.png", title: "Image 3"}, {url: "http://localhost:5000/static/models/" + this.state.model_type.title + "/4.png", title: "Image 4"}]} onClose={(event) => {
+                            {(this.state.isVisible == true) ? <Lightbox toggler={this.state.isVisible} images = {[{url: "http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/1.png", title: "Image 1"}, {url: "http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/2.png", title: "Image 2"}, {url: "http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/3.png", title: "Image 3"}, {url: "http://172.16.101.244:5000/static/models/" + this.state.model_type.title + "/4.png", title: "Image 4"}]} onClose={(event) => {
                             this.setState({isVisible: false})
                           }} > </Lightbox>: null}
                       
@@ -271,7 +271,7 @@ class ExplainableAI extends React.Component {
                             onChange={(event) => {
                                 this.setState({iou: event.target.value})
                                 console.log("IOU inside change", this.state.iou)
-                                axios.post(`http://localhost:5000/explainable-ai`, {"model_type": this.state.model_type.title, "iou": event.target.value}).then(
+                                axios.post(`http://172.16.101.244:5000/explainable-ai`, {"model_type": this.state.model_type.title, "iou": event.target.value}).then(
                                 (response) => {
                                     this.setState({data2: response.data});
                                     console.log(this.state.data2);

@@ -45,7 +45,7 @@ const initialValues = {
   prob10: "",
   prob11: "",
 };
-// const url = `http://localhost:5000/static/grid/augmented/`;
+// const url = `http://172.16.101.244:5000/static/grid/augmented/`;
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -247,7 +247,7 @@ export default function User() {
       
       console.log("interval valled");
       
-      axios.get(`http://localhost:5000/get-train-progress`).then((res) => {
+      axios.get(`http://172.16.101.244:5000/get-train-progress`).then((res) => {
         console.log(res.data);
         console.log(res.data.epochs_done, total_epochs)
         setProgress(100*(res.data.epochs_done/total_epochs))
@@ -275,7 +275,7 @@ export default function User() {
   };
   const handleAugment = () => {
     setLoading(true);
-    axios.post("http://localhost:5000/augment", data).then(
+    axios.post("http://172.16.101.244:5000/augment", data).then(
       (response) => {
         console.log("response: ", response);
         if (response.data !== "0") {
@@ -313,13 +313,13 @@ export default function User() {
         var x = new Date().getTime().toLocaleString();
         Images.push({
           src:
-            "http://localhost:5000/static/grid/augmented/" +
+            "http://172.16.101.244:5000/static/grid/augmented/" +
             i.toString() +
             ".png" +
             "?" +
             x,
           thumbnail:
-            "http://localhost:5000/static/grid/augmented/" +
+            "http://172.16.101.244:5000/static/grid/augmented/" +
             i.toString() +
             ".png" +
             "?" +
@@ -336,7 +336,7 @@ export default function User() {
   getImages(numberImages);
   const sendTrainPercent = () => {
     setLoading2(true);
-    axios.post("http://localhost:5000/train-percent", trainPercentData).then(
+    axios.post("http://172.16.101.244:5000/train-percent", trainPercentData).then(
       (response) => {
         console.log("response: ", response);
         if (response.status === 200) {
@@ -368,7 +368,7 @@ export default function User() {
     console.log(selectedFile);
     total_epochs = epochs;
     const res = axios
-      .post("http://localhost:5000/train-model", {
+      .post("http://172.16.101.244:5000/train-model", {
         model: modelType,
         epochs: epochs,
         file: formData,

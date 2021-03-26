@@ -53,7 +53,7 @@ class Upload extends React.Component {
     });
 
     const res = await axios.post(
-      `http://localhost:5000/upload?className=${className}`,
+      `http://172.16.101.244:5000/upload?className=${className}`,
       data
     );
      

@@ -70,7 +70,7 @@ class PostEvaluation extends React.Component{
   }
 
     componentWillMount() {
-      axios.get(`http://localhost:5000/post-evaluation`).then((res) => {
+      axios.get(`http://172.16.101.244:5000/post-evaluation`).then((res) => {
         console.log(res.data);
         this.setState({ data1: res.data });
         console.log("Model Types", this.state.data1.model_types);
@@ -159,13 +159,13 @@ class PostEvaluation extends React.Component{
                 this.setState({
                   model_type: newValue});
                   console.log("New Value: ", newValue)
-                  axios.post(`http://localhost:5000/post-evaluation`, {'model_type': newValue, 'flag': 0}).then(
+                  axios.post(`http://172.16.101.244:5000/post-evaluation`, {'model_type': newValue, 'flag': 0}).then(
                     (response) => {
                       this.setState({data2: response.data});
                       console.log(this.state.data2);
                     }
                     )
-                    axios.post(`http://localhost:5000/post-evaluation`, {'model_type': newValue, 'flag': 1}).then(
+                    axios.post(`http://172.16.101.244:5000/post-evaluation`, {'model_type': newValue, 'flag': 1}).then(
                     (response) => {
                       this.setState({data3: response.data});
                       this.setState({success: true})
@@ -201,12 +201,12 @@ class PostEvaluation extends React.Component{
                   <CardBody>
                     <Row>
                       <Col md="5" xs="5">
-                        <img style = {{cursor: "zoom-in"}}  src={`http://localhost:5000/static/models/` + this.state.model_type.title + `/cm.png`}
+                        <img style = {{cursor: "zoom-in"}}  src={`http://172.16.101.244:5000/static/models/` + this.state.model_type.title + `/cm.png`}
                           onClick = {(event) => {
                             this.setState({opencm: true})
                           }} 
                         />
-                        {(this.state.opencm == true)?<Lightbox image={`http://localhost:5000/static/models/` + this.state.model_type.title + `/cm.png`} title="Confusion Matrix" onClose={(event) => {
+                        {(this.state.opencm == true)?<Lightbox image={`http://172.16.101.244:5000/static/models/` + this.state.model_type.title + `/cm.png`} title="Confusion Matrix" onClose={(event) => {
                             this.setState({opencm: false})
                           }} > </Lightbox>: null}
                       
@@ -245,12 +245,12 @@ class PostEvaluation extends React.Component{
                   <CardBody>
                     <Row>
                       <Col md="5" xs="5">
-                      <img style = {{cursor: "zoom-in"}} src={`http://localhost:5000/static/models/` + this.state.model_type.title + `/loss_acc.gif`}
+                      <img style = {{cursor: "zoom-in"}} src={`http://172.16.101.244:5000/static/models/` + this.state.model_type.title + `/loss_acc.gif`}
                           onClick = {(event) => {
                             this.setState({openla: true})
                           }} 
                         />
-                        {(this.state.openla == true)?<Lightbox image={`http://localhost:5000/static/models/` + this.state.model_type.title + `/loss_acc.gif`} title="Confusion Matrix" onClose={(event) => {
+                        {(this.state.openla == true)?<Lightbox image={`http://172.16.101.244:5000/static/models/` + this.state.model_type.title + `/loss_acc.gif`} title="Confusion Matrix" onClose={(event) => {
                             this.setState({openla: false})
                           }} > </Lightbox>: null}
                       

@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "1.2.0",
   "private": true,
-  "homepage": "https://demos.creative-tim.com/frontend/#/dashboard",
+  "homepage": "https://swc.iitg.ac.in/inter_iit_bosch/build/",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/data-grid": "^4.0.0-alpha.23",
