@@ -229,8 +229,5 @@ def get_gradcam(output_folder, valid_folder):
     
     Save_top4(jsonfile, weights, 'last_conv', csvf, output_folder, valid_folder)
 
-def final_training_call(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, learning_rate=1e-2, optimizer='Adam'):
-    train_model(TRAIN_FOLDER, VALID_FOLDER, OUTPUT_FOLDER, model_type, EPOCHS, learning_rate, optimizer)
-    get_gradcam(OUTPUT_FOLDER, VALID_FOLDER)
 
     
