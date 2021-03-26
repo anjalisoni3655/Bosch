@@ -8,38 +8,38 @@ import ExplainableAI from "views/ExplainableAI";
 
 var routes = [
   {
-    path: "/upload-dataset",
+    path: "/inter_iit_bosch/upload-dataset",
     name: "Upload Dataset",
     icon: "nc-icon nc-cloud-upload-94",
     component: AddData,
   },
   {
-    path: "/augment-modify",
+    path: "/inter_iit_bosch/augment-modify",
     name: "Augment and modify",
     icon: "nc-icon nc-settings",
     component: modifyData,
   },
   {
-    path: "/view-data-stats",
+    path: "/inter_iit_bosch/view-data-stats",
     name: "View Data Stats",
     icon: "nc-icon nc-chart-bar-32",
     component: Dashboard,
   },
   {
-    path: "/model-performance",
+    path: "/inter_iit_bosch/model-performance",
     name: "Model Peformance",
     icon: "nc-icon nc-vector",
     component: ModelPerformance,
   },
   {
-    path: "/post-evaluation",
+    path: "/inter_iit_bosch/post-evaluation",
     name: "Post Evaluation",
     icon: "nc-icon nc-zoom-split",
     component: PostEvaluation,
   },
 
   {
-    path: "/explainable-ai",
+    path: "/inter_iit_bosch/explainable-ai",
     name: "Explainable AI",
     icon: "nc-icon nc-caps-small",
     component: ExplainableAI,
