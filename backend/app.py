@@ -227,7 +227,7 @@ def trainModel():
     global model_is_training
     if request.method == "POST":
         if(model_is_training):
-            return str(train_time_data['time_left'])
+            return "Model already training"
         model_is_training=1
         data = request.get_json()
         model_type = data['model']

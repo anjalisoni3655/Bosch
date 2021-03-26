@@ -380,11 +380,17 @@ export default function User() {
         (response) => {
           console.log("response: ", response);
           if (response.status === 200) {
+            if (response.data == "Model already training"){
+              toast.warn("A model is already being trained!")
+            }
+            else{
+              toast.success("Model training initiated successfully");
+
+              toast.warn("Estimated completion time : " + Math.round(parseInt(response.data) / 60000) + " minutes")
+
+              setEstimate(Date.now() + parseInt(response.data));
+            }
             
-            toast.success("Model training initiated successfully");
-            toast.warn("Estimated completion time : " +Math.round(parseInt(response.data)/60000 )+" minutes")
-            
-            setEstimate(Date.now() + parseInt(response.data));
             
             
           } else {
