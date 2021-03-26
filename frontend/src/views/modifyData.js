@@ -122,6 +122,7 @@ const model_dataset = [
   "MobileNetV2",
   "MobileNetV3",
 ];
+let total_epochs = 1;
 export default function User() {
   const [rain, setRain] = React.useState({
     age: "",
@@ -228,7 +229,7 @@ export default function User() {
 
   const [numberImages, setnumberImages] = useState(0);
   const [datasetChanged, setChanged] = React.useState(1);
-  const [estimatedTrainingTime,setEstimate] = React.useState(Date.now()+10000);
+  const [estimatedTrainingTime,setEstimate] = React.useState(Date.now()+180000);
   const [progress, setProgress] = React.useState(0);
   const handleChanged = (newValue) => {
     setChanged(newValue);
@@ -244,8 +245,8 @@ export default function User() {
       
       axios.get(`http://localhost:5000/get-train-progress`).then((res) => {
         console.log(res.data);
-        console.log(res.data.epochs_done, epochs)
-        setProgress(100*(res.data.epochs_done/epochs))
+        console.log(res.data.epochs_done, total_epochs)
+        setProgress(100*(res.data.epochs_done/total_epochs))
         setEstimate(Date.now()+parseInt(res.data.time_left))
         console.log(estimatedTrainingTime)
         
@@ -358,7 +359,7 @@ export default function User() {
 
     // Details of the uploaded file
     console.log(selectedFile);
-
+    total_epochs = epochs;
     const res = axios
       .post("http://localhost:5000/train-model", {
         model: modelType,
@@ -377,6 +378,7 @@ export default function User() {
             toast.warn("Estimated completion time : " +Math.round(parseInt(response.data)/60000 )+" minutes")
             
             setEstimate(parseInt(response.data));
+            
             
           } else {
             toast.error("Error : " + response.data);
