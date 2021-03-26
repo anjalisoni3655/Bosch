@@ -21,7 +21,7 @@ import sys
 import requests
 
 number_of_images = 0 
-train_time_data={'epochs_done':0,'time_left':180000}
+train_time_data={'epochs_done':0,'time_left':-1}
 
 from dataStats import *
 
