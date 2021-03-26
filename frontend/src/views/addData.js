@@ -192,7 +192,7 @@ export default function AddData() {
                 Add New Data
               </CardTitle>
               <p style={{ textAlign: "center" }}>
-                <b style={{ fontWeight: "700" }}>Only zip files are accepted</b>
+                <b style={{ fontWeight: "700" }}>Upload a zip file</b>
               </p>
             </CardHeader>
             <CardBody>
@@ -207,7 +207,7 @@ export default function AddData() {
                           color="primary"
                         />
                       }
-                      label="Add Data Class Wise"
+                      label="Add specific class"
                     />
                   </Row>
                   {checkedB ? (
@@ -260,7 +260,7 @@ export default function AddData() {
                     <Row style={{ justifyContent: "center" }}>
                       <Row>
                         <Col>
-                          <Typography>Percentage of Sample Data</Typography>
+                          <Typography>Sample percentage</Typography>
                         </Col>
                         <Col>
                           <Slider
@@ -291,7 +291,7 @@ export default function AddData() {
                             color="primary"
                           />
                         }
-                        label="Sample Class Wise"
+                        label="Classwise sampling"
                       />
                     </Row>
                     {checked ? (
