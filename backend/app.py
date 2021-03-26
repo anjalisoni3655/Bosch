@@ -379,6 +379,7 @@ def post_eval():
         model_type = data['model_type']['title']
         model_loc = os.path.join(app.config['MODELS_FOLDER'], model_type)
         cmData = get_cmdata(model_loc)
+        # suggestions = cmData
 
         if data['flag'] == 0:
             model_behavior1, dataset_changes, network_changes = acc_loss(model_loc)
@@ -399,14 +400,25 @@ def post_eval():
                 f = open(os.path.join(model_loc, 'tsne.p'), 'wb')
                 p.dump(tsne, f)
                 f.close()
-                print("why")
+                print("Pickle File is saved.")
             
             else:
                 f = open(os.path.join(model_loc, 'tsne.p'), 'rb')
                 tsne = p.load(f)
                 f.close()
 
-            tsne_scores = get_tsne_scores(model_loc)
+            if not os.path.exists(os.path.join(model_loc, 'tsne_scores.p')):
+                tsne_scores = get_tsne_scores(model_loc)
+                f = open(os.path.join(model_loc, 'tsne_scores.p'), 'wb')
+                p.dump(tsne_scores, f)
+                f.close()
+                print("Pickle File is saved.")
+            
+            else:
+                f = open(os.path.join(model_loc, 'tsne_scores.p'), 'rb')
+                tsne_scores = p.load(f)
+                f.close()
+
 
             print(len(tsne))
             print(tsne_scores)
@@ -450,7 +462,7 @@ def get_ai_stats():
         model_loc = os.path.join(app.config['MODELS_FOLDER'], model_type)
         
         plotdata = iouGraph(iou_thresh, model_loc, app.config["VALIDATION_FOLDER"])
-        
+        print(plotdata)
         data = {'plotdata': plotdata}
         
         return jsonify(data)

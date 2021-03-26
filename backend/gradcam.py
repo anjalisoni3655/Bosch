@@ -9,11 +9,11 @@ import matplotlib.pyplot as plt
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import pandas as pd
-# from tqdm import tqdm
+from tqdm import tqdm
 import tensorflow as tf
 import random
 import matplotlib.cm as cm
-# from IPython.display import Image, display
+
 import keras
 from keras import activations
 import matplotlib.image as mpimg
@@ -21,8 +21,6 @@ import scipy.ndimage as ndimage
 from sklearn.metrics import classification_report, confusion_matrix, f1_score,accuracy_score
 from PIL import Image as im
 import warnings
-from tqdm import tqdm
-
 warnings.filterwarnings("ignore")
 
 
@@ -44,25 +42,31 @@ torchmodel.load_state_dict(torch.load('static/models/FasterRCNN_v1/fasterrcnn_au
 
 torchmodel.eval()
 
-
-
-
-###########################################################3
-
-def gradcam(json_path,weights_path,last_conv,image_path, output_folder):
-    """
-    Takes an image with model weights and find iou with gradcam and bounding box
-    """
-
-    if not os.path.exists(os.path.join(output_folder, 'tmp')):
-        os.mkdir(os.path.join(output_folder, 'tmp'))
-
-
+def get_model(json_path,weights_path):
     json_file = open(json_path, 'r')#-------------->json_path is used here
     loaded_model_json = json_file.read()
     json_file.close()
     model = keras.models.model_from_json(loaded_model_json)
     model.load_weights(weights_path)#--------------->weights_path is used here
+    return model
+
+
+
+def gradcam(json_path,weights_path,last_conv,image_path, output_folder):
+    """
+    Takes an image with model weights and find iou with gradcam and bounding box
+    """
+###########################################################3
+    if not os.path.exists(os.path.join(output_folder, 'tmp')):
+        os.mkdir(os.path.join(output_folder, 'tmp'))
+
+
+
+    # json_file = open(json_path, 'r')#-------------->json_path is used here
+    # loaded_model_json = json_file.read()
+    # json_file.close()
+    # model = keras.models.model_from_json(loaded_model_json)
+    # model.load_weights(weights_path)#--------------->weights_path is used here
 
     img = plt.imread(image_path)#---------------->image_path is used here
 
@@ -112,7 +116,7 @@ def gradcam(json_path,weights_path,last_conv,image_path, output_folder):
         heatmap = tf.maximum(heatmap,0) / tf.math.reduce_max(heatmap)
         return heatmap.numpy()
 
-    def save_and_display_gradcam(img_path, heatmap, cam_path=os.path.join(output_folder, 'tmp', 'cam.jpg'), alpha=0.35):
+    def save_and_display_gradcam(img_path, heatmap, cam_path=os.path.join(output_folder, 'tmp', 'cam.jpg'), alpha=0.55):
         # Load the original image
         img = keras.preprocessing.image.load_img(img_path)
         img = keras.preprocessing.image.img_to_array(img)
@@ -121,7 +125,7 @@ def gradcam(json_path,weights_path,last_conv,image_path, output_folder):
         heatmap = np.uint8(255 * heatmap)
 
         # Use jet colormap to colorize heatmap
-        jet = cm.get_cmap("jet")
+        jet = cm.get_cmap("YlGnBu")
 
         # Use RGB values of the colormap
         jet_colors = jet(np.arange(256))[:, :3]
@@ -146,7 +150,7 @@ def gradcam(json_path,weights_path,last_conv,image_path, output_folder):
 
     img_arr = get_img_array(image_path, size)
     heatmap = make_gradcam_heatmap(img_arr, model, last_conv, pred_index=None) #-----------> last_conv is used here
-    save_and_display_gradcam(image_path, (heatmap*255>100)+0, cam_path=os.path.join(output_folder, 'tmp', 'cam.jpg'), alpha=0.35)
+    save_and_display_gradcam(image_path, (heatmap*255>100)+0, cam_path=os.path.join(output_folder, 'tmp', 'cam.jpg'), alpha=0.55)
     # load bounding box model
     start = time.time()
     image = res.copy()
@@ -181,12 +185,14 @@ def gradcam(json_path,weights_path,last_conv,image_path, output_folder):
 
 
 def Iou_dataframe_generator(json_path, weights_path, last_conv, df_path,output_folder,Dirpath = 'Train/'):
+    model = get_model(json_path, weights_path)
     df = pd.read_csv(df_path)
     wron = df[df['predictions'] != df['labels']].index
     wrong_filenames = list(df.loc[wron, 'filenames'])
     wrong_pathlist = [os.path.join(Dirpath, x) for x in wrong_filenames]
-    misc_dict,cisc_dict =  checkmisc(json_path,weights_path,last_conv,wrong_pathlist,[],output_folder=output_folder, fulliou=True)
-    
+    misc_dict,cisc_dict =  checkmisc(model,last_conv,wrong_pathlist,[],output_folder, fulliou=True)
+
+
     df_aay = pd.DataFrame()
     df_aay['filenames'] = list(df.loc[wron, 'filenames'])
     df_aay['iou'] = list(misc_dict.values())
@@ -200,7 +206,7 @@ def Iou_dataframe_generator(json_path, weights_path, last_conv, df_path,output_f
 
 ##########################################
 
-def checkmisc(json_path,weights_path,last_conv,misc_pathlist,cisc_pathlist, output_folder, fulliou):
+def checkmisc(model,last_conv,misc_pathlist,cisc_pathlist, output_folder, fulliou):
     
     misc_dict = {}
     cisc_dict = {}
@@ -208,13 +214,15 @@ def checkmisc(json_path,weights_path,last_conv,misc_pathlist,cisc_pathlist, outp
     """ FIRST FOUR ARE MISSCLASSIFIED """
     """ LAST FOUR ARE CORRECTLY CLASSIFIED """
 
+    print(f"Sampled {len(misc_pathlist)} Misclassified Images")
     j = 1
     for i in tqdm(misc_pathlist):
-        iou,coord = gradcam(json_path,weights_path,last_conv,i, output_folder)
+        iou,coord = gradcam(model,last_conv,i, output_folder)
         #print("IOU:",iou)
         img = cv2.imread(os.path.join(output_folder, 'tmp', 'cam.jpg'))
-        #img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         res = cv2.resize(img, (100, 100))
+        res = cv2.putText(res, f'IOU: {iou}', (0, 10), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,255,0), 1)
         ncoords = [int(x*100) for x in coord.numpy().tolist()]
         data = im.fromarray(cv2.rectangle(res, (ncoords[0],ncoords[1]), (ncoords[2], ncoords[3]), (0,255,0),1))
         if not fulliou:
@@ -222,12 +230,14 @@ def checkmisc(json_path,weights_path,last_conv,misc_pathlist,cisc_pathlist, outp
         misc_dict['{}.png'.format(j)] = iou
         j = j + 1
     
+    print(f"Sampled {len(cisc_pathlist)} Correctly Classified Images")
     for i in tqdm(cisc_pathlist):
-        iou,coord = gradcam(json_path,weights_path,last_conv,i, output_folder)
+        iou,coord = gradcam(model,last_conv,i, output_folder)
         #print("IOU:",iou)
         img = cv2.imread(os.path.join(output_folder, 'tmp', 'cam.jpg'))
-        #img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         res = cv2.resize(img, (100, 100))
+        res = cv2.putText(res, f'IOU: {iou}', (0, 10), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,255,0), 1)
         ncoords = [int(x*100) for x in coord.numpy().tolist()]
         data = im.fromarray(cv2.rectangle(res, (ncoords[0],ncoords[1]), (ncoords[2], ncoords[3]), (0,255,0),1))
         if not fulliou:
@@ -254,11 +264,11 @@ def Save_top4(json_path, weights_path, last_conv, df_path, output_folder, Dirpat
     ###############################################
     #In rememberance of Yerram Varun, Rambatla Amey & AayushCode Sharma
     ###############################################
-
+    model = get_model(json_path, weights_path)
     for i in tqdm(range(len(df))):
         name = df.loc[i, 'filenames']
         path = os.path.join(Dirpath, name)
-        iou, _ = gradcam(json_path,weights_path,last_conv,path,output_folder)
+        iou, _ = gradcam(model,last_conv,path,output_folder)
         df.loc[i, 'iou'] = iou
 
     dfcisc = df[df['predictions'] == df['labels']]
@@ -270,7 +280,7 @@ def Save_top4(json_path, weights_path, last_conv, df_path, output_folder, Dirpat
     misc_pathlist = [os.path.join(Dirpath, x) for x in list(dfmisc['filenames'])]
     cisc_pathlist = [os.path.join(Dirpath, x) for x in list(dfcisc['filenames'])]
 
-    _ = checkmisc(json_path,weights_path,last_conv,misc_pathlist,cisc_pathlist, output_folder, fulliou=False)
+    _ = checkmisc(model,last_conv,misc_pathlist,cisc_pathlist, output_folder, fulliou=False)
 
 # if __name__ == '__main__':
     # Save_top4('baseline_augmented.json','baseline_augmented.h5','last_conv','Preds_MBNV2.csv','OUTPUT/')

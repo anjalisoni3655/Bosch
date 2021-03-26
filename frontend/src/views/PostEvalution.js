@@ -161,7 +161,7 @@ class PostEvaluation extends React.Component{
                   console.log("New Value: ", newValue)
                   axios.post(`http://localhost:5000/post-evaluation`, {'model_type': newValue, 'flag': 0}).then(
                     (response) => {
-                      this.setState({data2: response.data});
+                      this.setState({data2: response.data, success: false});
                       console.log(this.state.data2);
                     }
                     )
@@ -315,15 +315,30 @@ class PostEvaluation extends React.Component{
                       <Col md = "1">
                       </Col>
 
-                      <Col md="6" xs="7">
-                        <p>
+                      <Col md="5" xs="7">
+                        <br/>
+                        <br/>
+                        <p style = {{fontSize: "20px", textAlign: "left"}}>
+                        We have used unsupervised clustering algorithms on dimensionally reduced data. 
+                        </p>
+                        <p style = {{fontSize: "20px", textAlign: "left"}}>
+                        The metric used to judge how well the data is separated is the silhouette score, whose value is a measure of how similar an object is to its own cluster (cohesion) compared to other clusters (separation). </p>
+                        <p style = {{fontSize: "20px", textAlign: "left"}}>
+                        The silhouette ranges from −1 to +1. The unsupervised methods used are DBSCAN and KMeans.
+                        </p>
+
+                        <p style = {{fontSize: "20px"}}>
+                        In summary a better performing model will have a higher silhouette score.
+                        </p>
+                        {/* <p>
+                          
                         {this.state.data3.tsneScores.original}
+                        </p> */}
+                        <p style = {{fontSize: "20px"}}>
+                          The Score using <b>KMeans</b> technique is <b>{this.state.data3.tsneScores.kmeans}</b>.
                         </p>
-                        <p>
-                        {this.state.data3.tsneScores.kmeans}
-                        </p>
-                        <p>
-                        {this.state.data3.tsneScores.dbscan}
+                        <p style = {{fontSize: "20px"}}>
+                          The score using <b>DBSCAN</b> technique is <b>{this.state.data3.tsneScores.dbscan}</b>.
                         </p>
                       </Col>
                       </Row>

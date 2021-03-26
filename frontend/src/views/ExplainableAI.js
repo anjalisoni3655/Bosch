@@ -49,6 +49,7 @@ class ExplainableAI extends React.Component {
           isVisible: false,
           slide: 0,
           iou:"0",
+          success_iou: false,
         
     };
 
@@ -256,10 +257,12 @@ class ExplainableAI extends React.Component {
                         <Col md="12">
                         <Card style = {{height: "100%"}}>
                             <CardHeader>
-                            <CardTitle tag="h5">
-                                IOU Sensitivity
+                            <CardTitle tag="h5" style = {{textAlign: "center"}}>
+                                Class-wise IOU Sensitivity of Misclassified Validation Data
                             </CardTitle>
                             <br />
+                            <div style = {{padding: "2em", textAlign: "center", fontSize: "18px"}}>
+
                             <label>IOU Threshold</label>
                             <br />
                             <input
@@ -269,76 +272,88 @@ class ExplainableAI extends React.Component {
                             step="0.05"
                             value={this.state.iou}
                             onChange={(event) => {
-                                this.setState({iou: event.target.value})
-                                console.log("IOU inside change", this.state.iou)
+                              this.setState({iou: event.target.value})
+                              console.log("IOU inside change", this.state.iou)
                                 axios.post(`http://localhost:5000/explainable-ai`, {"model_type": this.state.model_type.title, "iou": event.target.value}).then(
-                                (response) => {
-                                    this.setState({data2: response.data});
+                                  (response) => {
+                                    this.setState({data2: response.data, success_iou: true});
                                     console.log(this.state.data2);
-                                }
-                                )
+                                  }
+                                  )
                             }}
-                            size="small"
+                            size="large"
                             label="IOU Threshold"
                             id="outlined-basic"
                             variant="outlined"
-                          ></input>
+                            
+                            ></input>
                           {console.log("IOU", this.state.iou)}
                            <div>{this.state.iou}</div>
+                          </div>
                            <br />
                             </CardHeader>
                             <CardBody>
-                                <CanvasJSChart options = {{
-                                        animationEnabled: true,
-                                        height: "600",
-                                        theme: "light2",
-                                        axisX: {
-                                            // title: "Classes",
-                                            // titleFontSize: 20,
-                                            interval: 1,
-                                            interlacedColor: "#F0FBFF",
-                                            labelAngle: -90,
-                                            labelFontSize: 14
-                                            
-                                                    // gridColor: "#FFFFFF"
-                                        },
-                                        axisY: {
-                                            
-                                            minimum: 0,
-                                            title: "Number of Images\n\n",
-                                            titleFontSize: 15,
-                                            // gridThickness: 1,
-                                            // gridColor: "lightblue",
-                                                    lineThickness: 1,
-                                            
-                                            labelFontSize: 12
-
-                                        },
+                              {(this.state.success_iou == true) ? (
+                                  <CanvasJSChart options = {{
+                                    animationEnabled: true,
+                                    height: "600",
+                                    theme: "light2",
+                                    axisX: {
+                                        // title: "Classes",
+                                        // titleFontSize: 20,
+                                        interval: 1,
+                                        interlacedColor: "#F0FBFF",
+                                        labelAngle: -90,
+                                        labelFontSize: 14
                                         
-                                        zoomEnabled: true,
-                                        zoomType: "xy",
+                                                // gridColor: "#FFFFFF"
+                                    },
+                                    axisY: {
+                                        
+                                        minimum: 0,
+                                        title: "Percentage of Images\n\n",
+                                        titleFontSize: 15,
+                                        // gridThickness: 1,
+                                        // gridColor: "lightblue",
+                                        lineThickness: 1,
+                                        
+                                        labelFontSize: 12
 
-                                        toolTip: {
-                                            shared: true
-                                        },
-                                        legend:{
-                                            // cursor: "pointer",
-                                            itemclick: this.toggleDataSeries,
-                                             fontSize: 15, 
+                                    },
+                                    
+                                    zoomEnabled: true,
+                                    zoomType: "xy",
+
+                                    toolTip: {
+                                        shared: true
+                                    },
+                                    legend:{
+                                        // cursor: "pointer",
+                                        itemclick: this.toggleDataSeries,
+                                         fontSize: 15, 
+                                        
+                                            },
+
+                                    dataPointWidth: 20,
+                                    data: [{
+                                                color: "#51cbce",
+                                                type: "stackedColumn",
+                                                name: "Percentage",
+                                                // toolTipContent: ,
+                                                showInLegend: "true",
+                                                dataPoints: this.state.data2.plotdata,
+                                            },
                                             
-                                                },
-
-                                        dataPointWidth: 20,
-                                        data: [{
-                                                    color: "#51cbce",
-                                                    type: "stackedColumn",
-                                                    name: "Original",
-                                                    showInLegend: "true",
-                                                    dataPoints: this.state.data2.plotdata,
-                                                },
-                                                
-                                        ]
-                                            }}/>
+                                    ]
+                                        }}/>
+                              ) : (
+                                <p style = {{textAlign: "center", fontSize: "18px", padding: "1em"}}>
+                                  The graph will be plotted based on this threshold value. The graph tells the percentage of misclassified images whose Intersection Area between the actual bounding box and the focus area of the model is less than this threshold.  
+                                </p>
+                              )
+                              
+                            }
+                                
                         </CardBody>
                             <CardFooter>
                             {/* <hr />
