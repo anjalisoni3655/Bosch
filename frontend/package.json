@@ -30,6 +30,7 @@
     "react-grid-gallery": "^0.5.5",
     "react-images": "^1.2.0-beta.6",
     "react-lightbox-component": "^1.2.1",
+    "react-meta-tags": "^1.0.1",
     "react-notification-alert": "0.0.12",
     "react-plotly.js": "^2.5.1",
     "react-plotlyjs": "^0.4.4",
