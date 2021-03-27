@@ -125,6 +125,7 @@ const model_dataset = [
   "InceptionV3",
   "MobileNetV2",
   "MobileNetV3",
+  "ResNet50`"
 ];
 let total_epochs = 1;
 export default function User() {
