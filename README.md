@@ -21,6 +21,25 @@ This repo contains:</h4>
 <img src="/images/Demo.gif" >
 </p>
 
+## Explainable AI
+
+GradCam Technique to identify mislabelling hotspots
+<p align="center">
+<img src="/images/gradcam.png" >
+</p>
+
+</br>
+
+Using TSNE plots to visualize and evaluate model performance
+<p align="center">
+<img src="/images/bad_tsne.png" > 
+</p>
+
+</br>
+
+<p align="center">
+<img src="/images/good_tsne.png" > 
+</p>
 
 ## Key Features 
 
